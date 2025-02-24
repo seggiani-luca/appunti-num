@@ -175,7 +175,7 @@
 
 % disponi numeri di pagina
 \usepackage{fancyhdr}
-\fancyhf{} 
+\fancyhf{}
 \fancyfoot[L]{\sffamily{\thepage}}
 
 \makeatletter
@@ -219,7 +219,7 @@ Si rende quindi necessaria un'approssimazione in modo da ovviare ai problemi:
 \subsubsection{Errori}
 Avremo quindi bisogno di valutare degli \textbf{errori}, che saranno gli \textit{errori di approssimazione} come riportata sopra, uniti agli \textit{errori nei dati} già presenti nella nostra mole di dati.
 
-Una domanda che ptoremo porci è come questi errori influiscono sul risultato che ci interessa.
+Una domanda che potremo porci è come questi errori influiscono sul risultato che ci interessa.
 Una prima distinzione può essere fra algoritmi \textbf{instabili} e \textbf{stabili}, cioè che \textit{amplificano} l'errore o lo mantengono costante.
 Una seconda distinzione può essere sul \textbf{condizionamento} del problema, cioè la tendenza del problema a reagire in maniera drastica a piccole variazioni delle condizioni iniziali.
 
@@ -292,7 +292,7 @@ Si definisce quindi un sottinsieme:
 	Dati:
 	$\beta \in \mathbb{N}$, $m \in \mathbb{N}$, $L, U \in \mathbb{Z}$ tali che $L \leq U$, si definisce $F(\beta, m, L, U)$ come:
 			$$
-			F =\{ x \in \mathbb{R} : \mathrm{sgn}(x) \cdot \beta^e \cdot \sum_{j=1}^m \alpha_j \beta^{-j}, \ L \leq e \leq U, \ \alpha_j = \{ 0, ..., \beta - 1 \}, \ \alpha_j \neq 0 \} \, \cup \, \{0\}
+			F =\{ x \in \mathbb{R} : x = \mathrm{sgn}(x) \cdot \beta^e \cdot \sum_{j=1}^m \alpha_j \beta^{-j}, \ L \leq e \leq U, \ \alpha_j = \{ 0, ..., \beta - 1 \}, \ \alpha_1 \neq 0 \} \, \cup \, \{0\}
 			$$
 			detto \textbf{numero di macchina}.
 \end{definition}
@@ -321,7 +321,7 @@ $$
 $$
 
 Potremmo poi chiederci quanti numeri macchina esistono fissati $\beta, m, L$ e $U$. 
-Si hanno intanto due scelte di segno, $(U - L  + 1)$ scelte di esponenti e $(\beta^m - \beta^{m - 1})$ scelte di mantisse più lo zero, da cui:
+Si hanno intanto due scelte di segno, $(U - L  + 1)$ scelte di esponenti e $(\beta^m - \beta^{m - 1})$ scelte di mantisse (tutti i numeri rappresentabili su $m$ cifre base $\beta$ meno quelli con prima cifra nulla) più lo zero, da cui:
 $$
 2 \cdot (U - L  + 1) \cdot (\beta^m - \beta^{m - 1}) + 1
 $$
@@ -333,9 +333,9 @@ Le rappresentazioni più comuni dei numeri macchina sono definite dallo standard
 	\begin{tabular} { c | c | c | c | c | c }
 		\bfseries Precisione & \bfseries $\beta$ & \bfseries $m$ & \bfseries $L$ & \bfseries $U$ & \bfseries Dimensione \\ 
 		\hline
-		Singola & 2 & 24 & -125 & 128 & 4 byte (32 bit) \\ 
-		Doppia & 2 & 53 & -1021 & 1024 & 8 byte (64 bit) \\ 
-		Quadrupla & 2 & 113 & -16381 & 16384 & 8 byte (64 bit) \\ 
+		Singola & 2 & 24 & -126 & 127 & 4 byte (32 bit) \\ 
+		Doppia & 2 & 53 & -1022 & 1023 & 8 byte (64 bit) \\ 
+		Quadrupla & 2 & 113 & -16382 & 16383 & 8 byte (64 bit) \\ 
 	\end{tabular}
 \end{table}
 
@@ -376,10 +376,17 @@ Possiamo allora definire i seguenti arrotondamenti:
 		con $\alpha_{m + 1}$ la prima cifra che viene scartata dall'arrotondamento. 
 \end{itemize}
 
-Notiamo poi che preso il troncamento $\mathrm{sgn}(x) \beta^e \sum_{j = 1}^{m} \alpha_j \beta^{-j}$, il round up corrispondente sarà $\mathrm{sgn}(x) \beta^e \left( \sum_{j = 1}^{m} \alpha_j \beta^{-j} + \beta^{-m}\right)$.
+Notiamo poi che preso il troncamento: 
+$$
+Tr(x) = \mathrm{sgn}(x) \beta^e \sum_{j = 1}^{m} \alpha_j \beta^{-j}
+$$ 
+il round up corrispondente sarà: 
+$$
+Ru(x) = \mathrm{sgn}(x) \beta^e \left( \sum_{j = 1}^{m} \alpha_j \beta^{-j} + \beta^{-m}\right)
+$$
 
 \subsubsection{Errore di arrotondamento}
-Notiamo che valgono le disuguaglianze:
+Valgono le disuguaglianze:
 \begin{itemize}
 	\item $ |Tr(x) - x| \leq \beta^{e - m} $ \\ 
 	\item $ |Rn(x) - x| \leq \frac{\beta^{e - m}}{2} $, che è il minimo errore possibile cioè:
@@ -437,7 +444,7 @@ Riguardo agli altri formati si ha:
 
 \subsection{Numeri sottonormalizzati}
 Vediamo una tecnica per la rappresentazione di numeri più piccoli di $\beta^{L - 1}$, implementata nella maggior parte dei pacchetti software moderni (e nelle implementazioni degli standard a virgola mobile disponibili nei processori moderni).
-Si ha che se $x \in [0, \beta^{L - 1}]$, allora si assume come prima cifra della mantissa $0$, con esponente fisso a $L$. 
+Si ha che se $x \in [0, \beta^{L - 1}]$, allora si assume come prima cifra della mantissa $0$, con esponente fisso ad $L$. 
 Questo ci permette di rappresentare più numeri vicino allo zero. 
 
 Si avranno quindi numeri equispaziati fra 0 e $\beta^{L - 1}$ con distanza $\beta^{L - m}$.
