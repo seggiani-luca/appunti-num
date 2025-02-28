@@ -1,0 +1,421 @@
+
+\documentclass[a4paper,11pt]{article}
+\usepackage[a4paper, margin=8em]{geometry}
+
+% usa i pacchetti per la scrittura in italiano
+\usepackage[french,italian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\frenchspacing 
+
+% usa i pacchetti per la formattazione matematica
+\usepackage{amsmath, amssymb, amsthm, amsfonts}
+
+% usa altri pacchetti
+\usepackage{gensymb}
+\usepackage{hyperref}
+\usepackage{standalone}
+
+% imposta il titolo
+\title{Appunti Calcolo Numerico}
+\author{Luca Seggiani}
+\date{2025}
+
+% disegni
+\usepackage{pgfplots}
+\pgfplotsset{width=10cm,compat=1.9}
+
+% imposta lo stile
+% usa helvetica
+\usepackage[scaled]{helvet}
+% usa palatino
+\usepackage{palatino}
+% usa un font monospazio guardabile
+\usepackage{lmodern}
+
+\renewcommand{\rmdefault}{ppl}
+\renewcommand{\sfdefault}{phv}
+\renewcommand{\ttdefault}{lmtt}
+
+% disponi il titolo
+\makeatletter
+\renewcommand{\maketitle} {
+	\begin{center} 
+		\begin{minipage}[t]{.8\textwidth}
+			\textsf{\huge\bfseries \@title} 
+		\end{minipage}%
+		\begin{minipage}[t]{.2\textwidth}
+			\raggedleft \vspace{-1.65em}
+			\textsf{\small \@author} \vfill
+			\textsf{\small \@date}
+		\end{minipage}
+		\par
+	\end{center}
+
+	\thispagestyle{empty}
+	\pagestyle{fancy}
+}
+\makeatother
+
+% disponi teoremi
+\usepackage{tcolorbox}
+\newtcolorbox[auto counter, number within=section]{theorem}[2][]{%
+	colback=blue!10, 
+	colframe=blue!40!black, 
+	sharp corners=northwest,
+	fonttitle=\sffamily\bfseries, 
+	title=Teorema~\thetcbcounter: #2, 
+	#1
+}
+
+% disponi definizioni
+\newtcolorbox[auto counter, number within=section]{definition}[2][]{%
+	colback=red!10,
+	colframe=red!40!black,
+	sharp corners=northwest,
+	fonttitle=\sffamily\bfseries,
+	title=Definizione~\thetcbcounter: #2,
+	#1
+}
+
+% disponi problemi
+\newtcolorbox[auto counter, number within=section]{problem}[2][]{%
+	colback=green!10,
+	colframe=green!40!black,
+	sharp corners=northwest,
+	fonttitle=\sffamily\bfseries,
+	title=Problema~\thetcbcounter: #2,
+	#1
+}
+
+% disponi codice
+\usepackage{listings}
+\usepackage[table]{xcolor}
+
+\lstdefinestyle{codestyle}{
+		backgroundcolor=\color{black!5}, 
+		commentstyle=\color{codegreen},
+		keywordstyle=\bfseries\color{magenta},
+		numberstyle=\sffamily\tiny\color{black!60},
+		stringstyle=\color{green!50!black},
+		basicstyle=\ttfamily\footnotesize,
+		breakatwhitespace=false,         
+		breaklines=true,                 
+		captionpos=b,                    
+		keepspaces=true,                 
+		numbers=left,                    
+		numbersep=5pt,                  
+		showspaces=false,                
+		showstringspaces=false,
+		showtabs=false,                  
+		tabsize=2
+}
+
+\lstdefinestyle{shellstyle}{
+		backgroundcolor=\color{black!5}, 
+		basicstyle=\ttfamily\footnotesize\color{black}, 
+		commentstyle=\color{black}, 
+		keywordstyle=\color{black},
+		numberstyle=\color{black!5},
+		stringstyle=\color{black}, 
+		showspaces=false,
+		showstringspaces=false, 
+		showtabs=false, 
+		tabsize=2, 
+		numbers=none, 
+		breaklines=true
+}
+
+\lstdefinelanguage{javascript}{
+	keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+	keywordstyle=\color{blue}\bfseries,
+	ndkeywords={class, export, boolean, throw, implements, import, this},
+	ndkeywordstyle=\color{darkgray}\bfseries,
+	identifierstyle=\color{black},
+	sensitive=false,
+	comment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	commentstyle=\color{purple}\ttfamily,
+	stringstyle=\color{red}\ttfamily,
+	morestring=[b]',
+	morestring=[b]"
+}
+
+% disponi sezioni
+\usepackage{titlesec}
+
+\titleformat{\section}
+	{\sffamily\Large\bfseries} 
+	{\thesection}{1em}{} 
+\titleformat{\subsection}
+	{\sffamily\large\bfseries}   
+	{\thesubsection}{1em}{} 
+\titleformat{\subsubsection}
+	{\sffamily\normalsize\bfseries} 
+	{\thesubsubsection}{1em}{}
+
+% disponi alberi
+\usepackage{forest}
+
+\forestset{
+	rectstyle/.style={
+		for tree={rectangle,draw,font=\large\sffamily}
+	},
+	roundstyle/.style={
+		for tree={circle,draw,font=\large}
+	}
+}
+
+% disponi algoritmi
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\makeatletter
+\renewcommand{\ALG@name}{Algoritmo}
+\makeatother
+
+% disponi numeri di pagina
+\usepackage{fancyhdr}
+\fancyhf{} 
+\fancyfoot[L]{\sffamily{\thepage}}
+
+\makeatletter
+\fancyhead[L]{\raisebox{1ex}[0pt][0pt]{\sffamily{\@title \ \@date}}} 
+\fancyhead[R]{\raisebox{1ex}[0pt][0pt]{\sffamily{\@author}}}
+\makeatother
+
+\begin{document}
+
+% sezione (data)
+\section{Lezione del 28-02-25}
+
+% stili pagina
+\thispagestyle{empty}
+\pagestyle{fancy}
+
+% testo
+\subsection{Operazioni sui numeri macchina}
+Abbiamo introdotto l'insieme dei numeri macchina.
+Vediamo adesso come eseguire \textbf{operazioni} fra elementi di questi insiemi.
+
+Notiamo che, di base, dati $x, y \in F(\beta, m, L, U)$, non necessariamente $x \circ y \in F(\beta, m, L, U)$ per le comuni operazioni aritmetiche $+, -, \times, \div$.
+
+Quello che faremo è quindi approssimare tali operazioni, cioè dire:
+\begin{itemize}
+	\item $x \oplus y = Rn(x + y)$
+	\item $x \ominus y = Rn(x - y)$
+	\item $x \otimes y = Rn(x \times y)$
+	\item $x \oslash y = Rn(x \div y)$
+\end{itemize}
+
+Effetto di questa approsimazione è negare proprietà note dei reali, come ad esempio l'associativa:
+$$
+(x \oplus y) \oplus z \neq x \oplus (y \oplus z)
+$$
+$$
+(x \oplus y) \otimes z \neq x \oplus (y \otimes z)
+$$
+Cioè, la valutazione di una formula con ordini diversi ma equivalenti in aritmetica esatta può portare a risultati differenti nell'insieme dei numeri di mmacchina.
+
+\subsubsection{Errore nel calcolo di funzione}
+Sia $f:\mathbb{R}^m \rightarrow \mathbb{R}$, e si voglia calcolare $f(P_0)$, con $P_0 =\left(x_1^{(0)}, x_2^{(0)}, ...x_m^{(0)}\right) \in \mathbb{R}^m$.
+Le operazioni aritmetiche $+, -, \times, \div$ possono essere viste come funzioni di questo tipo.
+Ci interroghiamo quindi sulla fonte dell'errore nella loro valutazione:
+\begin{enumerate}
+	\item Nel caso contenga funzioni irrazionali o trascendenti, $f$ verrà approssimata con una funzione $\overline{f}$ che coinvolge solo operazioni aritmetiche di base $+, -, \times, \div$;
+	\item $\overline{f}$ viene tradotta in un \textit{algoritmo} $\overline{f}_a$, ovvero in una formula che coinvolge $\oplus, \ominus, \otimes, \oslash \leftarrow +, -, \times, \div$;
+	\item Potrebbe essere che $P_0 \neq F(\beta, m, L, U)$, e quindi viene approssimato a $P_1 = Rn(P_0)$.
+\end{enumerate}
+
+Quindi, vogliamo $f(P_0)$ ma possiamo solo approssimarla come $\overline{f}_a(P_1)$.
+
+Ad esempio, poniamo di voler calcolare $e^\pi$.
+I passaggi nell'ordine appena visto saranno:
+\begin{enumerate}
+	\item Approssimamo l'esponenziale al secondo grado dello svillupppo di Taylor:
+		$$
+			e^x \approx 1 + x + \frac{x^2}{2} = \overline{f}(x)
+		$$
+	\item Si riporta la $\overline{f}(x)$ a $\overline{f}_a(x)$:
+		$$
+			1 \oplus \left( x \oplus ( (x \otimes x) \oslash 2) \right)
+		$$
+	\item Si approssima $\pi$ al numero macchina più vicino:
+		$$
+			Rn(\pi) = 3.1415 = P_1
+		$$
+\end{enumerate}
+
+Avremo quindi la formula finale:
+$$
+1 \oplus \left( P_1 \oplus ( (P_1 \otimes P_1) \oslash 2) \right)
+$$
+
+# riporta grafo (o albero) che la rappresenta
+
+\par\medskip
+
+Diamo quindi la definizione di \textbf{errore totale}:
+\begin{definition}{Errore totale}
+	Data $f : \mathbb{R}^m \rightarrow \mathbb{R}$, un punto $P_0 \in \mathbb{R}^m$ ed un algoritmo $\overline{f}_a$, l'errore totale è dato da:
+	$$
+		S_f = \overline{f}_a (P_1) - f(P_0), \quad P_1 = Rn(P_0)
+	$$
+\end{definition}
+
+\subsubsection{Errore di funzioni razionali}
+Assumiamo per adesso $f$ \textbf{funzione razionale} ovvero $f$ si può definire con un numero di operazioni in $+, -, \times, \div$.
+Assumere funzioni razionali ci permette di prendere $f = \overline{f}$ e $f_a = \overline{f}_a$ (non ci sono irrazionali da riportare ai razionali).
+Potremo allora dire:
+
+$$
+S_f = f_a(P_1) - f(P_0) = f_a(P_1) - f(P_1) + f(P1) - f(P_0)
+$$
+che possiamo dividere in:
+$$
+S_f = S_a + S_d =, \quad S_a = f_a(P_1) - f(P_1), \quad S_d = f(P_1) - f(P_0)
+$$
+che chiamiamo rispetivamente \textbf{errore totale algoritmico} e \textbf{errore totale inerente}.
+
+Allo stesso modo possiamo definire l'\textbf{errore relativo}:
+$$
+\epsilon_f = \frac{S_f}{f(P_0)} = \frac{f_a(P_1) - f(P_0)}{f(P_0)} = \frac{f_a(P_1) - f(P_1)}{f(P_0)} + \frac{f(P_1) - f(P_0)}{f(P_0)}
+$$
+$$
+= \frac{f_a(P_1) - f(P_1)}{f(P_1)} \cdot \frac{f(P_1)}{f(P_0)} + \frac{f(P_1) - f(P_0)}{f(P_0)} 
+$$
+che si divide nuovamente in :
+$$
+\epsilon_f = \epsilon_a + \epsilon_d, \quad \epsilon_a = \frac{f_a(P_1) - f(P_1)}{f(P_1)}, \quad \epsilon_d = \frac{f(P_1) - f(P_0)}{f(P_0)}
+$$
+che chiamiamo rispetivamente \textbf{errore relativo algoritmico} e \textbf{errore relativo inerente}.
+Questo viene da:
+$$
+\epsilon_f = [...] = \frac{f_a(P_1) - f(P_1)}{f(P_1)} \cdot \frac{f(P_1)}{f(P_0)} + \frac{f(P_1) - f(P_0)}{f(P_0)} 
+$$
+si nota che $\frac{f(P_1)}{f(P_0)} = 1 + \frac{f(P_1) - f(P_0)}{f(P_0)}$, e quindi:
+$$
+= \epsilon_a \cdot \left( 1 + \frac{f(P_1) - f(P_0)}{f(P_0)} \right) + \epsilon_d = \epsilon_a(1 + \epsilon_d) + \epsilon_d = \epsilon_a + \epsilon_d + \epsilon_a \epsilon_d \approx \epsilon_a + \epsilon_d
+$$
+assumendo $\epsilon_a \epsilon_d \approx 0$.
+
+\par\smallskip
+
+In generale, per limitare $|S_f|$ cercheremo disuguaglianze $|S_a| < tau_1$, $|S_d| < \tau_2$, da cui:
+$$
+	|S_f| < \tau_1 + \tau_2
+$$
+
+\subsubsection{Errore inerente}
+Avevamo quindi definito l'errore totale inerente:
+$$
+S_d = f(P_1) - f(P_0)
+$$
+
+Sotto l'ipotesi $f \in C^1(D)$ per $D \subset \mathbb{R}^m$ che contiene $P_0$, si può usare  lo sviluppo di Taylor di $f$ in $P_0$, troncato al primo ordine:
+$$
+f(P_1) - f(P_0) = f(P_0) + \nabla f(\overline{P})^T (P_1 - P_0) - f(P_0) = \nabla f(\overline{P})^T (P_1 - P_0)
+$$
+$$
+= \sum_{j=1}^m \frac{\partial f}{\partial x_j}(\overline{P}) \cdot \left(x_j^{(1)} - x_j^{(0)}\right)
+\approx \sum_{j=1}^m \frac{\partial f}{\partial x_j}{P_0} \cdot \left(x_j^{(1)} - x_j^{(0)}\right)
+$$
+dove $\overline{P}$ è un punto che sta sul segmento $\overline{P_1 P_0}$.
+Da questo potremo dire:
+$$
+S_d = \sum_{j=1}^m \frac{\partial f}{\partial x_j}{P_0} \cdot S_j
+$$
+dove $S_j = \left(x_j^{(1)} - x_j^{(0)}\right)$ è l'\textbf{errore di arrotondemento} nella componente $j$ di $P_0$, e $\frac{\partial f}{\partial x_j}{P_0}$ viene detto \textbf{coefficiente di amplificazione}.
+
+\par\smallskip
+
+Per l'errore relativo inerente potremo fare considerazioni simili: # metti qual'è come sopra
+$$
+\epsilon_d = \frac{ \sum_{j=1}^{m} \frac{\partial f}{\partial x_j} (P_0) \cdot S_j }{f(P_0)} = \sum_{j=1}^m \frac{ x_j^{(1)} - x_j^{(0)} }{x_j^{(0)}} \cdot \frac{\partial f}{\partial x_j} (P_0) \cdot \frac{x_j^{(0)}}{f(P_0)}  
+$$
+dove $\epsilon_j = \frac{ x_j^{(1)} - x_j^{(0)} }{x_j^{(0)}}$ sarà l'\textbf{errore di arrotondamento relativo} nella componente $j$ di $P_0$ e $P_j = \frac{\partial f}{\partial x_j} (P_0) \cdot \frac{x_j^{(0)}}{f(P_0)}$ viene detto \textbf{coefficiente di amplificazione dell'errore relativo}.
+
+La formula finale sarà quindi:
+$$
+\epsilon_d = \sum_{j=1}^m \epsilon_j P_j
+$$
+
+I problemi in cui si devono calcolare $f$ i cui coefficient di amplificazione degli errori relativi sono grandi in modulo (o ce n'è almeno uno sufficientemente grande) si dicono \textbf{malcondizionati}.
+Viceversa, se $|P_j|$ è vicino a $1$ per ogni $j$ il problema si dice \textbf{ben condizionato}, cioè che $\epsilon_d$ è di un ordine di grandezza comparabile a $\max(\epsilon_i)$
+
+Notiamo che il condizionamento di un problema dipende solamente dalla sua struttura matematica. 
+
+\subsubsection{Errori inerenti delle operazioni aritmetiche}
+Vediamo gli errori inerenti associati alle 4 operazioni aritmetiche $+, -, \times, \div$:
+\begin{table}[H]
+	\center \rowcolors{2}{white}{black!10}
+	\begin{tabular} { c | c | c }
+		\bfseries Operazione & $S_d$ & $\epsilon_d$ \\
+		\hline
+		$x \oplus y$ & $S_x + S_y$ & $\frac{x}{x+y} \epsilon_x + \frac{y}{x - y} \epsilon_y$ \\ 
+		$x \ominus y$ & $S_x - S_y$ & $\frac{x}{x+y} \epsilon_x - \frac{y}{x - y} \epsilon_y$ \\ 
+		$x \otimes y$ & $yS_x + xS_y$ & $\epsilon_x + \epsilon_y$ \\ 
+		$x \oslash y$ & $\frac{1}{y}S_x - \frac{x}{y^2}S_y$ & $\epsilon_x - \epsilon_y$ \\ 
+	\end{tabular}
+\end{table}
+
+Notiamo come somme e sottrazioni non amplificano gli errori totali, mentre prodotti e divisioni non amplificano gli errori relativi (riguardo agli errori inerenti).
+Questo significa che somme e sottrazioni possono avere errori relativi grandi quando $|x + y| << \min \{ |x|, |y|\}$. 
+Questo effetto viene detto \textbf{cancellazione numerica}.
+
+\subsubsection{Errore algoritmico} # hai fatto un casino boia fra assoluto e totale
+Avevamo definito un algoritmo $f_a(x)$ di cui vogliamo stimare l'errore algoritmico assoluto $S_a = f_a(P_1) - f(P_1)$.
+Assumiamo $P_1 = Rn(P_0) \in F(\beta, m, L, U)$, cioè gli operandi come privi di errori iniziali di arrotondamento. 
+
+L'idea è di seguire l'errore generato dall'algoritmo sul grafo (o albero) che lo rappresenta sgruttando le relazioni perl'errore inerente nelle 4 operazioni aritmetiche.
+Prendiamo ad esempio la funzione:
+$$
+f(x, y, z, w) = x \cdot \left(\frac{y}{z} - w\right)
+$$
+Avremo i risultati intermedi:
+\begin{itemize}
+	\item $r_1 = \frac{y}{z}$
+	\item $r_2 = r_1 - w$
+	\item $r_3 = r_2 \cdot x$
+\end{itemize}
+Di cui riportiamo il grafo:
+\begin{center}
+	\begin{forest}
+		[$r_3$, roundstyle
+			[$x$]
+			[$r_2$
+				[$w$]
+				[$r_1$
+					[$y$]
+					[$z$]
+				]
+			]
+		]	
+	\end{forest}
+\end{center} # aggiungi errori formule fallo bellino
+dove $\epsilon_3$, $\epsilon_2$ e $\epsilon_1$ rappresentano gli errori di troncamento dei risultati intermedi e $\epsilon_{r3}$, $\epsilon_{r2}$ e $\epsilon_{r1}$ rappresentano gli errori inerenti delle singole operazioni per il calcolo dei risultati intermedi.
+
+Partiamo dalla radice per valutare gli errori:
+$$
+\epsilon_{r_3} = \epsilon_3 + \epsilon_x + \epsilon_{r_2} = \epsilon_3 + \epsilon_{r_2} 
+$$
+$$
+= \epsilon_3 + \epsilon_2 + \left( \frac{-zw}{y-zw} \right) \cdot \epsilon_w + \frac{y}{y-zw}\cdot\epsilon_{r_1} = \epsilon_3 + \epsilon_2 + \frac{y}{y - zw} \cdot \epsilon_{r_1}
+$$
+$$
+= \epsilon_3 + \epsilon_2 + \frac{y}{y-zw}\left( \epsilon_1 + \epsilon_y - \epsilon_z \right) = \epsilon_3 + \epsilon_2 + \frac{y}{y-zw}\cdot \epsilon_1 = \epsilon_a
+$$
+
+Dove per la stima di $\epsilon_3$, $\epsilon_2$ e $\epsilon_1$, vale $\epsilon_i \leq U$ precisione macchina.
+Nel caso di errori assoluti vale $|S_i| \leq U \cdot \max(x_i)$ considerata ogni variabile $x_i$.
+
+Chiaramente, diversi algoritmi equivalenti in aritmetica esatta potranno avere errori algoritmici diversi fatte tutte le approssimazioni.
+
+# riporta esempio x^2 - y^2, due modi uno x,y dipendente l'altro |\epsilon_a| < 3 U fisso
+
+Abbiamo visto quindi tenciche per la stima di $\epsilon_a$ e $\epsilon_d$ ($S_a$ e $S_d$), che ci permettono di calcolare $|\epsilon_f| \leq |\epsilon_a| + |\epsilon_d|$ ($|S_f| \leq |S_a| + |S_d|$). 
+
+Un problema classico sarà quello di, data $f$, un algoritmo risolutivo $f_a$ e una stima degli errori $d_{x_i}$, di stimare $S_f$ per $P_0 \in D \subset \mathbb{R}^m$.
+
+Il problema inverso potrebbe essere quello di, dato $\tau > 0$, $f$ e un punto $P_0 \in \mathbb{R}^n$, determinatre un algoritmo ed un valore di precisione macchina $U$ tali per cui $|s_f| < \tau$.
+
+\end{document}
