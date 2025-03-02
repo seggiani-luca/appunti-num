@@ -222,7 +222,7 @@ Le operazioni aritmetiche $+, -, \times, \div$ possono essere viste come funzion
 Ci interroghiamo quindi sulla fonte dell'errore nella loro valutazione:
 \begin{enumerate}
 	\item Nel caso contenga funzioni irrazionali o trascendenti, $f$ verrà approssimata con una funzione $\overline{f}$ che coinvolge solo operazioni aritmetiche di base $+, -, \times, \div$;
-	\item $\overline{f}$ viene tradotta in un \textit{algoritmo} $\overline{f}_a$, ovvero in una formula che coinvolge $\oplus, \ominus, \otimes, \oslash \leftarrow +, -, \times, \div$;
+	\item $\overline{f}$ viene tradotta in un \textit{algoritmo} $\overline{f}_a$, ovvero in una formula che coinvolge $\oplus, \ominus, \otimes, \oslash \leftarrow +, -, \times, \div$. La formula ottenuta finora viene detta \textbf{algoritmo};
 	\item Potrebbe essere che $P_0 \neq F(\beta, m, L, U)$, e quindi viene approssimato a $P_1 = Rn(P_0)$.
 \end{enumerate}
 
@@ -239,6 +239,34 @@ I passaggi nell'ordine appena visto saranno:
 		$$
 			1 \oplus \left( x \oplus ( (x \otimes x) \oslash 2) \right)
 		$$
+		Indicheremo algoritmi di questo tipo anche attraverso \textbf{risultati intermedi}:
+		\begin{itemize}
+			\item $r_1 = x \cdot x$
+			\item $r_2 = \frac{r_1}{2}$
+			\item $r_3 = x + r_2$
+			\item $r_4 = 1 + r_3$
+		\end{itemize}
+		con il risultato finale inteso come l'ultimo risultato intermedio.
+		Un modo di visualizzare i risultati intermedi di un algoritmo può essere un albero:
+		\begin{center}
+			\begin{forest}
+				[
+					{$r_4 = 1 + r_3$}
+					[
+						{$r_3 = x + r_2$}
+						[
+							{$r_2 = \frac{r_1}{2}$}
+							[
+								{$r_1 = x \cdot x$}
+								[$x$]
+								[$x$]
+							]
+						]
+					]
+				]
+			\end{forest}
+		\end{center}
+		dove la \textit{radice} rappresenta il \textbf{risultato} e le \textit{foglie} rappresentano le variabili della funzione.
 	\item Si approssima $\pi$ al numero macchina più vicino:
 		$$
 			Rn(\pi) = 3.1415 = P_1
@@ -250,35 +278,42 @@ $$
 1 \oplus \left( P_1 \oplus ( (P_1 \otimes P_1) \oslash 2) \right)
 $$
 
-# riporta grafo (o albero) che la rappresenta
-
 \par\medskip
 
-Diamo quindi la definizione di \textbf{errore totale}:
-\begin{definition}{Errore totale}
-	Data $f : \mathbb{R}^m \rightarrow \mathbb{R}$, un punto $P_0 \in \mathbb{R}^m$ ed un algoritmo $\overline{f}_a$, l'errore totale è dato da:
+Diamo quindi la definizione di \textbf{errore assoluto}:
+\begin{definition}{Errore assoluto}
+	Data $f : \mathbb{R}^m \rightarrow \mathbb{R}$, un punto $P_0 \in \mathbb{R}^m$ ed un algoritmo $\overline{f}_a$, l'errore assoluto è dato da:
 	$$
-		S_f = \overline{f}_a (P_1) - f(P_0), \quad P_1 = Rn(P_0)
+		\sigma_f = \overline{f}_a (P_1) - f(P_0), \quad P_1 = Rn(P_0)
 	$$
 \end{definition}
 
+e di errore relativo:
+\begin{definition}{Errore relativo}
+	Date le ipotesi della definizione 2.1, l'errore relativo è dato da:
+	$$
+	\epsilon_f = \frac{\overline{f}_a (P_1) - f(P_0)}{f(P_0)} = \frac{\sigma_f}{f(P_0)}
+	$$
+\end{definition}
+
+
 \subsubsection{Errore di funzioni razionali}
-Assumiamo per adesso $f$ \textbf{funzione razionale} ovvero $f$ si può definire con un numero di operazioni in $+, -, \times, \div$.
+Assumiamo per adesso $f$ \textbf{funzione razionale}, ovvero $f$ si può definire con un numero di operazioni in $+, -, \times, \div$.
 Assumere funzioni razionali ci permette di prendere $f = \overline{f}$ e $f_a = \overline{f}_a$ (non ci sono irrazionali da riportare ai razionali).
 Potremo allora dire:
 
 $$
-S_f = f_a(P_1) - f(P_0) = f_a(P_1) - f(P_1) + f(P1) - f(P_0)
+\sigma_f = f_a(P_1) - f(P_0) = f_a(P_1) - f(P_1) + f(P1) - f(P_0)
 $$
 che possiamo dividere in:
 $$
-S_f = S_a + S_d =, \quad S_a = f_a(P_1) - f(P_1), \quad S_d = f(P_1) - f(P_0)
+\sigma_f = \sigma_a + \sigma_d, \quad \sigma_a = f_a(P_1) - f(P_1), \quad \sigma_d = f(P_1) - f(P_0)
 $$
-che chiamiamo rispetivamente \textbf{errore totale algoritmico} e \textbf{errore totale inerente}.
+che chiamiamo rispettivamente \textbf{errore assoluto algoritmico} e \textbf{errore assoluto inerente}.
 
 Allo stesso modo possiamo definire l'\textbf{errore relativo}:
 $$
-\epsilon_f = \frac{S_f}{f(P_0)} = \frac{f_a(P_1) - f(P_0)}{f(P_0)} = \frac{f_a(P_1) - f(P_1)}{f(P_0)} + \frac{f(P_1) - f(P_0)}{f(P_0)}
+\epsilon_f = \frac{\sigma_f}{f(P_0)} = \frac{f_a(P_1) - f(P_0)}{f(P_0)} = \frac{f_a(P_1) - f(P_1)}{f(P_0)} + \frac{f(P_1) - f(P_0)}{f(P_0)}
 $$
 $$
 = \frac{f_a(P_1) - f(P_1)}{f(P_1)} \cdot \frac{f(P_1)}{f(P_0)} + \frac{f(P_1) - f(P_0)}{f(P_0)} 
@@ -300,15 +335,16 @@ assumendo $\epsilon_a \epsilon_d \approx 0$.
 
 \par\smallskip
 
-In generale, per limitare $|S_f|$ cercheremo disuguaglianze $|S_a| < tau_1$, $|S_d| < \tau_2$, da cui:
+Ci interessa dare stime superiori per i valori assoluti di errori assoluti e relativi, come avevamo fatto per gli errori delle funzioni di arrotondamento da reali a numeri macchina.
+In generale, quindi, per limitare $|\sigma_f|$ cercheremo disuguaglianze $|\sigma_a| < \tau_1$, $|\sigma_d| < \tau_2$, da cui:
 $$
-	|S_f| < \tau_1 + \tau_2
+	|\sigma_f| < \tau_1 + \tau_2
 $$
 
-\subsubsection{Errore inerente}
-Avevamo quindi definito l'errore totale inerente:
+\subsubsection{Stima dell'errore inerente}
+Avevamo quindi definito l'errore assoluto inerente:
 $$
-S_d = f(P_1) - f(P_0)
+\sigma_d = f(P_1) - f(P_0)
 $$
 
 Sotto l'ipotesi $f \in C^1(D)$ per $D \subset \mathbb{R}^m$ che contiene $P_0$, si può usare  lo sviluppo di Taylor di $f$ in $P_0$, troncato al primo ordine:
@@ -322,15 +358,19 @@ $$
 dove $\overline{P}$ è un punto che sta sul segmento $\overline{P_1 P_0}$.
 Da questo potremo dire:
 $$
-S_d = \sum_{j=1}^m \frac{\partial f}{\partial x_j}{P_0} \cdot S_j
+\sigma_d = \sum_{j=1}^m \frac{\partial f}{\partial x_j}{P_0} \cdot \sigma_j
 $$
-dove $S_j = \left(x_j^{(1)} - x_j^{(0)}\right)$ è l'\textbf{errore di arrotondemento} nella componente $j$ di $P_0$, e $\frac{\partial f}{\partial x_j}{P_0}$ viene detto \textbf{coefficiente di amplificazione}.
+dove $\sigma_j = \left(x_j^{(1)} - x_j^{(0)}\right)$ è l'\textbf{errore di arrotondemento} nella componente $j$ di $P_0$, e $\frac{\partial f}{\partial x_j}{P_0}$ viene detto \textbf{coefficiente di amplificazione}.
 
 \par\smallskip
 
-Per l'errore relativo inerente potremo fare considerazioni simili: # metti qual'è come sopra
+Per l'errore relativo inerente, che avevamo definito come:
 $$
-\epsilon_d = \frac{ \sum_{j=1}^{m} \frac{\partial f}{\partial x_j} (P_0) \cdot S_j }{f(P_0)} = \sum_{j=1}^m \frac{ x_j^{(1)} - x_j^{(0)} }{x_j^{(0)}} \cdot \frac{\partial f}{\partial x_j} (P_0) \cdot \frac{x_j^{(0)}}{f(P_0)}  
+\epsilon_d = \frac{f(P_1) - f(P_0)}{f(P_0)}
+$$
+potremo fare considerazioni simili: 
+$$
+\epsilon_d = \frac{ \sum_{j=1}^{m} \frac{\partial f}{\partial x_j} (P_0) \cdot \sigma_j }{f(P_0)} = \sum_{j=1}^m \frac{ x_j^{(1)} - x_j^{(0)} }{x_j^{(0)}} \cdot \frac{\partial f}{\partial x_j} (P_0) \cdot \frac{x_j^{(0)}}{f(P_0)}  
 $$
 dove $\epsilon_j = \frac{ x_j^{(1)} - x_j^{(0)} }{x_j^{(0)}}$ sarà l'\textbf{errore di arrotondamento relativo} nella componente $j$ di $P_0$ e $P_j = \frac{\partial f}{\partial x_j} (P_0) \cdot \frac{x_j^{(0)}}{f(P_0)}$ viene detto \textbf{coefficiente di amplificazione dell'errore relativo}.
 
@@ -339,22 +379,22 @@ $$
 \epsilon_d = \sum_{j=1}^m \epsilon_j P_j
 $$
 
-I problemi in cui si devono calcolare $f$ i cui coefficient di amplificazione degli errori relativi sono grandi in modulo (o ce n'è almeno uno sufficientemente grande) si dicono \textbf{malcondizionati}.
+I problemi in cui si devono calcolare $f$ i cui coefficienti di amplificazione degli errori relativi sono grandi in modulo (o ce n'è almeno uno sufficientemente grande) si dicono \textbf{malcondizionati}.
 Viceversa, se $|P_j|$ è vicino a $1$ per ogni $j$ il problema si dice \textbf{ben condizionato}, cioè che $\epsilon_d$ è di un ordine di grandezza comparabile a $\max(\epsilon_i)$
 
-Notiamo che il condizionamento di un problema dipende solamente dalla sua struttura matematica. 
+Notiamo inoltre che il condizionamento di un problema dipende solamente dalla sua struttura matematica. 
 
 \subsubsection{Errori inerenti delle operazioni aritmetiche}
 Vediamo gli errori inerenti associati alle 4 operazioni aritmetiche $+, -, \times, \div$:
 \begin{table}[H]
 	\center \rowcolors{2}{white}{black!10}
 	\begin{tabular} { c | c | c }
-		\bfseries Operazione & $S_d$ & $\epsilon_d$ \\
+		\bfseries Operazione & $\sigma_d$ & $\epsilon_d$ \\
 		\hline
-		$x \oplus y$ & $S_x + S_y$ & $\frac{x}{x+y} \epsilon_x + \frac{y}{x - y} \epsilon_y$ \\ 
-		$x \ominus y$ & $S_x - S_y$ & $\frac{x}{x+y} \epsilon_x - \frac{y}{x - y} \epsilon_y$ \\ 
-		$x \otimes y$ & $yS_x + xS_y$ & $\epsilon_x + \epsilon_y$ \\ 
-		$x \oslash y$ & $\frac{1}{y}S_x - \frac{x}{y^2}S_y$ & $\epsilon_x - \epsilon_y$ \\ 
+		$x \oplus y$ & $\sigma_x + \sigma_y$ & $\frac{x}{x + y} \epsilon_x + \frac{y}{x + y} \epsilon_y$ \\ 
+		$x \ominus y$ & $\sigma_x - \sigma_y$ & $\frac{x}{x - y} \epsilon_x - \frac{y}{x - y} \epsilon_y$ \\ 
+		$x \otimes y$ & $y\sigma_x + x\sigma_y$ & $\epsilon_x + \epsilon_y$ \\ 
+		$x \oslash y$ & $\frac{1}{y}\sigma_x - \frac{x}{y^2}\sigma_y$ & $\epsilon_x - \epsilon_y$ \\ 
 	\end{tabular}
 \end{table}
 
@@ -362,11 +402,11 @@ Notiamo come somme e sottrazioni non amplificano gli errori totali, mentre prodo
 Questo significa che somme e sottrazioni possono avere errori relativi grandi quando $|x + y| << \min \{ |x|, |y|\}$. 
 Questo effetto viene detto \textbf{cancellazione numerica}.
 
-\subsubsection{Errore algoritmico} # hai fatto un casino boia fra assoluto e totale
-Avevamo definito un algoritmo $f_a(x)$ di cui vogliamo stimare l'errore algoritmico assoluto $S_a = f_a(P_1) - f(P_1)$.
+\subsubsection{Stima dell'errore algoritmico} 
+Avevamo definito un algoritmo $f_a(x)$ di cui vogliamo stimare l'errore algoritmico assoluto $\sigma_a = f_a(P_1) - f(P_1)$.
 Assumiamo $P_1 = Rn(P_0) \in F(\beta, m, L, U)$, cioè gli operandi come privi di errori iniziali di arrotondamento. 
 
-L'idea è di seguire l'errore generato dall'algoritmo sul grafo (o albero) che lo rappresenta sgruttando le relazioni perl'errore inerente nelle 4 operazioni aritmetiche.
+L'idea è di seguire l'errore generato dall'algoritmo sul grafo (o albero) che lo rappresenta sfruttando le relazioni per l'errore inerente nelle 4 operazioni aritmetiche.
 Prendiamo ad esempio la funzione:
 $$
 f(x, y, z, w) = x \cdot \left(\frac{y}{z} - w\right)
@@ -380,42 +420,118 @@ Avremo i risultati intermedi:
 Di cui riportiamo il grafo:
 \begin{center}
 	\begin{forest}
-		[$r_3$, roundstyle
+		[{$r_3 = r_2 \cdot x$}
 			[$x$]
-			[$r_2$
+			[{$r_2 = r_1 - w$}
 				[$w$]
-				[$r_1$
+				[{$r_1 = \frac{y}{z}$}
 					[$y$]
 					[$z$]
 				]
 			]
 		]	
 	\end{forest}
-\end{center} # aggiungi errori formule fallo bellino
-dove $\epsilon_3$, $\epsilon_2$ e $\epsilon_1$ rappresentano gli errori di troncamento dei risultati intermedi e $\epsilon_{r3}$, $\epsilon_{r2}$ e $\epsilon_{r1}$ rappresentano gli errori inerenti delle singole operazioni per il calcolo dei risultati intermedi.
+\end{center}
+	dove $\epsilon_3$, $\epsilon_2$ e $\epsilon_1$ saranno termini associati ad ogni risultato intermedio che rappresenteranno gli errori di troncamento dei risultati intermedi stessi, e $\epsilon_{r3}$, $\epsilon_{r2}$ e $\epsilon_{r1}$ rappresenteranno gli errori inerenti delle singole operazioni per il calcolo dei risultati intermedi.
 
 Partiamo dalla radice per valutare gli errori:
 $$
-\epsilon_{r_3} = \epsilon_3 + \epsilon_x + \epsilon_{r_2} = \epsilon_3 + \epsilon_{r_2} 
+\epsilon_d = \epsilon_{r_3} = \epsilon_3 + \epsilon_x + \epsilon_{r_2} = \epsilon_3 + \epsilon_{r_2} 
 $$
 $$
-= \epsilon_3 + \epsilon_2 + \left( \frac{-zw}{y-zw} \right) \cdot \epsilon_w + \frac{y}{y-zw}\cdot\epsilon_{r_1} = \epsilon_3 + \epsilon_2 + \frac{y}{y - zw} \cdot \epsilon_{r_1}
+= \epsilon_3 + \epsilon_2 + \frac{-zw}{y-zw} \cdot \epsilon_w + \frac{y}{y-zw}\cdot\epsilon_{r_1} = \epsilon_3 + \epsilon_2 + \frac{y}{y - zw} \cdot \epsilon_{r_1}
 $$
 $$
 = \epsilon_3 + \epsilon_2 + \frac{y}{y-zw}\left( \epsilon_1 + \epsilon_y - \epsilon_z \right) = \epsilon_3 + \epsilon_2 + \frac{y}{y-zw}\cdot \epsilon_1 = \epsilon_a
 $$
 
-Dove per la stima di $\epsilon_3$, $\epsilon_2$ e $\epsilon_1$, vale $\epsilon_i \leq U$ precisione macchina.
-Nel caso di errori assoluti vale $|S_i| \leq U \cdot \max(x_i)$ considerata ogni variabile $x_i$.
+Dove abbiamo ignorato i termini di errore relativo $\epsilon_i$ legati ad ogni variabile (come avevamo detto sopra, gli operandi sono considerati come privi di errore di arrotondamento). 
+Per la stima di $\epsilon_3$, $\epsilon_2$ e $\epsilon_1$, vale $\epsilon_i \leq U$ precisione macchina.
+Nel caso di errori assoluti vale $|\sigma_i| \leq U \cdot \max(x_i)$ considerata ogni variabile $x_i$.
+
+\par\smallskip
 
 Chiaramente, diversi algoritmi equivalenti in aritmetica esatta potranno avere errori algoritmici diversi fatte tutte le approssimazioni.
 
-# riporta esempio x^2 - y^2, due modi uno x,y dipendente l'altro |\epsilon_a| < 3 U fisso
+Prendiamo ad esempio la funzione $f(x, y) = x^2 - y^2$.
+Potremmo adottare due algoritmi:
+\begin{enumerate}
+	\item Si prendono i risultati intermedi:
+		$$
+			r_1 = x \cdot x
+		$$
+		$$
+			r_2 = y \cdot y
+		$$
+		$$
+			r_3 = x - y
+		$$
+		Da cui il grafo:
+		\begin{center}
+			\begin{forest}
+				[
+					{$r_3 = r_1 - r_2$}
+					[{$r_1 = x \cdot x$}
+						[$x$]
+						[$x$]
+					]
+					[{$r_2 = y \cdot y$}
+						[$y$]
+						[$y$]
+					]
+				]	
+			\end{forest}
+		\end{center}
+		Questo approccio potrebbe risultare il più intuitivo: dalla stima dell'errore si ha:
+		$$
+		\epsilon_{r_3} = \epsilon_1 + \frac{x^2}{x^2 - y^2}\epsilon_{r_1} - \frac{y^2}{x^2 - y^2}\epsilon_{r_2} = \epsilon_1 + \frac{x^2}{x^2 - y^2}(\epsilon_1 + \epsilon_x + \epsilon_x) - \frac{y^2}{x^2 - y^2}(\epsilon_2 + \epsilon_y + \epsilon_y)
+		$$
+		$$
+= \epsilon_1 + \frac{x^2}{x^2 - y^2}\epsilon_1 - \frac{y^2}{x^2 - y^2}\epsilon_2 
+		$$
+	
+	\item Un altro approccio è quello di prendere i risultati intermedi:
+		$$
+			r_1 = x + y
+		$$
+		$$
+			r_2 = x - y
+		$$
+		$$
+			r_3 = r_1 \cdot r_2
+		$$
+		Da cui il grafo:
+		\begin{center}
+			\begin{forest}
+				[
+					{$r_3 = r_1 \cdot r_2$}
+					[{$r_1 = x + y$}
+						[$x$]
+						[$y$]
+					]
+					[{$r_2 = x - y$}
+						[$x$]
+						[$y$]
+					]
+				]	
+			\end{forest}
+		\end{center}
+		Vediamo la stima dell'errore:
+		$$
+		\epsilon_{r_3} = \epsilon_3 + \epsilon_{r_1} + \epsilon_{r_2} = \epsilon_3 + \epsilon_1 + \frac{x}{x + y} \epsilon_x + \frac{y}{x + y} \epsilon_y + \epsilon_2 + \frac{x}{x - y} \epsilon_x - \frac{y}{x - y} \epsilon_y 
+		$$
+		$$
+ 		= \epsilon_3 + \epsilon_1 + \epsilon_2
+		$$
+\end{enumerate}
+Notiamo che la stima dell'errore del secondo approccio è più conveniente, in quanto più strettamente limitata al di sotto di un valore fisso: $\epsilon_1 + \epsilon_2 + \epsilon_3 = 3U$, contro il $\left( 1 + \frac{|x^2 + y^2|}{|x^2 - y^2|} \right) U$ del primo approccio.
 
-Abbiamo visto quindi tenciche per la stima di $\epsilon_a$ e $\epsilon_d$ ($S_a$ e $S_d$), che ci permettono di calcolare $|\epsilon_f| \leq |\epsilon_a| + |\epsilon_d|$ ($|S_f| \leq |S_a| + |S_d|$). 
+\par\smallskip
 
-Un problema classico sarà quello di, data $f$, un algoritmo risolutivo $f_a$ e una stima degli errori $d_{x_i}$, di stimare $S_f$ per $P_0 \in D \subset \mathbb{R}^m$.
+Abbiamo visto quindi tenciche per la stima di $\epsilon_a$ e $\epsilon_d$ ($\sigma_a$ e $\sigma_d$), che ci permettono di calcolare $|\epsilon_f| \leq |\epsilon_a| + |\epsilon_d|$ ($|\sigma_f| \leq |\sigma_a| + |\sigma_d|$). 
 
-Il problema inverso potrebbe essere quello di, dato $\tau > 0$, $f$ e un punto $P_0 \in \mathbb{R}^n$, determinatre un algoritmo ed un valore di precisione macchina $U$ tali per cui $|s_f| < \tau$.
+Un problema classico sarà quello di, data $f$, un algoritmo risolutivo $f_a$ e una stima degli errori $d_{x_i}$, di stimare $\sigma_f$ per $P_0 \in D \subset \mathbb{R}^m$.
+
+Il problema inverso potrebbe essere quello di, dato $\tau > 0$, $f$ e un punto $P_0 \in \mathbb{R}^n$, determinare un algoritmo ed un valore di precisione macchina $U$ tali per cui $|s_f| < \tau$.
 
 \end{document}
