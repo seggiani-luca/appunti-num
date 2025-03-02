@@ -342,7 +342,7 @@ $$
 $$
 
 \subsubsection{Stima dell'errore inerente}
-Avevamo quindi definito l'errore assoluto inerente:
+Avevamo quindi definito l'\textbf{errore assoluto inerente}:
 $$
 \sigma_d = f(P_1) - f(P_0)
 $$
@@ -364,7 +364,7 @@ dove $\sigma_j = \left(x_j^{(1)} - x_j^{(0)}\right)$ è l'\textbf{errore di arro
 
 \par\smallskip
 
-Per l'errore relativo inerente, che avevamo definito come:
+Per l'\textbf{errore relativo inerente}, che avevamo definito come:
 $$
 \epsilon_d = \frac{f(P_1) - f(P_0)}{f(P_0)}
 $$
@@ -530,8 +530,92 @@ Notiamo che la stima dell'errore del secondo approccio è più conveniente, in q
 
 Abbiamo visto quindi tenciche per la stima di $\epsilon_a$ e $\epsilon_d$ ($\sigma_a$ e $\sigma_d$), che ci permettono di calcolare $|\epsilon_f| \leq |\epsilon_a| + |\epsilon_d|$ ($|\sigma_f| \leq |\sigma_a| + |\sigma_d|$). 
 
+\subsubsection{Problema diretto}
 Un problema classico sarà quello di, data $f$, un algoritmo risolutivo $f_a$ e una stima degli errori $d_{x_i}$, di stimare $\sigma_f$ per $P_0 \in D \subset \mathbb{R}^m$.
 
+Ad esempio, prendiamo la funzione:
+$$
+f : D \rightarrow \mathbb{R}, \quad f(x_1, x_2) = \frac{x_1}{x_2}, \quad D = [1, 3] \times [4, 5]
+$$
+Diamo una stima dell'errore di arrotondamento delle variabili:
+$$
+|\sigma_{x_i}| \leq \frac{1}{2} \cdot 10^{-2}
+$$
+
+\begin{itemize}
+	\item
+Iniziamo con la stima dell'errore inerente.
+Si ha, dall'errore assoluto inerente della divisione:
+$$
+\sigma_d = \frac{1}{x_2} \sigma_{x_1} - \frac{x_1}{x_2^2} \sigma_{x_2} 
+$$
+
+Quello che ci interessa è dare stime superiori, quindi prendiamo i due valori:
+$$
+\left| \frac{1}{x_2} \right| \approx \frac{1}{4}, \quad
+\left| \frac{x_1}{x_2^2} \right| \approx \frac{7}{16}
+$$
+Dai valori massimi che si possono ottenere sul dominio $D$, da cui:
+$$
+|\sigma_d| \leq \frac{1}{4} \cdot \frac{1}{2} \cdot 10^{-2} + \frac{7}{16} \cdot \frac{1}{2} \cdot 10^{-2} = \left( \frac{1}{8} + \frac{7}{32} \right) \cdot 10^{-2} = \frac{7}{32} \cdot 10^{-2} 
+$$
+
+	\item
+Vediamo quindi la stima dell'errore algoritmico.
+L'albero dell'algoritmo sarà banalmente:
+\begin{center}
+	\begin{forest}
+		[
+			{$r_1 = \frac{x_1}{x_2}$}
+			[{$x_1$}]
+			[{$x_2$}]
+		]	
+	\end{forest}
+\end{center}
+da cui posto $\sigma_{x_i} = 0$ resterà solo l'errore di arrotondamento assoluto $\sigma_1$:
+$$
+|\sigma_a| = \sigma_1 = U \cdot \max\left( \frac{x_1}{x_2} \right) = \frac{3}{4} \cdot \frac{1}{2} \cdot 10^{-2} = \frac{3}{8} \cdot 10^{-2}
+$$
+\end{itemize}
+
+Otteniamo quindi l'errore totale come la somma dell'errore algoritmico e dell'errore inerente, cioè:
+$$
+|\sigma_f| = |\sigma_a| + |\sigma_f| = \left( \frac{7}{32} + \frac{3}{8} \right) \cdot 10^{-2} = \frac{19}{32} \cdot 10^{-2}
+$$
+
+\subsubsection{Problema inverso}
 Il problema inverso potrebbe essere quello di, dato $\tau > 0$, $f$ e un punto $P_0 \in \mathbb{R}^n$, determinare un algoritmo ed un valore di precisione macchina $U$ tali per cui $|s_f| < \tau$.
+
+Prendiamo ad esempio il problema considerato prima, ma sul dominio:
+$$
+D = [1, 2] \times [-2, -1]
+$$
+e cerchiamo una precisione macchina $U$ tale per cui l'errore assoluto $\sigma_f$ è limitato a $\tau = 10^{-2}$, cioè:
+$$
+|\sigma_f| \leq 10^{-2}
+$$
+
+\begin{itemize}
+	\item Iniziamo di nuovo con la stima dell'errore inerente. Dagli stessi errori inerenti considerati prima si hanno le stime:
+	$$
+	\left| \frac{1}{x_2} \right| \approx 1, \quad
+	\left| \frac{x_1}{x_2^2} \right| \approx 2
+	$$
+	Dai valori massimi che si possono ottenere sul dominio $D$, da cui:
+	$$
+	|\sigma_d| \leq U + 2U = 3U 
+	$$
+\item Vediamo quindi la stima dell'errore algoritmico, che prendendo il valore massimo della funzione in maniera analoga a prima sarà:
+$$
+|\sigma_a| = \sigma_1 = U \cdot \max\left( \frac{x_1}{x_2} \right) = 2U 
+$$
+L'errore totale sarà quindi:
+$|\sigma_f| = |\sigma_a| + |\sigma_f| = 3U + 2U = 5U$ 
+
+Imponiamo quindi la diseguaglianza iniziale, cioè:
+$$
+|\sigma_f| = 5U \leq 10^{-2} \implies U \leq \frac{1}{5} \cdot 10^{-2}
+$$
+\end{itemize}
 
 \end{document}
