@@ -232,18 +232,70 @@ $$
 $$
 \end{itemize}
 
-# esempio errore algortmico di $f(x_1, x_2) = (x_1 + 1) x_1 + x_2$
+\par\smallskip 
+
+Vediamo come ultimo esempio il calcolo dell'errore relativo $|\epsilon_f|$ per la funzione:
+$$
+f(x_1, x_2) = (x_1 + 1) x_1 + x_2
+$$
+
+\begin{itemize}
+	\item Iniziamo con il calcolo dell'errore inerente, senza fare assunzioni su $\epsilon_{x_i}$:
+		$$
+		|\epsilon_d| \leq \frac{ x_1 \cdot \frac{\partial f}{\partial x_1}(x_1, x_2)}{f(x_1, x_2)} \epsilon_{x_1} + \frac{ x_2 \cdot \frac{\partial f}{\partial x_2}(x_1, x_2)}{f(x_1, x_2)} \epsilon_{x_2}
+		= \frac{x_1(2x_1 + 1)}{(x_1 + 1)x_1 + x_2} \epsilon_{x_1} + \frac{x_2}{(x_1 + 1)x_1 + x_2} \epsilon_{x_1}
+		$$
+	\item Calcoliamo poi l'errore algoritmico dell'algoritmo:
+		\begin{center}
+			\begin{forest}
+				[
+					{$r_3 = r_2 + x_2$}
+					[
+						{$r_2 = r_1 x_1$}
+						[
+							{$r_1 = x_1 + 1$}	
+							[
+								{$x_1$}
+							]
+							[
+								{$1$}
+							]
+						]
+						[
+							{$x_1$}
+						]
+					]	
+					[
+						{$x_2$}
+					]	
+				]	
+			\end{forest}
+		\end{center}
+		da cui:
+		$$
+		|\epsilon_a| \leq \epsilon_3 + \frac{(x_1 + 1) x_1}{(x_1 + 1)x_1 + x_2} \epsilon_{r_2} + \frac{x_2}{(x_1 + 1)x_1 + x_2} \epsilon_{x_2}
+		= \epsilon_3 + \frac{(x_1 + 1) x_1}{(x_1 + 1)x_1 + x_2} (\epsilon_2 + \epsilon_{r_1} + \epsilon_{x_1})
+		$$
+		$$
+		= \epsilon_3 + \frac{(x_1 + 1) x_1}{(x_1 + 1)x_1 + x_2} (\epsilon_2 + \epsilon_1 + \frac{x_1}{x_1 + 1} \epsilon_{x_1} + \frac{1}{x_1 + 1} \cdot 0) = \epsilon_3 + \frac{(x_1 + 1) x_1}{(x_1 + 1) x_1 + x_2}	(\epsilon_2 + \epsilon_1)
+		$$
+\end{itemize}
+
+Abbiamo quindi l'errore complessivo:
+$$
+|\epsilon_f| \leq |\epsilon_a| + |\epsilon_d| = \epsilon_3 + \frac{(x_1 + 1) x_1}{(x_1 + 1) x_1 + x_2}	(\epsilon_2 + \epsilon_1) + \frac{x_1(2x_1 + 1)}{(x_1 + 1)x_1 + x_2} \epsilon_{x_1} + \frac{x_2}{(x_1 + 1)x_1 + x_2} \epsilon_{x_1}
+$$
 
 \subsection{Errori di funzioni non razionali}
 Abbiamo finora trascurato il caso di funzioni non razionali.
 Prendiamo ad esempio di voler calcolare l'errore su funzioni come $e^{\cos(x + y)}$.
-In questo caso sara' necessario usare un approssimazione razionale di $f$ che chiamiamo $\overline{f}$, che poi porteremo a $\overline{f}_a$ che usa operazioni macchina detta \textbf{algoritmo}.
-In questo caso l'errore sara' dato dall'\textit{errore inerente}, dall'\textit{errore algortimico} e dall'\textbf{errore analitico} $\sigma_{an}$ della funzione, cioe' potremo dire:
+In questo caso sarà necessario usare un approssimazione razionale di $f$ che chiamiamo $\overline{f}$, che poi porteremo a $\overline{f}_a$ che usa operazioni macchina detta \textbf{algoritmo}.
+In questo caso l'errore sarà dato dall'\textit{errore inerente}, dall'\textit{errore algortimico} e dall'\textbf{errore analitico} $\sigma_{an}$ della funzione, cioè potremo dire:
 
 $$
-\overline{f}_a (P_1) - f(P_0) = \overline{f}_a (P_1) - \overline{f} (P_1) = \overline{f} (P_1) - f(P_1) + f(P_1) - f(P_0) = \sigma_a + \sigma_{an} + \sigma_d
+\overline{f}_a (P_1) - f(P_0) = \overline{f}_a (P_1) - \overline{f} (P_1) + \overline{f} (P_1) - f(P_1) + f(P_1) - f(P_0) = \sigma_a + \sigma_{an} + \sigma_d
 $$
-	L'errore inerente sara' calcolato sulla $f$ originale, mentre l'errore analitico sara' calcolato con la nuova $\overline{f}$, e in particolare dipendera' dall'approssimazione razionale che usiamo.
+	L'errore inerente sarà calcolato sulla $f$ originale, mentre l'errore analitico sarà calcolato con la nuova $\overline{f}$, e in particolare dipenderà dall'approssimazione razionale che usiamo.
 
 Vediamo per adesso approssimazioni polinomiali attraverso la \textbf{formula di Taylor}. Nel caso scalare si ha:
 
@@ -263,33 +315,144 @@ In questo caso:
 $$
 \overline{f}(x) = \sum_{n = 0}^k \frac{ f^{(n)}(x_0) }{ n! } \cdot (x - x_0)^n
 $$
-cioe' la serie di Taylor troncata al $k$-esimo grado sara' una buona approssimazione per $f$, e l'errore analitico sara' dato da:
+cioè la serie di Taylor troncata al $k$-esimo grado sarà una buona approssimazione per $f$, e l'errore analitico sarà dato da:
 $$
-\sigma_{an} = R(x) = f(x) - T(x, k) 
+\sigma_{an} = R(x) = f(x) - T(x, k, x_0) 
 $$
 		con $R(x)$ il resto fra lo sviluppo di Taylor troncato $T(x, k)$ e la funzione stessa $f(x)$.
-In questo caso fissato $k$ si potra' dare una stima di errore direttamente dall'errore di Lagrange, cioe':
+In questo caso fissato $k$ si potrà dare una stima di errore direttamente dall'errore di Lagrange, cioè:
 $$
-R(x) = f(x) - T(x, k) \leq \epsilon_l = \frac{ f^{(k + 1)} ( \eta ) }{(k + 1)!} (x - x_0)^{k + 1}
-$$ # penso si faccia cosi' pero' riguarda
+R(x) = f(x) - T(x, k, x_0) = \frac{ f^{(k + 1)} ( \eta ) }{(k + 1)!} (x - x_0)^{k + 1}
+$$
+e più in particolare, sfruttando il limite superiore dato da:
+$$
+R(x) \leq \epsilon_l = \frac{ \max_{[x_0, x]} \left( f^{(k + 1)} \right) }{(k + 1)!} (x - x_0)^{k + 1} = \frac{M}{(k + 1)!}(x - x_0)^{k + 1}
+$$
 
-# esempio errore di $e^x$ al variare di $k$ con Taylor
-# esempi di dettagli d'implementazione (vedi lab)
+\subsubsection{Approssimazione dell'esponenziale}
+Prendiamo di volere calcolare l'errore dato dall'approssimazione dell'esponenziale al $k$-esimo grado su un intervallo comprensivo di $x_0 = 0$, che chiamiamo $D = [-l, u]$.
+Avremo quindi l'approssimazione:
+$$
+e^x = T(x, k, 0) = \sum_{n = 0}^k \frac{(x - x_0)^n}{n!}
+$$
+e la funzione resto:
+$$
+R(
+x) = e^x - T(x, k, 0) = \frac{f^{(k + 1)}(\eta)}{(k + 1)!}x^{k + 1}
+$$
+
+prendiamo quindi la stima superiore di $f^{(k + 1)}(\eta)$ su $\eta \in D$ (il caso peggiore sarà quello in cui valutiamo $x$ sull'estremo superiore $u$):
+$$
+f^{(k + 1)} (\eta) \leq \max_{\eta \in [0, u]} f^{( k + 1)}(\eta) = e^u
+$$
+da cui:
+$$
+R(x) \leq \frac{e^u x^{k + 1}}{(k + 1)!}
+$$
+Stimiamo allora l'errore analitico relativo come:
+$$
+|\epsilon_{an}| = \frac{R(x)}{f(x)} \leq \frac{ \max_{[-l, u]} \Big| \frac{e^ux^{k + 1}}{(k + 1)!} \Big| }{ \min_{[-l, u]} e^x } = \frac{e^{u-l}u^{k+1}}{(k+1)!}
+$$
+
+\subsubsection{Note di implementazione}
+Vediamo alcuni dettagli sull'implementazione pratica di un'approssimazione dell'esponenziale nel linguaggio MATLAB/Octave.
+Il primo modo che potrebbe venire in mente prevede di mantenere un numeratore e un denominatore:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+function val = myexp1(x, n)
+		num = 1;
+		den = 1;
+		
+		val = 1;
+
+    for i = 1:n
+    	num = num * x;
+			den = den * i;
+
+			val = val + num / den;
+		end
+end
+\end{lstlisting}
+
+Notiamo però che questo approccio presenta notevole instabilità numerica con grandi valori di $k$, ad esempio si veda:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+>> myexp(20, 500)
+ans =
+   NaN
+\end{lstlisting}
+
+\lstset{language = matlab, style = codestyle}
+
+Questo deriva dal fatto che per grandi valori di $k$ si ottiene eventualmente \lstinline|num = Inf| e \lstinline|den = Inf|, da cui il \lstinline|NaN|.
+Un'approccio migliore si ha quindi mantenendo direttamente il termine e accumulandolo:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+function acc = myexp2(x, n)
+    term = 1;
+    acc = 1;
+
+    for i = 1:n
+        term = term * x / i;
+        acc = acc + term;
+    end
+end
+\end{lstlisting}
+
+Notiamo però che in questo caso si hanno problemi di cancellazione per argomenti negativi, ad esempio si veda:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+>> myexp(-30, 500)
+ans =
+  -3.0668e-05
+\end{lstlisting}
+In questo caso si ha più accuratezza imponendo argomenti positivi, ad esempio sfruttando:
+$$
+e^{-x} = \frac{1}{e^x}
+$$
+Si veda ad esempio:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+>> 1/myexp(30, 500)
+ans =
+   9.3576e-14
+\end{lstlisting}
+
+Modifichiamo quindi la funzione per rilevare automaticamente esponenti negativi e adottare la forma corretta:
+
+\begin{lstlisting}[language=matlab, style=codestyle]	
+function acc = myexp3(x, n)
+    neg = false;
+    if x < 0
+        neg = true;
+        x = -x;
+    end
+
+    term = 1;
+    acc = 1;
+
+    for i = 1:n
+        term = term * x / i;
+        acc = acc + term;
+    end
+
+    if neg
+        acc = 1 / acc;
+    end
+end
+\end{lstlisting}
+
+Provando questa funzione su un range di interi da $-30$ a $30$, con la serie di Taylor troncata a $500$, dà un errore massimo rispetto al valore reale di circa $10^{-16} \sim 10^{-17}$.
 
 \subsection{Richiami di algebra lineare}
-Nella maggior parte dei casi che ci interessano vorremo trattare non di scalari, ma di quantita' vettoriali, ad esempio $x \in \mathbb{C}^n$, con $n > 1$.
+Nella maggior parte dei casi che ci interessano vorremo trattare non di scalari, ma di quantità vettoriali, ad esempio $x \in \mathbb{C}^n$, con $n > 1$.
 
 \subsubsection{Matrici complesse}
-Ci saranno utili le matrici perche' rappresentano direttamente tutte le \textbf{funzioni lineari}. 
+Ci saranno utili le matrici perchè rappresentano direttamente tutte le \textbf{funzioni lineari}. 
 Ad esempio, posta $f: \mathbb{C}^n \rightarrow \mathbb{C}^m$ tale che:
 \begin{itemize}
-	\item $ f(x + y) = f(x) + f(y) $ (addittivita');
-	\item $f(\lambda x) = \lambda f(x)$ (omogeneita')
+	\item $ f(x + y) = f(x) + f(y) $ (addittività);
+	\item $f(\lambda x) = \lambda f(x)$ (omogeneità)
 \end{itemize}
 detta \textit{funzione lineare} allora $\exists ! A \in \mathbb{C}^{m \times n}$ tale che $f(x) = A x$,  $\forall \in \mathbb{C}^n$.
 
 Nel corso useremo sia matrici in $\mathbb{R}$ che matrici in $\mathbb{C}$, dove l'appartenenza a ciascuno di questi campi dipende dalla appartenenza di essi delle \textbf{entrate} $A_{ij}$ della matrice.
-In ogni caso, una matrice reale non sara' che un caso particolare delle matrici complesse.
+In ogni caso, una matrice reale non sarà che un caso particolare delle matrici complesse.
 
 Si danno poi per scontate le definizioni di matrici:
 \begin{itemize}
@@ -308,7 +471,7 @@ Diamo la definizione di indipendenza linare:
 	$$
 \end{definition}
 
-Inoltre, se $s = n$ l'insieme $\{ x_1, ...,x_s \}$ si dice \textbf{base} di $\mathbb{C}^n$, e cioe' $\forall y \in \mathbb{C}^m$ $\exists ! \{c1, ..., c_s\}$ tali che $y = \sum_{j=1}^n c_j x_j$.
+Inoltre, se $s = n$ l'insieme $\{ x_1, ...,x_s \}$ si dice \textbf{base} di $\mathbb{C}^n$, e cioè $\forall y \in \mathbb{C}^m$ $\exists ! \{c1, ..., c_s\}$ tali che $y = \sum_{j=1}^n c_j x_j$.
 
 \subsubsection{Prodotto scalare}
 Diamo la definizione di prodotto scalare, generalizzato al campo complesso dal \textbf{prodotto hermitiano} (entrambi \textit{prodotti interni}):
@@ -326,11 +489,11 @@ dove $\overline{y_j}$ rappresenta il \textbf{coniugato} di $y_j$, che chiarament
 \subsection{Trasposta coniugata}
 Definiamo infine la \textbf{trasposta coniugata} di una certa matrice, generalizzata al campo complesso dalla \textbf{matrice hermitiana}:
 \begin{definition}{Trasposta coniugata}
-	Data una matrice $A \in \mathbb{C}^{n \times m}$, la trasposta coniugata $A^T$ sara':
+	Data una matrice $A \in \mathbb{C}^{n \times m}$, la trasposta coniugata $A^T$ sarà:
 	$$
 		(A^T)_{ij} = A_{ji}
 	$$
-	e la matrice hermitiana $A^H$ sara': 
+	e la matrice hermitiana $A^H$ sarà: 
 	$$
 		(A^H)_{ij} = \overline{A_{ji}}
 	$$
@@ -345,6 +508,6 @@ Date due matrici $A$ e $B$ con lo stesso numero di righe e colonne si possono de
 
 \par\smallskip
 
-Dal punto di vista computazionale, si ha che il prodotto scalare ha complessita' $O(n)$, e la moltiplicazione matriciale ha complessita' $O(m, n)$.
+Dal punto di vista computazionale, si ha che il prodotto scalare ha complessità $O(n)$, e la moltiplicazione matriciale ha complessità $O(m, n)$.
 
 \end{document}

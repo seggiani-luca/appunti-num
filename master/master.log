@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024/Arch Linux) (preloaded format=pdflatex 2025.3.1)  3 MAR 2025 10:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024/Arch Linux) (preloaded format=pdflatex 2025.3.1)  3 MAR 2025 20:34
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1161,13 +1161,14 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [14]
-../03-03/main.tex:235: You can't use `macro parameter character #' in vertical mode.
-l.235 #
-        esempio errore algortmico di $f(x_1, x_2) = (x_1 + 1) x_1 + x_2$
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
+Overfull \hbox (20.69026pt too wide) detected at line 247
+\OMS/lmsy/m/n/10.95 j\OML/lmm/m/it/10.95 ^^O[]\OMS/lmsy/m/n/10.95 j ^^T []\OML/lmm/m/it/10.95 ^^O[] \OT1/lmr/m/n/10.95 + []\OML/lmm/m/it/10.95 ^^O[] \OT1/lmr/m/n/10.95 = []\OML/lmm/m/it/10.95 ^^O[] \OT1/lmr/m/n/10.95 + []\OML/lmm/m/it/10.95 ^^O[]
+ []
+
+
+Overfull \hbox (10.73244pt too wide) detected at line 278
+\OMS/lmsy/m/n/10.95 j\OML/lmm/m/it/10.95 ^^O[]\OMS/lmsy/m/n/10.95 j ^^T \OML/lmm/m/it/10.95 ^^O[] \OT1/lmr/m/n/10.95 + []\OML/lmm/m/it/10.95 ^^O[] \OT1/lmr/m/n/10.95 + []\OML/lmm/m/it/10.95 ^^O[] \OT1/lmr/m/n/10.95 = \OML/lmm/m/it/10.95 ^^O[] \OT1/lmr/m/n/10.95 + [](\OML/lmm/m/it/10.95 ^^O[] \OT1/lmr/m/n/10.95 + \OML/lmm/m/it/10.95 ^^O[] \OT1/lmr/m/n/10.95 + \OML/lmm/m/it/10.95 ^^O[]\OT1/lmr/m/n/10.95 )
+ []
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1177,29 +1178,26 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [15]
-../03-03/main.tex:274: You can't use `macro parameter character #' in horizontal mode.
-l.274 $$ #
-           penso si faccia cosi' pero' riguarda
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
 
-../03-03/main.tex:276: You can't use `macro parameter character #' in vertical mode.
-l.276 #
-        esempio errore di $e^x$ al variare di $k$ con Taylor
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-../03-03/main.tex:277: You can't use `macro parameter character #' in horizontal mode.
-l.277 #
-        esempi di dettagli d'implementazione (vedi lab)
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
+[16] (/usr/share/texmf-dist/tex/latex/listings/lstlang1.sty
+File: lstlang1.sty 2024/02/21 1.10 listings language file
+)
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 360.
+ (/usr/share/texmf-dist/tex/latex/lm/t1lmtt.fd
+File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 8.54997pt on input line 361.
+LaTeX Font Info:    Font shape `T1/phv/m/n' will be
+(Font)              scaled to size 5.69998pt on input line 361.
+LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <9> not available
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 361.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1208,7 +1206,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[16])
+[17{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -1216,27 +1214,43 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[17] (./master.aux)
+[18]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[19])
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[20] (./master.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
  ***********
 Package rerunfilecheck Info: File `master.out' has not changed.
-(rerunfilecheck)             Checksum: 3B1DD2814A5D72DFA5BD3B7F5FF6E4BE;5301.
+(rerunfilecheck)             Checksum: 8CDF665319F960C4462E98078CF2E5C1;5726.
  ) 
 Here is how much of TeX's memory you used:
- 49861 strings out of 476040
- 1176468 string characters out of 5792328
- 1945187 words of memory out of 5000000
- 71149 multiletter control sequences out of 15000+600000
- 607292 words of font info for 80 fonts, out of 8000000 for 9000
+ 50902 strings out of 476040
+ 1188195 string characters out of 5792328
+ 2046187 words of memory out of 5000000
+ 72118 multiletter control sequences out of 15000+600000
+ 613805 words of font info for 87 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 136i,13n,127p,1582b,1498s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on master.pdf (17 pages, 260015 bytes).
+ 136i,13n,127p,1582b,1940s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
+Output written on master.pdf (20 pages, 320845 bytes).
 PDF statistics:
- 337 PDF objects out of 1000 (max. 8388607)
- 281 compressed objects within 3 object streams
- 76 named destinations out of 1000 (max. 500000)
- 245 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 437 PDF objects out of 1000 (max. 8388607)
+ 373 compressed objects within 4 object streams
+ 137 named destinations out of 1000 (max. 500000)
+ 261 words of extra memory for PDF output out of 10000 (max. 10000000)
 
