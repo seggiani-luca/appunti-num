@@ -1,0 +1,350 @@
+
+\documentclass[a4paper,11pt]{article}
+\usepackage[a4paper, margin=8em]{geometry}
+
+% usa i pacchetti per la scrittura in italiano
+\usepackage[french,italian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\frenchspacing 
+
+% usa i pacchetti per la formattazione matematica
+\usepackage{amsmath, amssymb, amsthm, amsfonts}
+
+% usa altri pacchetti
+\usepackage{gensymb}
+\usepackage{hyperref}
+\usepackage{standalone}
+
+% imposta il titolo
+\title{Appunti Calcolo Numerico}
+\author{Luca Seggiani}
+\date{2025}
+
+% disegni
+\usepackage{pgfplots}
+\pgfplotsset{width=10cm,compat=1.9}
+
+% imposta lo stile
+% usa helvetica
+\usepackage[scaled]{helvet}
+% usa palatino
+\usepackage{palatino}
+% usa un font monospazio guardabile
+\usepackage{lmodern}
+
+\renewcommand{\rmdefault}{ppl}
+\renewcommand{\sfdefault}{phv}
+\renewcommand{\ttdefault}{lmtt}
+
+% disponi il titolo
+\makeatletter
+\renewcommand{\maketitle} {
+	\begin{center} 
+		\begin{minipage}[t]{.8\textwidth}
+			\textsf{\huge\bfseries \@title} 
+		\end{minipage}%
+		\begin{minipage}[t]{.2\textwidth}
+			\raggedleft \vspace{-1.65em}
+			\textsf{\small \@author} \vfill
+			\textsf{\small \@date}
+		\end{minipage}
+		\par
+	\end{center}
+
+	\thispagestyle{empty}
+	\pagestyle{fancy}
+}
+\makeatother
+
+% disponi teoremi
+\usepackage{tcolorbox}
+\newtcolorbox[auto counter, number within=section]{theorem}[2][]{%
+	colback=blue!10, 
+	colframe=blue!40!black, 
+	sharp corners=northwest,
+	fonttitle=\sffamily\bfseries, 
+	title=Teorema~\thetcbcounter: #2, 
+	#1
+}
+
+% disponi definizioni
+\newtcolorbox[auto counter, number within=section]{definition}[2][]{%
+	colback=red!10,
+	colframe=red!40!black,
+	sharp corners=northwest,
+	fonttitle=\sffamily\bfseries,
+	title=Definizione~\thetcbcounter: #2,
+	#1
+}
+
+% disponi problemi
+\newtcolorbox[auto counter, number within=section]{problem}[2][]{%
+	colback=green!10,
+	colframe=green!40!black,
+	sharp corners=northwest,
+	fonttitle=\sffamily\bfseries,
+	title=Problema~\thetcbcounter: #2,
+	#1
+}
+
+% disponi codice
+\usepackage{listings}
+\usepackage[table]{xcolor}
+
+\lstdefinestyle{codestyle}{
+		backgroundcolor=\color{black!5}, 
+		commentstyle=\color{codegreen},
+		keywordstyle=\bfseries\color{magenta},
+		numberstyle=\sffamily\tiny\color{black!60},
+		stringstyle=\color{green!50!black},
+		basicstyle=\ttfamily\footnotesize,
+		breakatwhitespace=false,         
+		breaklines=true,                 
+		captionpos=b,                    
+		keepspaces=true,                 
+		numbers=left,                    
+		numbersep=5pt,                  
+		showspaces=false,                
+		showstringspaces=false,
+		showtabs=false,                  
+		tabsize=2
+}
+
+\lstdefinestyle{shellstyle}{
+		backgroundcolor=\color{black!5}, 
+		basicstyle=\ttfamily\footnotesize\color{black}, 
+		commentstyle=\color{black}, 
+		keywordstyle=\color{black},
+		numberstyle=\color{black!5},
+		stringstyle=\color{black}, 
+		showspaces=false,
+		showstringspaces=false, 
+		showtabs=false, 
+		tabsize=2, 
+		numbers=none, 
+		breaklines=true
+}
+
+\lstdefinelanguage{javascript}{
+	keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+	keywordstyle=\color{blue}\bfseries,
+	ndkeywords={class, export, boolean, throw, implements, import, this},
+	ndkeywordstyle=\color{darkgray}\bfseries,
+	identifierstyle=\color{black},
+	sensitive=false,
+	comment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	commentstyle=\color{purple}\ttfamily,
+	stringstyle=\color{red}\ttfamily,
+	morestring=[b]',
+	morestring=[b]"
+}
+
+% disponi sezioni
+\usepackage{titlesec}
+
+\titleformat{\section}
+	{\sffamily\Large\bfseries} 
+	{\thesection}{1em}{} 
+\titleformat{\subsection}
+	{\sffamily\large\bfseries}   
+	{\thesubsection}{1em}{} 
+\titleformat{\subsubsection}
+	{\sffamily\normalsize\bfseries} 
+	{\thesubsubsection}{1em}{}
+
+% disponi alberi
+\usepackage{forest}
+
+\forestset{
+	rectstyle/.style={
+		for tree={rectangle,draw,font=\large\sffamily}
+	},
+	roundstyle/.style={
+		for tree={circle,draw,font=\large}
+	}
+}
+
+% disponi algoritmi
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\makeatletter
+\renewcommand{\ALG@name}{Algoritmo}
+\makeatother
+
+% disponi numeri di pagina
+\usepackage{fancyhdr}
+\fancyhf{} 
+\fancyfoot[L]{\sffamily{\thepage}}
+
+\makeatletter
+\fancyhead[L]{\raisebox{1ex}[0pt][0pt]{\sffamily{\@title \ \@date}}} 
+\fancyhead[R]{\raisebox{1ex}[0pt][0pt]{\sffamily{\@author}}}
+\makeatother
+
+\begin{document}
+
+% sezione (data)
+\section{Lezione del 03-03-25}
+
+% stili pagina
+\thispagestyle{empty}
+\pagestyle{fancy}
+
+% testo
+\subsection{Riassunto sulla stima dell'errore}
+Riassumiamo quindi le regole viste per la stima dell'errore su funzioni razionali.
+Avevamo dato la definizione di errore \textbf{assoluto} $\sigma_f$ e errore \textbf{relativo} $\epsilon_f$, entrambi composti da due fattori denominati errore \textbf{algoritmico} e errore \textbf{inerente}, con pedici rispettivamente $a$ e $d$.
+
+\begin{itemize}
+	\item 
+Riguardo all'errore \textbf{inerente assoluto} avevamo preso su un dominio $D$ la stime:
+
+$$
+|\sigma_d| \leq \sum_{j = 1}^m A_j \cdot |\sigma_j|
+$$
+con $|\sigma^j|$ \textbf{errore di arrotondamento} e $A_j$ \textbf{coefficiente di amplificazione}:
+$$
+A_j = \max_{P \in D} \left( \frac{\partial f}{\partial x_j}(P) \right)
+$$
+
+Per l'errore di arrotondamento avevamo visto potevamo prendere:
+$$
+|\sigma_j| \leq U \cdot |x_j|
+$$
+con $U$ precisione macchina.
+
+	\item
+Riguardo all'\textbf{errore inerente relativo} avevamo invece preso:
+$$
+|\epsilon_d|\leq \sum_{j = 1}^m \overline{A}_j \cdot |\epsilon_j|
+$$
+con
+$|\epsilon_j|$ \textbf{errore di arrotondamento relativo} e $\overline{\sigma_j}$ \textbf{coefficiente di amplificazione relativo}:
+$$
+\overline{A_j} = \max_{P \in D} \left( \frac{x_j \cdot \frac{\partial f}{\partial x_j} (P) }{f(P)} \right)
+$$
+
+Per l'errore di arrotondamento relativo potevamo quindi prendere:
+$$
+|\epsilon_j| \leq U
+$$
+\end{itemize}
+
+# esempio errore algortmico di $f(x_1, x_2) = (x_1 + 1) x_1 + x_2$
+
+\subsection{Errori di funzioni non razionali}
+Abbiamo finora trascurato il caso di funzioni non razionali.
+Prendiamo ad esempio di voler calcolare l'errore su funzioni come $e^{\cos(x + y)}$.
+In questo caso sara' necessario usare un approssimazione razionale di $f$ che chiamiamo $\overline{f}$, che poi porteremo a $\overline{f}_a$ che usa operazioni macchina detta \textbf{algoritmo}.
+In questo caso l'errore sara' dato dall'\textit{errore inerente}, dall'\textit{errore algortimico} e dall'\textbf{errore analitico} $\sigma_{an}$ della funzione, cioe' potremo dire:
+
+$$
+\overline{f}_a (P_1) - f(P_0) = \overline{f}_a (P_1) - \overline{f} (P_1) = \overline{f} (P_1) - f(P_1) + f(P_1) - f(P_0) = \sigma_a + \sigma_{an} + \sigma_d
+$$
+	L'errore inerente sara' calcolato sulla $f$ originale, mentre l'errore analitico sara' calcolato con la nuova $\overline{f}$, e in particolare dipendera' dall'approssimazione razionale che usiamo.
+
+Vediamo per adesso approssimazioni polinomiali attraverso la \textbf{formula di Taylor}. Nel caso scalare si ha:
+
+\begin{theorem}{Formula di Taylor}
+	Data $f : \mathbb{R} \rightarrow \mathbb{R}$, $f \in C^1$, allora dato $x_0 \in \mathbb{R}$ si ha:
+	$$
+	f(x) = \sum_{n = 0}^k \frac{ f^{(n)}(x_0) }{ n! } \cdot (x - x_0)^n + \frac{ f^{(k + 1)} ( \eta ) }{(k + 1)!} (x - x_0)^{k + 1} 
+	$$
+	Dove:
+	$$
+		\epsilon_l = \frac{ f^{(k + 1)} ( \eta ) }{(k + 1)!} (x - x_0)^{k + 1}
+	$$
+	rappresenta l'\textbf{errore di Lagrange} al $k$-esimo grado, con $\eta \in [x_0, x]$ il punto di massimo della $k + 1$-esima derivata di $f$.
+\end{theorem}
+
+In questo caso:
+$$
+\overline{f}(x) = \sum_{n = 0}^k \frac{ f^{(n)}(x_0) }{ n! } \cdot (x - x_0)^n
+$$
+cioe' la serie di Taylor troncata al $k$-esimo grado sara' una buona approssimazione per $f$, e l'errore analitico sara' dato da:
+$$
+\sigma_{an} = R(x) = f(x) - T(x, k) 
+$$
+		con $R(x)$ il resto fra lo sviluppo di Taylor troncato $T(x, k)$ e la funzione stessa $f(x)$.
+In questo caso fissato $k$ si potra' dare una stima di errore direttamente dall'errore di Lagrange, cioe':
+$$
+R(x) = f(x) - T(x, k) \leq \epsilon_l = \frac{ f^{(k + 1)} ( \eta ) }{(k + 1)!} (x - x_0)^{k + 1}
+$$ # penso si faccia cosi' pero' riguarda
+
+# esempio errore di $e^x$ al variare di $k$ con Taylor
+# esempi di dettagli d'implementazione (vedi lab)
+
+\subsection{Richiami di algebra lineare}
+Nella maggior parte dei casi che ci interessano vorremo trattare non di scalari, ma di quantita' vettoriali, ad esempio $x \in \mathbb{C}^n$, con $n > 1$.
+
+\subsubsection{Matrici complesse}
+Ci saranno utili le matrici perche' rappresentano direttamente tutte le \textbf{funzioni lineari}. 
+Ad esempio, posta $f: \mathbb{C}^n \rightarrow \mathbb{C}^m$ tale che:
+\begin{itemize}
+	\item $ f(x + y) = f(x) + f(y) $ (addittivita');
+	\item $f(\lambda x) = \lambda f(x)$ (omogeneita')
+\end{itemize}
+detta \textit{funzione lineare} allora $\exists ! A \in \mathbb{C}^{m \times n}$ tale che $f(x) = A x$,  $\forall \in \mathbb{C}^n$.
+
+Nel corso useremo sia matrici in $\mathbb{R}$ che matrici in $\mathbb{C}$, dove l'appartenenza a ciascuno di questi campi dipende dalla appartenenza di essi delle \textbf{entrate} $A_{ij}$ della matrice.
+In ogni caso, una matrice reale non sara' che un caso particolare delle matrici complesse.
+
+Si danno poi per scontate le definizioni di matrici:
+\begin{itemize}
+	\item \textit{Quadrate} ($n = m$):
+	\item \textit{Rettangolari} ($n \neq m$);
+	\item \textit{Diagonali} (elementi nulli fuori dalla diagonale);
+	\item \textit{Triangolari superiori/inferiori} (elementi nulli sotto/sopra la diagonale) 
+\end{itemize}
+
+\subsubsection{Indipendenza lineare}
+Diamo la definizione di indipendenza linare:
+\begin{definition}{}
+	Un insieme di vettori $\{x_1, ..., x_s\}$ si dice linearemente indipendente se:
+	$$
+		x_1 + ... + x_s = 0 \leftrightarrow x_1, ..., x_s = 0
+	$$
+\end{definition}
+
+Inoltre, se $s = n$ l'insieme $\{ x_1, ...,x_s \}$ si dice \textbf{base} di $\mathbb{C}^n$, e cioe' $\forall y \in \mathbb{C}^m$ $\exists ! \{c1, ..., c_s\}$ tali che $y = \sum_{j=1}^n c_j x_j$.
+
+\subsubsection{Prodotto scalare}
+Diamo la definizione di prodotto scalare, generalizzato al campo complesso dal \textbf{prodotto hermitiano} (entrambi \textit{prodotti interni}):
+\begin{definition}{Prodotto interno}
+	Definiamo il prodotto interno fra due vettori $x, y \in \mathbb{C}^n$ come:
+	$$
+	<x, y> = \sum_{j = 1}^n x_j \overline{y_j}
+	$$
+\end{definition}
+dove $\overline{y_j}$ rappresenta il \textbf{coniugato} di $y_j$, che chiaramente in $\mathbb{R}$ si riduce a $y_j$ stesso e quindi:
+	$$
+	<x, y> = \sum_{j = 1}^n x_j y_j
+	$$ 
+
+\subsection{Trasposta coniugata}
+Definiamo infine la \textbf{trasposta coniugata} di una certa matrice, generalizzata al campo complesso dalla \textbf{matrice hermitiana}:
+\begin{definition}{Trasposta coniugata}
+	Data una matrice $A \in \mathbb{C}^{n \times m}$, la trasposta coniugata $A^T$ sara':
+	$$
+		(A^T)_{ij} = A_{ji}
+	$$
+	e la matrice hermitiana $A^H$ sara': 
+	$$
+		(A^H)_{ij} = \overline{A_{ji}}
+	$$
+\end{definition}
+
+\subsubsection{Operazioni matriciali}
+Date due matrici $A$ e $B$ con lo stesso numero di righe e colonne si possono definire le operazioni:
+\begin{itemize}
+	\item \textit{Somma} ($A, B, C \in \mathbb{C}^{m \times n}$, $A + B = C$, $c_{ij} = a_{ij} + b_{ij}$);
+	\item \textit{Prodotto} ($A \in \mathbb{C}^{m \times n}, B \in \mathbb{C}^{n \times p}, C \in \mathbb{C}^{m \times n}$, $A \cdot B = C$, $c_{ij} = \sum_{h = 1}^n a_{ih} b_{hj}$ sia in reali che in complessi). 
+\end{itemize}
+
+\par\smallskip
+
+Dal punto di vista computazionale, si ha che il prodotto scalare ha complessita' $O(n)$, e la moltiplicazione matriciale ha complessita' $O(m, n)$.
+
+\end{document}
