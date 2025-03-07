@@ -449,7 +449,7 @@ Ad esempio, posta $f: \mathbb{C}^n \rightarrow \mathbb{C}^m$ tale che:
 	\item $ f(x + y) = f(x) + f(y) $ (addittività);
 	\item $f(\lambda x) = \lambda f(x)$ (omogeneità)
 \end{itemize}
-detta \textit{funzione lineare} allora $\exists ! A \in \mathbb{C}^{m \times n}$ tale che $f(x) = A x$,  $\forall \in \mathbb{C}^n$.
+detta \textit{funzione lineare} allora $\exists ! A \in \mathbb{C}^{m \times n}$ tale che $f(x) = A x$,  $\forall x \in \mathbb{C}^n$.
 
 Nel corso useremo sia matrici in $\mathbb{R}$ che matrici in $\mathbb{C}$, dove l'appartenenza a ciascuno di questi campi dipende dalla appartenenza di essi delle \textbf{entrate} $A_{ij}$ della matrice.
 In ogni caso, una matrice reale non sarà che un caso particolare delle matrici complesse.
@@ -471,7 +471,12 @@ Diamo la definizione di indipendenza linare:
 	$$
 \end{definition}
 
-Inoltre, se $s = n$ l'insieme $\{ x_1, ...,x_s \}$ si dice \textbf{base} di $\mathbb{C}^n$, e cioè $\forall y \in \mathbb{C}^m$ $\exists ! \{c1, ..., c_s\}$ tali che $y = \sum_{j=1}^n c_j x_j$.
+Possiamo sfruttare l'indipendenza lineare per definire \textbf{basi}:
+\begin{definition}{Base}
+	Se $s = n$ l'insieme $\{ x_1, ...,x_s \}$ si dice \textbf{base} di $\mathbb{C}^n$.
+\end{definition}
+
+Questo significa che $\forall y \in \mathbb{C}^m$, \ $\exists ! \{c1, ..., c_s\}$ tali che $y = \sum_{j=1}^n c_j x_j$, cioè combinazioni lineari dei vettori di base individuano qualsiasi vettore nello spazio $\mathbb{C}^n$.
 
 \subsubsection{Prodotto scalare}
 Diamo la definizione di prodotto scalare, generalizzato al campo complesso dal \textbf{prodotto hermitiano} (entrambi \textit{prodotti interni}):
@@ -483,7 +488,7 @@ Diamo la definizione di prodotto scalare, generalizzato al campo complesso dal \
 \end{definition}
 dove $\overline{y_j}$ rappresenta il \textbf{coniugato} di $y_j$, che chiaramente in $\mathbb{R}$ si riduce a $y_j$ stesso e quindi:
 	$$
-	<x, y> = \sum_{j = 1}^n x_j y_j
+	<x, y> = \sum_{j = 1}^n x_j y_j, \quad x, y \in \mathbb{R}^n
 	$$ 
 
 \subsection{Trasposta coniugata}
@@ -502,12 +507,13 @@ Definiamo infine la \textbf{trasposta coniugata} di una certa matrice, generaliz
 \subsubsection{Operazioni matriciali}
 Date due matrici $A$ e $B$ con lo stesso numero di righe e colonne si possono definire le operazioni:
 \begin{itemize}
-	\item \textit{Somma} ($A, B, C \in \mathbb{C}^{m \times n}$, $A + B = C$, $c_{ij} = a_{ij} + b_{ij}$);
-	\item \textit{Prodotto} ($A \in \mathbb{C}^{m \times n}, B \in \mathbb{C}^{n \times p}, C \in \mathbb{C}^{m \times n}$, $A \cdot B = C$, $c_{ij} = \sum_{h = 1}^n a_{ih} b_{hj}$ sia in reali che in complessi). 
+	\item \textbf{Somma:} $A, B, C \in \mathbb{C}^{m \times n}$, $A + B = C$, $c_{ij} = a_{ij} + b_{ij}$;
+	\item \textbf{Prodotto:} $A \in \mathbb{C}^{m \times n}, B \in \mathbb{C}^{n \times p}, C \in \mathbb{C}^{m \times p}$, $A \cdot B = C$, $c_{ij} = \sum_{h = 1}^n a_{ih} b_{hj}$ sia in reali che in complessi. 
 \end{itemize}
 
-\par\smallskip
-
-Dal punto di vista computazionale, si ha che il prodotto scalare ha complessità $O(n)$, e la moltiplicazione matriciale ha complessità $O(m, n)$.
+\subsubsection{Considerazioni computazionali del prodotto matriciale}
+Dal punto di vista computazionale, si ha che il prodotto scalare ha complessità $O(n)$, la somma matiricale ha complessità $O(m \cdot n)$, e la moltiplicazione matriciale ha complessità $O(m \cdot n \cdot p)$, con $n$ uguale al numero di colonne della prima matrice o al numero di righe della seconda (che sappiamo dover essere uguali).
+L'ultimo risultato dipende dal fatto che la moltiplicazione richiede di effetuarre effettivamente $m \cdot p$ prodotti scalari ($n$ è la lunghezza di uno di questi prodotti scalari). # riguarda
+Questo significa che per matrici quadrate si ha generalmente complessità $O(n^3)$.
 
 \end{document}
