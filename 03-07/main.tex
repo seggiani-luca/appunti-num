@@ -195,10 +195,48 @@
 % testo
 Proseguiamo i richiami di algebra lineare.
 
-\subsubsection{Considerazioni sull'efficienza della moltiplicazione matriciale}
-# sul suo lab
+\subsubsection{Approfondimento sulle prestazioni delle operazioni matriciali}
+Usiamo MATLAB per studiare il tempo di computazione richiesto per effettuare alcune delle operazioni che abbiamo visto.
 
-\subsubsection{Proprietà della moltiplicazione matriciale}
+\begin{itemize}
+	\item Potremmo iniziare con il \textbf{prodotto scalare}. Avevamo detto che la complessità era $O(n)$. Scriviamo allora uno script per valutare, in scala logaritmica, il prodotto scalare fra vettori di dimensioni crescenti:
+\lstset{style=codestyle, language=MATLAB}
+\lstinputlisting{../matlab/time_scalar.m}
+
+Un esempio di esecuzione potrebbe allora essere:
+\begin{lstlisting}[language=MATLAB, style=codestyle]	
+>> n = time_scalar(20);
+>> hold on;
+>> loglog(n, n * 10^-9);
+>> hold off;
+\end{lstlisting}
+dove si è cercato di fare il \textit{fitting} della curva ottenuta con la funzione $y = x$ (dove la variabile è chiaramante $n$, e si è aggiunta una costante moltiplicativa $k$ per avvicinarci di più al grafico originale).
+Il grafico ottenuto è quindi:
+
+\begin{center}
+	\includegraphics[scale=0.6]{../figures/scalar_perf.png}
+\end{center}
+
+Vediamo dal grafico che le prestazioni sono effettivamente vicine a quelle previste dalla complessità computazionale, se non per errori dati all'overhead di inizializzazione del timer \lstinline|tic| e \lstinline|toc| di MATLAB (lato sinistro del grafico) e della velocità generale molto elevata delle operazioni, che rende più visibile il rumore dato dallo scheduling della CPU e altri fattori di basso livello.
+
+\item Vediamo allora l'andamento del \textbf{prodotto fra matrici}. Lo script MATLAB è praticamente identico al precedente:
+\lstinputlisting{../matlab/time_matrix.m}
+che eseguito come:
+\begin{lstlisting}[language=MATLAB, style=codestyle]	
+>> n = time_matrix(7);
+>> hold on;
+>> loglog(n, n.^3 * 10^-11);
+>> hold off;
+\end{lstlisting}
+ci restituisce il grafico:
+\begin{center}
+	\includegraphics[scale=0.6]{../figures/matrix_perf.png}
+\end{center}
+che notiamo è già più vicino del prodotto scalare (a causa del tempo di esecuzione maggiore richiesto, che "maschera" bene gli effetti a basso livello della CPU). 
+
+\end{itemize}
+
+\subsubsection{Proprietà del prodotto matriciale}
 Abbiamo che in genere il prodotto fra matrici non è \textbf{commutativo}, cioè:
 $$
 A B \neq BA
@@ -217,7 +255,7 @@ $$
 
 Inoltre, notiamo che quello delle matrici non è un \textit{dominio integrale}: 
 $$
-A \cdot B = 0 \not\implies A = 0 \vee B = 0
+A \cdot B = 0 \;\not\!\!\!\implies A = 0 \vee B = 0
 $$
 
 Vediamo ad esempio come sfruttare la proprietà associativa può permetterci di ottenere algoritmi più veloci.
@@ -229,14 +267,54 @@ con $A \in \mathbb{C}^{m \times n}$; $B \in \mathbb{C}^{n \times p}$ , $C \in \m
 
 L'uguaglianza ci darà due metodi:
 \begin{itemize}
-	\item $(A \cdot B) \cdot C$: 
-		# calcolo me lo sono perso
+	\item $(A \cdot B) \cdot C$:
+		\begin{itemize}
+			\item $A \cdot B = P \in \mathbb{C}^{m \times p}, \quad O(m \cdot n \cdot p)$
+			\item $P \cdot C = R \in \mathbb{C}^{m \times q}, \quad O(m \cdot p \cdot q)$
+		\end{itemize}
+		$\implies O(mnp + mpq) = O\left( mp (n + q) \right)$
 	\item $A \cdot (B\cdot C)$:
+		\begin{itemize}
+			\item $B \cdot C = P \in \mathbb{C}^{n \times q}, \quad O(n \cdot p \cdot q)$
+			\item $A \cdot P = R \in \mathbb{C}^{m \times q}, \quad O(m \cdot n \cdot q)$
+		\end{itemize}
+		$\implies O(npq + mnq) = O\left( nq (p + m) \right)$
 \end{itemize}
+che sono quindi uguali per $m = n = p$, ma (anche radicalmente diversi) diversi al variare di questi parametri.
 
 In generale, quindi, se si hanno matrici con poche righe o poche colonne, è opportuno cercare di mantenere questa properietà più a lungo possibile nei risultati intermedi.
 
 \par\smallskip
+
+Possiamo fare considerazioni simili a quelle fatte sull'associativa con la distributiva.
+Ad esempio, posta l'uguaglianza:
+$$
+(A + B) \cdot C = AC + BC
+$$
+con $A, B \in \mathbb{C}^{m \times n}$ e $C \in \mathbb{C}^{n \times p}$, abbiamo due metodi:
+
+\begin{itemize}
+	\item $(A + B) \cdot C$:
+		\begin{itemize}
+			\item $A + B = P \in \mathbb{C}^{m \times n}, \quad O(m\cdot n)$
+			\item $P \cdot C = R \in \mathbb{C}^{m \times p}, \quad O(m \cdot n \cdot p)$
+		\end{itemize}
+		$
+		\implies O(mn + mnp) = O\left( mn(1 + p) \right)
+		$
+	\item $AC + BC$:
+		\begin{itemize}
+			\item $A \cdot C = P_1 \in \mathbb{C}^{m \times p}, \quad O(m \cdot n \cdot p)$
+			\item $B \cdot C = P_2 \in \mathbb{C}^{m \times p}, \quad O(m \cdot n \cdot p)$
+		\end{itemize}
+		$
+		\implies O(mnp + mnp + mp) = O\left( mp(1 + 2n) \right)
+		$
+\end{itemize}
+che sono sì asintoticamente uguali per $m = n = p$ ($O(n^3)$),  ma non esattamente uguali in quanto da un lato si ha $O(n^2 + n^3)$ e dall'altro $O(n^2 + 2 n^3)$.
+Questo risulta chiaramente dal fatto che col secondo metodo decidiamo di effettuare il prodotto matriciale (che è l'operazione più costosa) non una ma 2 volte.
+
+\par\medskip
 
 Un altra proprietà del prodotto di matrici e che si può vedere il risultato riga per riga o colonna per colonna nei seguenti modi:
 $$
@@ -259,9 +337,7 @@ A_1 B \\ ... \\ A_m B
 $$
 Questo ci dice che le colonne (delle righe) di $C = A \times B$ sono combinazioni lineari delle colonne (delle righe) di $A$ (di $B$).
 
-# esercizio su distributiva stima costi asintotici
-
-\subsubsection{Determinante}
+\subsection{Determinante}
 Abbiamo visto la definizione di \textbf{determinante} per matrici quadrate:
 \begin{definition}{Determinante}
 	Si definisce la funzione:
@@ -292,7 +368,7 @@ $$
 \mathrm{det}(A^H) = \overline{\mathrm{det}(A)}
 $$
 
-\subsubsection{Rango}
+\subsection{Rango}
 Vediamo poi come ci può servire il determinante delle \textbf{sottomatrici}:
 \begin{definition}{Sottomatrice}
 	Una sottomatrice di $A$ è una matrice ottenuta prendendo la restrizione di $A$ a un sottoinsieme di righe e di colonne, cioè data $A \in \mathbb{C}^{n \times n}$, $I, J \subseteq \{ 1, ..., n \}$ con $|I| = n_1$ e $|J| = n_2$, sarà allora:
@@ -351,7 +427,7 @@ $$
 dove $A_{[j]}$ e $B_{[j]}$ sono i minori di ordine $n$ relativi ala stessa scelta di indici in $A$ e in $B$.
 \end{theorem}
 
-\subsubsection{Matrice inversa}
+\subsection{Matrice inversa}
 Diamo la definizione di \textbf{matrice inversa}:
 \begin{definition}{Matrice inversa}
 	Data $A \in \mathbb{C}^{n \times n}$ tale che $\mathrm{det}(A) \neq 0$, si definisce $A^{-1} \in \mathbb{C}^{n \times n}$ tale che:
@@ -368,7 +444,6 @@ $$
 \left(A^{-1} \circ A\right) = A^{-1} y = A^{-1} A x = Ix = x
 $$
 
-# porta questi titoletti come si deve
 \subsubsection{Proprietà della matrice inversa}
 Vediamo alcune proprietà di $A^{-1}$:
 \begin{enumerate}
@@ -405,7 +480,7 @@ per matrici quadrate $A, B \in \mathbb{C}^{n \times n}$;
 	$$
 \end{enumerate}
 
-\subsubsection{Matrici particolari}
+\subsection{Matrici particolari}
 Definiamo alcune matrici particolari:
 \begin{definition}{Matrici particolari}
 	Data $A \in \mathbb{C}^{n \times n}$, si dice di $A$ che è:
@@ -419,7 +494,7 @@ Definiamo alcune matrici particolari:
 		\item \textbf{Ortogonale} $A^TA = AA^T = I$, $A^T = A^{-1}$
 	\end{itemize}
 \end{definition}
-dove notiamo che \textbf{simmetrica} e \textbf{antisimmetrica} significano \textit{hermitiana} e \textit{antihermitiana} in \mathbb{R}, e \textbf{ortogonale} significa \textit{unitaria} in \mathbb{R}.
+dove notiamo che \textbf{simmetrica} e \textbf{antisimmetrica} significano \textit{hermitiana} e \textit{antihermitiana} in $\mathbb{R}$, e \textbf{ortogonale} significa \textit{unitaria} in $\mathbb{R}$.
 
 Per di più vale:
 $$
@@ -430,7 +505,7 @@ $$\{ \text{matrici ortogonali} \} \subseteq \{ \text{matrici unitarie} \}
 $$
 dove notiamo che unitarie ed ortogonali hanno l'inversa "facile", nel senso che basta trasporre o trovare l'hermitiana.
 
-\subsubsection{Matrici di permutazione}
+\subsection{Matrici di permutazione}
 Definiamo le \textbf{matrici di permutazione}:
 \begin{definition}{Matrice di permutazione}
 	$A \in \mathbb{R}^{n \times n}$ si dice matrice di permutaione se $A$ si ottiene dalla matrice di identità permutandone righe e colonne.
@@ -442,7 +517,7 @@ Tutte le matrici di permutazione sono matrici ortogonali (questo si vede dalla l
 Inoltre, vediamo che il prodotto di $A$ con una matrice di permutazione si limita a scambiare righe e colonne in accordo con la permutazione della matrice.
 In particolare, $A \cdot P$ dà la permutazione delle colonne, mentre $P \cdot A$ dà la permutazione delle righe.
 
-\subsubsection{Sistemi lineari}
+\subsection{Sistemi lineari}
 Abbiamo un sistema di $m$ equazioni lineari in $n$ incognite:
 \[
 	\begin{cases}

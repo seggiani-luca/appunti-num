@@ -354,7 +354,7 @@ $$
 |\epsilon_{an}| = \frac{R(x)}{f(x)} \leq \frac{ \max_{[-l, u]} \Big| \frac{e^ux^{k + 1}}{(k + 1)!} \Big| }{ \min_{[-l, u]} e^x } = \frac{e^{u-l}u^{k+1}}{(k+1)!}
 $$
 
-\subsubsection{Note di implementazione}
+\subsubsection{Note sull'implementazione dell'esponenziale}
 Vediamo alcuni dettagli sull'implementazione pratica di un'approssimazione dell'esponenziale nel linguaggio MATLAB/Octave.
 Il primo modo che potrebbe venire in mente prevede di mantenere un numeratore e un denominatore:
 \begin{lstlisting}[language=matlab, style=codestyle]	
@@ -439,10 +439,12 @@ end
 
 Provando questa funzione su un range di interi da $-30$ a $30$, con la serie di Taylor troncata a $500$, dà un errore massimo rispetto al valore reale di circa $10^{-16} \sim 10^{-17}$.
 
-\subsection{Richiami di algebra lineare}
+\par\bigskip
+
+Veniamo quindi a fare alcuni richiami di algebra lineare.
 Nella maggior parte dei casi che ci interessano vorremo trattare non di scalari, ma di quantità vettoriali, ad esempio $x \in \mathbb{C}^n$, con $n > 1$.
 
-\subsubsection{Matrici complesse}
+\subsection{Matrici complesse}
 Ci saranno utili le matrici perchè rappresentano direttamente tutte le \textbf{funzioni lineari}. 
 Ad esempio, posta $f: \mathbb{C}^n \rightarrow \mathbb{C}^m$ tale che:
 \begin{itemize}
@@ -462,6 +464,36 @@ Si danno poi per scontate le definizioni di matrici:
 	\item \textit{Triangolari superiori/inferiori} (elementi nulli sotto/sopra la diagonale) 
 \end{itemize}
 
+\subsubsection{Trasposta coniugata}
+Definiamo infine la \textbf{trasposta coniugata} di una certa matrice, generalizzata al campo complesso dalla \textbf{matrice hermitiana}:
+\begin{definition}{Trasposta coniugata}
+	Data una matrice $A \in \mathbb{C}^{n \times m}$, la trasposta coniugata $A^T$ sarà:
+	$$
+		(A^T)_{ij} = A_{ji}
+	$$
+	e la matrice hermitiana $A^H$ sarà: 
+	$$
+		(A^H)_{ij} = \overline{A_{ji}}
+	$$
+\end{definition}
+
+\subsection{Algebra vettoriale}
+Diamo alcune nozioni riguardo alle operazioni fra vettori.
+
+\subsubsection{Prodotto scalare}
+Diamo la definizione di prodotto scalare, generalizzato al campo complesso dal \textbf{prodotto hermitiano} (entrambi \textit{prodotti interni}):
+\begin{definition}{Prodotto interno}
+	Definiamo il prodotto interno fra due vettori $x, y \in \mathbb{C}^n$ come:
+	$$
+	<x, y> = \sum_{j = 1}^n x_j \overline{y_j}
+	$$
+\end{definition}
+dove $\overline{y_j}$ rappresenta il \textbf{coniugato} di $y_j$, che chiaramente in $\mathbb{R}$ si riduce a $y_j$ stesso e quindi:
+	$$
+	<x, y> = \sum_{j = 1}^n x_j y_j, \quad x, y \in \mathbb{R}^n
+	$$ 
+
+
 \subsubsection{Indipendenza lineare}
 Diamo la definizione di indipendenza linare:
 \begin{definition}{}
@@ -478,42 +510,26 @@ Possiamo sfruttare l'indipendenza lineare per definire \textbf{basi}:
 
 Questo significa che $\forall y \in \mathbb{C}^m$, \ $\exists ! \{c1, ..., c_s\}$ tali che $y = \sum_{j=1}^n c_j x_j$, cioè combinazioni lineari dei vettori di base individuano qualsiasi vettore nello spazio $\mathbb{C}^n$.
 
-\subsubsection{Prodotto scalare}
-Diamo la definizione di prodotto scalare, generalizzato al campo complesso dal \textbf{prodotto hermitiano} (entrambi \textit{prodotti interni}):
-\begin{definition}{Prodotto interno}
-	Definiamo il prodotto interno fra due vettori $x, y \in \mathbb{C}^n$ come:
-	$$
-	<x, y> = \sum_{j = 1}^n x_j \overline{y_j}
-	$$
-\end{definition}
-dove $\overline{y_j}$ rappresenta il \textbf{coniugato} di $y_j$, che chiaramente in $\mathbb{R}$ si riduce a $y_j$ stesso e quindi:
-	$$
-	<x, y> = \sum_{j = 1}^n x_j y_j, \quad x, y \in \mathbb{R}^n
-	$$ 
 
-\subsection{Trasposta coniugata}
-Definiamo infine la \textbf{trasposta coniugata} di una certa matrice, generalizzata al campo complesso dalla \textbf{matrice hermitiana}:
-\begin{definition}{Trasposta coniugata}
-	Data una matrice $A \in \mathbb{C}^{n \times m}$, la trasposta coniugata $A^T$ sarà:
-	$$
-		(A^T)_{ij} = A_{ji}
-	$$
-	e la matrice hermitiana $A^H$ sarà: 
-	$$
-		(A^H)_{ij} = \overline{A_{ji}}
-	$$
-\end{definition}
-
-\subsubsection{Operazioni matriciali}
+\subsection{Operazioni fra matrici}
 Date due matrici $A$ e $B$ con lo stesso numero di righe e colonne si possono definire le operazioni:
 \begin{itemize}
 	\item \textbf{Somma:} $A, B, C \in \mathbb{C}^{m \times n}$, $A + B = C$, $c_{ij} = a_{ij} + b_{ij}$;
 	\item \textbf{Prodotto:} $A \in \mathbb{C}^{m \times n}, B \in \mathbb{C}^{n \times p}, C \in \mathbb{C}^{m \times p}$, $A \cdot B = C$, $c_{ij} = \sum_{h = 1}^n a_{ih} b_{hj}$ sia in reali che in complessi. 
 \end{itemize}
 
-\subsubsection{Considerazioni computazionali del prodotto matriciale}
-Dal punto di vista computazionale, si ha che il prodotto scalare ha complessità $O(n)$, la somma matiricale ha complessità $O(m \cdot n)$, e la moltiplicazione matriciale ha complessità $O(m \cdot n \cdot p)$, con $n$ uguale al numero di colonne della prima matrice o al numero di righe della seconda (che sappiamo dover essere uguali).
-L'ultimo risultato dipende dal fatto che la moltiplicazione richiede di effetuarre effettivamente $m \cdot p$ prodotti scalari ($n$ è la lunghezza di uno di questi prodotti scalari). # riguarda
-Questo significa che per matrici quadrate si ha generalmente complessità $O(n^3)$.
+\subsubsection{Considerazioni computazionali sulle operazioni matriciali}
+Dal punto di vista computazionale, è immediato che il prodotto scalare ha complessità $O(n)$, la somma matriciale ha complessità $O(m \cdot n)$.
+
+Per la moltiplicazione matriciale, poste:
+$$
+A \in \mathbb{C}^{m \times n}, \quad B \in \mathbb{C}^{n \times p}
+\implies A \cdot B = C \in \mathbb{C}^{m \times p}
+$$
+si ha che la complessità è $O(m \cdot n \cdot p)$.
+
+L'ultimo risultato dipende dal fatto che la moltiplicazione richiede di effetuarre effettivamente $m \cdot p$ prodotti scalari, e $n$ è la lunghezza di uno di questi prodotti scalari, cio il numero di colonne di $A$ o di righe di $B$ (che sappiamo essere uguali perché la moltplicazione sia possibile in primo luogo).
+
+Questo significa che per matrici quadrate si ha generalmente complessità $O(n^3)$ (anche se esistono algoritmi che si avvicinano al bound inferiore di $O(n^2)$).
 
 \end{document}
