@@ -335,7 +335,7 @@ A \cdot B = \begin{pmatrix}
 A_1 B \\ ... \\ A_m B
 \end{pmatrix}
 $$
-Questo ci dice che le colonne (delle righe) di $C = A \times B$ sono combinazioni lineari delle colonne (delle righe) di $A$ (di $B$).
+Questo ci dice che le colonne (le righe) di $C = A \times B$ sono combinazioni lineari delle colonne (delle righe) di $A$.
 
 \subsection{Determinante}
 Abbiamo visto la definizione di \textbf{determinante} per matrici quadrate:
@@ -349,7 +349,7 @@ Abbiamo visto la definizione di \textbf{determinante} per matrici quadrate:
 		\mathrm{det}(A) =
 			\begin{cases}
 				a_{11}, \quad n = 1 \\ 
-				a_11 a_22 - a_12 a_21, \quad n =2 \\ 
+				a_{11} a_{22} - a_{12} a_{21}, \quad n = 2 \\ 
 				\sum_{j = 1}^n (-1)^{i + j} \mathrm{det}(A_{ij}), \quad n > 2 \quad \text{(sviluppo di Laplace)}
 			\end{cases}
 	$$
@@ -410,7 +410,7 @@ $$
 $$
 
 \subsubsection{Teorema di Binet-Cauchy}
-Concludiamo dimostrando il teorema di Binet-Cauchy sul determinante rispetto al prodotto matriciale.
+Concludiamo enunciando il teorema di Binet-Cauchy sul determinante rispetto al prodotto matriciale.
 \begin{theorem}{di Binet-Cauchy}
 	Prese due matrici, $A \in \mathbb{C}^{n \times n}$ e $B \in \mathbb{C}^{n \times n}$, e $C = A \cdot B$ di dimensioni uguali, sarà:
 	$$
@@ -427,6 +427,8 @@ $$
 dove $A_{[j]}$ e $B_{[j]}$ sono i minori di ordine $n$ relativi ala stessa scelta di indici in $A$ e in $B$.
 \end{theorem}
 
+La dimostrazione di questo teorema si basa sullo sviluppo dei cofattori della matrice $A \cdot B$, dove si possono riarrangiare i termini per ottenere gli sviluppi dei cofattori delle matrici $A$ e $B$.
+
 \subsection{Matrice inversa}
 Diamo la definizione di \textbf{matrice inversa}:
 \begin{definition}{Matrice inversa}
@@ -435,7 +437,7 @@ Diamo la definizione di \textbf{matrice inversa}:
 	A \cdot A^{-1} = A^{-1} \cdot A = I
 	$$
 \end{definition}
-Se guardo ad $A$ come una funzione lineare $A : \mathbb{C}^n \rightarrow \mathbb{C}^n$, sarà che:
+Se si guarda ad $A$ come una funzione lineare $A : \mathbb{C}^n \rightarrow \mathbb{C}^n$, sarà che:
 $$
 A : x \rightarrow Ax, \quad A^{-1} : Ax \rightarrow x
 $$
@@ -443,6 +445,7 @@ questo da:
 $$
 \left(A^{-1} \circ A\right) = A^{-1} y = A^{-1} A x = Ix = x
 $$
+\qed
 
 \subsubsection{Proprietà della matrice inversa}
 Vediamo alcune proprietà di $A^{-1}$:
@@ -498,7 +501,7 @@ dove notiamo che \textbf{simmetrica} e \textbf{antisimmetrica} significano \text
 
 Per di più vale:
 $$
-\{ \text{matrici simmetriche reali} \} \subseteq \{ \text{matrici hermitiane} \} \subseteq \text{matrici normali}
+\{ \text{matrici simmetriche reali} \} \subseteq \{ \text{matrici hermitiane} \} \subseteq \{ \text{matrici normali} \}
 $$
 e:
 $$\{ \text{matrici ortogonali} \} \subseteq \{ \text{matrici unitarie} \}
@@ -508,7 +511,7 @@ dove notiamo che unitarie ed ortogonali hanno l'inversa "facile", nel senso che 
 \subsection{Matrici di permutazione}
 Definiamo le \textbf{matrici di permutazione}:
 \begin{definition}{Matrice di permutazione}
-	$A \in \mathbb{R}^{n \times n}$ si dice matrice di permutaione se $A$ si ottiene dalla matrice di identità permutandone righe e colonne.
+	$A \in \mathbb{R}^{n \times n}$ si dice matrice di permutazione se $A$ si ottiene dalla matrice di identità permutandone righe e colonne.
 \end{definition}
 
 \subsubsection{Proprietà delle matrici di permutazione}
@@ -552,7 +555,7 @@ Richiamiamo il teorema:
 	Per quanto riguarda l'unicità, supposto $m \geq n$ (sistema \textit{sovradeterminato}):
 	\begin{itemize}
 		\item Se $\mathrm{rank}(A) = n$ allora la soluzione è unica;
-		\item Se $\mathrm{rank}(A) < n$ allora ci sono $\infty$ soluzioni, e l'insieme delle soluzioni forma uno spazio vettoriale affine di dimensinoe $n - \mathrm{rank}(A)$;
+		\item Se $\mathrm{rank}(A) < n$ allora ci sono $\infty$ soluzioni, e l'insieme delle soluzioni forma uno spazio vettoriale affine di dimensione $n - \mathrm{rank}(A)$;
 	\end{itemize}
 \end{theorem}
 
@@ -567,7 +570,7 @@ Abbiamo poi che:
 \end{definition}
 notiamo che il kernel è un sottospazio vettoriale di dimensione $n - \mathrm{rank}(A)$.
 
-Osserviamo infine che nel caso $m = n$, se $\det(A) \neq 0$, cioè $\mathrm{rank}(A) = n$, òa soluzione di $Ax = b$ è unica per ogni $b \in \mathbb{R}^m$ e si scrive:
+Osserviamo infine che nel caso $m = n$, se $\det(A) \neq 0$, cioè $\mathrm{rank}(A) = n$, la soluzione di $Ax = b$ è unica per ogni $b \in \mathbb{R}^m$ e si scrive:
 $$
 x = A^{-1} b
 $$

@@ -240,7 +240,7 @@ Gli autovalori non saranno altro che le soluzioni dell'equazione caratteristica.
 
 L'esistenza di tali soluzioni è data dal fatto che $\mathrm{deg}\left(p(\lambda)\right) = n$, e quindi dal teorema fondamentale dell'algebra esistono $c_0, c_1, ..., c_n$ tali che:
 $$
-p(\lambda) = c_0 + c_1 \lambda + ... + c_n \lambda^n = c_n (\lambda - \lambda_1) ... (\lambda - \lambda_n) = (-1)^n (\lambda - \lambda_1) ... (\lambda - \lambda_n)
+p(\lambda) = c_0 + c_1 \lambda + ... + c_n \lambda^n = c_n (\lambda - \lambda_1) ... (\lambda - \lambda_n) \sim (-1)^n (\lambda - \lambda_1) ... (\lambda - \lambda_n)
 $$
 e dal punto di vista dei minori:
 $$
@@ -249,7 +249,8 @@ $$
 $$
 = (-1)^n \lambda^n + (-1)^{n - 1} \sigma_1 \lambda^{n - 1} + ... - \sigma_{n - 1} \lambda + \sigma_{n}
 $$
-dove $\sigma_j$ è la somma dei determinanti delle sottomatrici di $A$ di ordine $j$.
+dove $\sigma_j$ è la somma dei determinanti delle sottomatrici di $A$ di ordine $j$. \qed
+
 Alcuni di questi $\sigma_j$ sono semplici da calcolare:
 $$
 \sigma_1 = \sum_{i = 1}^n a_{ii} = \mathrm{tr}(A) \quad \text{(traccia)}
@@ -290,7 +291,7 @@ cioè anche $\theta v$ è autovalettore per $\lambda^* = \theta \lambda$.
 Questo ci dice che gli autovettori non sono mai unici.
 Inoltre, possiamo dire che dati $A v_1 = \lambda v_1$ e $A v_2 = \lambda v_2$:
 $$
-A(v1 + v_2) = A v_1 + A v_2 = \lambda v_1 + \lambda v_2 = \lambda (v_1 + v_2)
+A(v_1 + v_2) = A v_1 + A v_2 = \lambda v_1 + \lambda v_2 = \lambda (v_1 + v_2)
 $$
 cioè sono soddisfatte le proprietà di omogeneità e additività, e quindi l'insieme degli autovettori relativi a un certo autovalore $\lambda$ forma uno spazio vettoriale (detto \textbf{autospazio} rispetto a $\lambda$).
 
@@ -483,8 +484,10 @@ Definiamo infine il \textbf{raggio spettrale}, cioè il \textit{massimo modulo} 
 \begin{definition}{Raggio spettrale}
 	La quantità $\rho(A) = \max_{j = \{1,...,n\}} |\lambda_j|$ è detta raggio spettrale di $A$.
 \end{definition}
-Vale il teorema:
+Questa definizione è utile sempre al calcolo di esponenti di matrici.
+Ad esempio, vale il teorema:
 \begin{theorem}{Limiti e raggio spettrale}
+	Per un matrice $A$ con raggio spettrale $\rho(A)$, vale:
 	$$\lim_{x \rightarrow + \infty} A^x = 0 \, \Leftrightarrow \, \rho(A) < 1$$
 \end{theorem}
 
