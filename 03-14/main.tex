@@ -501,4 +501,22 @@ $$
 $$
 cioè semplicemente si prendono le colonne anziché le righe. 
 
+\subsubsection{Note sul calcolo dei dischi di Gershgorin}
+Vediamo come si può usare MATLAB per il calcolo e la visualizzazione dei dischi di Gershgorin di una matrice.
+
+Potremmo pensare di scrivere una funzione per il calcolo e la rappresentazione grafica dei cerchi di Gershgorin di una matrice arbitraria (sia reale che complessa), ad esempio come:
+\lstset{style=codestyle, language=matlab}
+\lstinputlisting{../matlab/draw_gersh.m}
+
+A questo punto potremo tracciare i cerchi di Gershgorin come:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+>> A = [5, 1, 1; 1, -5, 1; 1, 0.5, 1];
+>> draw_gersh(A)
+\end{lstlisting}
+da cui si ottiene il grafico:
+\begin{center}
+\includegraphics{../figures/gersh.png}
+\end{center}
+
+Notiamo come, nel caso specifico, a 3 cerchi di Gershgorin distinti corrispondono 3 autovalori distinti, e quindi la matrice $A$ è diagonalizzabile.
 \end{document}

@@ -33,9 +33,16 @@
 % usa un font monospazio guardabile
 \usepackage{lmodern}
 
+% tikz in sans
+\tikzset{every picture/.style={/utils/exec={\sffamily}}}
+
 \renewcommand{\rmdefault}{ppl}
 \renewcommand{\sfdefault}{phv}
 \renewcommand{\ttdefault}{lmtt}
+
+% circuiti
+\usepackage{circuitikz}
+\usetikzlibrary{babel}
 
 % disponi il titolo
 \makeatletter
