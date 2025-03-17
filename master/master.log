@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024/Arch Linux) (preloaded format=pdflatex 2025.3.1)  14 MAR 2025 19:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024/Arch Linux) (preloaded format=pdflatex 2025.3.1)  17 MAR 2025 10:19
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1286,7 +1286,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [20])
-<../figures/scalar_perf.png, id=462, 638.1441pt x 506.3718pt>
+<../figures/scalar_perf.png, id=486, 638.1441pt x 506.3718pt>
 File: ../figures/scalar_perf.png Graphic file (type png)
 <use ../figures/scalar_perf.png>
 Package pdftex.def Info: ../figures/scalar_perf.png  used on input line 217.
@@ -1300,7 +1300,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [21 <../figures/scalar_perf.png (PNG copy)>] (../matlab/time_matrix.m)
-<../figures/matrix_perf.png, id=493, 638.385pt x 506.3718pt>
+<../figures/matrix_perf.png, id=517, 638.385pt x 506.3718pt>
 File: ../figures/matrix_perf.png Graphic file (type png)
 <use ../figures/matrix_perf.png>
 Package pdftex.def Info: ../figures/matrix_perf.png  used on input line 233.
@@ -1470,7 +1470,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [41] (../matlab/draw_gersh.m)
-<../figures/gersh.png, id=663, 303.0522pt x 241.8636pt>
+<../figures/gersh.png, id=687, 303.0522pt x 241.8636pt>
 File: ../figures/gersh.png Graphic file (type png)
 <use ../figures/gersh.png>
 Package pdftex.def Info: ../figures/gersh.png  used on input line 518.
@@ -1483,7 +1483,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[42])
+[42]) (../03-17/main.tex
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -1491,27 +1491,71 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[43 <../figures/gersh.png>] (./master.aux)
+[43 <../figures/gersh.png>]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[44]
+Overfull \hbox (3.56012pt too wide) detected at line 315
+\OML/lmm/m/it/10.95 A \OMS/lmsy/m/n/10.95 2 \U/msb/m/n/10.95 C[]\OML/lmm/m/it/10.95 ;  A \OT1/lmr/m/n/10.95 = [] []\OML/lmm/m/it/10.95 A \OT1/lmr/m/n/10.95 = [] []
+ []
+
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[45]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[46]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[47])
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[48] (./master.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
  ***********
 Package rerunfilecheck Info: File `master.out' has not changed.
-(rerunfilecheck)             Checksum: FAA5BC21ABE9176ADCAF9DC826E91C9F;12181.
+(rerunfilecheck)             Checksum: CB83C6848D910D021078BA209633B9FC;13310.
  ) 
 Here is how much of TeX's memory you used:
- 67939 strings out of 476040
- 1700822 string characters out of 5792328
- 2765453 words of memory out of 5000000
- 88851 multiletter control sequences out of 15000+600000
+ 67982 strings out of 476040
+ 1701495 string characters out of 5792328
+ 2765462 words of memory out of 5000000
+ 88868 multiletter control sequences out of 15000+600000
  622599 words of font info for 95 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  136i,13n,127p,1582b,2228s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on master.pdf (43 pages, 576760 bytes).
+Output written on master.pdf (48 pages, 594663 bytes).
 PDF statistics:
- 876 PDF objects out of 1000 (max. 8388607)
- 781 compressed objects within 8 object streams
- 349 named destinations out of 1000 (max. 500000)
- 540 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 937 PDF objects out of 1000 (max. 8388607)
+ 836 compressed objects within 9 object streams
+ 372 named destinations out of 1000 (max. 500000)
+ 588 words of extra memory for PDF output out of 10000 (max. 10000000)
 
