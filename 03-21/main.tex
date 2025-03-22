@@ -99,6 +99,11 @@
 \usepackage{listings}
 \usepackage[table]{xcolor}
 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
 \lstdefinestyle{codestyle}{
 		backgroundcolor=\color{black!5}, 
 		commentstyle=\color{codegreen},
@@ -199,6 +204,8 @@
 \thispagestyle{empty}
 \pagestyle{fancy}
 
+\lstset{style=codestyle, language=matlab}
+
 % testo
 \subsection{Valutazione della riducibilità}
 Riprendiamo il discorso delle matrici riducibili, soffermandoci sul come capire quando una matrice è riducibile, e come ricavare, in caso affermativo, la marice di permutazione $\Pi$ corrispondente.
@@ -245,11 +252,123 @@ Che $G(B)$ non è fortemente connesso è chiaro dal blocco di 0 in basso a sinis
 	\]
 	con $\mathcal{P} \cup \mathcal{Q} = \{1, ..., n\}$ e $\mathcal{P} \cap \mathcal{Q} = \emptyset$.
 	Non ci sarà quindi nessun arco che collega un elemento di $\mathcal{P}$ a un elemento di $\mathcal{Q}$.
-	Se si considera una permutazione $\Pi$ che manda in testa tutti gli elementi di $\mathcal{P}$, si ritrova esattamente la forma della definizione 7.7, cioè quella di una matrice riducibile, notando $k = |\mathcal{Q}|$ e $n - k = \mathcal{P}$.
+	Se si considera una permutazione $\Pi$ che manda in testa tutti gli elementi di $\mathcal{Q}$, si ritrova esattamente la forma della definizione 7.7, cioè quella di una matrice riducibile, notando $k = |\mathcal{Q}|$ e $n - k = \mathcal{P}$.
 \end{itemize} \qed
 
-# esempio matrice vista lezione, e esempio risoluzione
+\par\smallskip
 
+Prendiamo ad esempio la matrice:
+$$
+A = \begin{pmatrix}
+	1 & 0 & 1 & 0 & 0 & 0 \\
+	0 & 2 & 0 & 0 & 0 & 3 \\
+	0 & 0 & -1 & 0 & 0 & 0 \\
+	3 & 0 & 0 & 2 & -1 & -2 \\
+	0 & 0 & 0 & -1 & 2 & 0 \\
+	1 & 0 & 0 & 0 & 0 & 1
+\end{pmatrix}
+$$
+
+Disegnamo il grafo $G(A)$ associato alla matrice $A$.
+In MATLAB, questo si potrà fare come:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+>> A = [ 1 0 1 0 0 0; ... 1 0 0 0 0 1 ]
+>> A(eye(size(A)) == 1) = 0 % rimuovi gli elementi sulla diagonale
+>> G = digraph(A)
+>> p = plot(G)
+>> layout(p, "circle") % usa il layout circolare
+\end{lstlisting}
+che dalla $A$ dell'esempio dà:
+\begin{center}
+	\includegraphics[scale=0.9]{../figures/A1_graph.png}
+\end{center}
+
+Vediamo quindi che le adiacenze fra nodi (pensando alla matrice, le dipendenze riga-colonna) sono:
+\begin{table}[h!]
+	\center \rowcolors{2}{white}{black!10}
+	\begin{tabular} { c || c | c }
+		\bfseries Nodo & \bfseries Raggiungibile & \bfseries Non raggiungibile \\
+		\hline 
+		1 & 1 3 & 2 4 5 6 \\
+		2 & 1 2 3 6 & 4 5 \\
+		3 & 3 & 1 2 4 5 6 \\
+		4 & 1 3 4 5 6 & 2 \\
+		5 & 1 3 4 5 6 & 2 \\
+		6 & 1 3 6 & 2 4 5
+	\end{tabular}
+\end{table}
+
+Notiamo che il nodo 6 ci fornisce la partizione migliore $3 \times 3$ e $3 \times 3$.
+Decidiamo quindi di prendere:
+$$
+\mathcal{P} = \{ 1, 3, 6 \}, \quad \mathcal{Q} = \{ 2, 4, 5 \}
+$$
+per cui la permutazione che manda $\mathcal{Q}$ in testa è:
+$$
+\Pi = \begin{pmatrix}
+	0 & 1 & 0 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 1 & 0 & 0 \\
+	0 & 0 & 0 & 0 & 1 & 0 \\
+	1 & 0 & 0 & 0 & 0 & 0 \\
+	0 & 0 & 1 & 0 & 0 & 0 \\
+	0 & 0 & 0 & 0 & 0 & 1 \\
+\end{pmatrix}
+\begin{array}{c}
+	2 \rightarrow 1 \\
+	4 \rightarrow 2 \\
+	5 \rightarrow 3 \\
+	1 \rightarrow 4 \\
+	3 \rightarrow 5 \\
+	6 \rightarrow 6 \\
+\end{array}
+$$
+
+Applicando $Pi A \Pi^T$ si ottiene quindi:
+$$
+\Pi A \Pi^T = \begin{pmatrix}
+	A_{11} =
+	\begin{pmatrix}
+		0 &  0 &  0 \\
+		0 &  0 & -1 \\
+		0 & -1 &  0
+	\end{pmatrix} &
+	A_{12} = 
+	\begin{pmatrix}
+		0 &  0 &  3 \\
+		3 &  0 & -2 \\
+		0 &  0 &  0
+	\end{pmatrix} \\
+	0 &
+	A_{21} = 
+	\begin{pmatrix}
+		0 &  1 &  0 \\
+		0 &  0 &  0 \\
+		1 &  0 &  0
+	\end{pmatrix}
+\end{pmatrix}
+$$
+che è una forma più agile per la risoluzione della matrice originale $A$.
+
+Nella directory \lstinline|/matlab| si rende disponibile uno script \lstinline|block_decomp.m| per la decomposizione in matrici a blocchi come nell'esempio.
+Un'esecuzione tipica dello script potrebbe avere l'aspetto:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+p = block_decomp(A) % ottieni una permutazione
+    Node      Reachable      Not reachable
+    ____    _____________    _____________
+
+     1      {[      1 3]}    {[  2 4 5 6]}
+     2      {[  1 2 3 6]}    {[      4 5]}
+     3      {[        3]}    {[1 2 4 5 6]}
+     4      {[1 3 4 5 6]}    {[        2]}
+     5      {[1 3 4 5 6]}    {[        2]}
+     6      {[    1 3 6]}    {[    2 4 5]}
+   
+	 Choose an index: 6 % chiesto dallo script
+>> A(p, p) % permuta A
+\end{lstlisting}
+da cui si ottiene la stessa matrice a blocchi riportata sopra.
+
+\subsubsection{Riduzione iterata}
 Ricordiamo di poter iterare ricorsivamente il processo di riduzione, cioè di poter trovare per ogni blocco $A_{ii}$ con $i \in \{ 1, 2 \}$ un $\Pi_i$ tale che:
 $$
 \Pi_i A_{ii} \Pi_i^T = \begin{pmatrix}
@@ -313,22 +432,27 @@ Diamo la definizione parallela a quella di matrice triangolare:
 
 Per un \textbf{sistema triangolare superiore}, si avrà la forma:
 \[
-	\begin{cases}
-		u_{11} x_1 + u_{12} x_2 + ... + u_{1n} x_n = c_1 \\ 	
-		u_{22} x_2 + ... + u_{2n} x_n = c_2 \\ 	
-		... \\
-		u_{n-1,n-1} x_{n-1} + u_{n-1,n} x_n = c_{n-1} \\
-		u_{nn} x_n = c_n
-	\end{cases}
+\begin{cases}
+    \begin{aligned}
+			&& u_{11} x_1 + u_{12} x_2 + ... + u_{1,n-1} x_{n-1} + u_{1n} x_n = c_1 \\
+			&&              u_{22} x_2 + ... + u_{2,n-1} x_{n-1} + u_{2n} x_n = c_2 \\
+			&& \vdots \\
+			&&                                 u_{n-1,n-1} x_{n-1} + u_{n-1,n} x_n = c_{n-1} \\
+			&&                                                     u_{nn} x_n = c_n
+		\end{aligned}
+\end{cases}
 \]
 
 Il \textbf{metodo risolutivo} sarà allora la \textit{sostituzione all'indietro}, definita ricorsivamente come:
 \[
 	\begin{cases}
-		x_n = \frac{c_n}{u_{nn}} \\ 
-		x_i = \frac{ c_i - \sum_{j = i + 1}^n u_{ij} x_j }{u_{jj}}
+		x_n = \frac{c_n}{u_{nn}} \\\\ 
+		x_i = \frac{ c_i - \sum_{j = i + 1}^n u_{ij} x_j }{u_{ii}}
 	\end{cases}
 \]
+che equivale all'algoritmo, in MATLAB:
+\lstinputlisting{../matlab/bck_subst.m}
+
 Riguardo alla complessità, si potra dire che al passo $i$ si eseguono $n - i + n - i + 2 = 2(n - 1) + 2$ passaggi, cioè 2 per la divisione per $u_{jj}$ e la somma fra $c_i$ e il termine accumulato a destra, $n - i$ per i prodotti nella sommatoria e di nuovo $n - i$ per la sommatoria stessa.
 Sarà allora che:
 $$
@@ -336,7 +460,16 @@ $$
 $$
 cioè si ha complessità quadratica.
 
-Osserviamo poi che per \textbf{sistemi triangolari inferiori} la situazione è uguale, cioè si risolve la prima equazione, si sostituisce il risultato nella seconda, e via dicendo.
+Osserviamo poi che per \textbf{sistemi triangolari inferiori} la situazione è uguale, cioè si risolve la prima equazione, si sostituisce il risultato nella seconda, e via dicendo:
+\[
+	\begin{cases}
+		x_1 = \frac{c_1}{u_{11}} \\\\ 
+		x_i = \frac{ c_i - \sum_{j = 1}^{i - 1} u_{ij} x_j }{u_{ii}}
+	\end{cases}
+\]
+che equivale all'algoritmo, in MATLAB:
+\lstinputlisting{../matlab/fwd_subst.m}
+
 Il metodo ottenuto, speculare al quello di sostituzione all'indietro, viene detto \textit{sostituzione in avanti}, di costo identico ($O(n^2)$).
 
 \subsubsection{Metodo di eliminazione di Gauss}
@@ -354,20 +487,42 @@ L'idea è quella di eliminare, per ogni elemento $i$-esimo sulla diagonale a par
 	% body
 	\FOR{$i = 1$ to $n$}
 		\FOR{$j = i$ to $n$}
-			\STATE Calcola il \textbf{moltiplicatore} $l_{ji} = \frac{a_{ji}^{i - 1}}{a_{ii}^{i - 1}}$
+			\STATE Calcola il \textbf{moltiplicatore} $l_{ji} = \frac{a_{ji}^{(i - 1)}}{a_{ii}^{(i - 1)}}$
 			\STATE Aggiungi alla riga $j$ la riga $i$ moltiplicata per $l_{ij}$
 		\ENDFOR
 	\ENDFOR
 \end{algorithmic}
 \end{algorithm}
 
-# implementalo
+Una semplice implementazione in MATLAB del suddetto algoritmo può essere la seguente:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+function [A, b] = gauss_decomp(A, b)
+    n = height(A);
+
+    for i = 1:n % i itera sulle diagonali
+        den = A(i, i);
+
+        for j = (i + 1):n % j itera sulle righe
+            mul = A(j, i) / den; % moltiplicatore
+            
+            A(j, :) = A(j, :) - A(i, :) * mul;
+            b(j) = b(j) + b(i) * mul;
+        end
+    end
+end
+\end{lstlisting}
+da cui si potrà ottenere una riduzione di Gauss semplicemente come:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+	>> [U, c] = gauss_decomp(A, b)
+\end{lstlisting}
+
+\par\smallskip
 
 Dal punto di vista della complessità, la riduzione in forma triangolare costa $O(\frac{2}{3}n^3)$, e chiaramente domina sul termine $O(n^2)$ della risoluzione di $Ux = c$ con la sostituzione all'indietro.
 
 Facciamo una nota sulla fattibiltà della riduzione di Gauss, definendo:
 \begin{definition}{Moltiplicatori di Gauss}
-	I termini $l_{ji} = \frac{a_{ji}^{i - 1}}{a_{ii}^{i - 1}}$ vengono detti moltiplicatori.
+	I termini $l_{ji} = \frac{a_{ji}^{(i - 1)}}{a_{ii}^{(i - 1)}}$ vengono detti moltiplicatori.
 \end{definition}
 Chiaramente, per poter eseguire l'eliminazione di Gauss serve che $a_{jj^{j - 1}} \neq 0$ $\forall j = 1, ..., n - 1$.
 Inoltre, i casi $a_{jj}^{j - 1} \approx 0$ possono causare problemi di instabilità numerica.
@@ -402,7 +557,7 @@ H_{n - 1} H_{n - 2} \, ... \, H_1 A x = H_{n - 1} H_{n - 2} \, ... \, H_1 b
 $$
 e potremo quindi dire:
 $$
-H_{n - 1} H_{n - 2} \, ... \, H_1 = U, \quad L = H_1^{-1} \, ... \, H_{n - 1}^1 
+H_{n - 1} H_{n - 2} \, ... \, H_1 A = U, \quad L = H_1^{-1} \, ... \, H_{n - 1}^1 
 $$
 da cui:
 $$
@@ -453,6 +608,19 @@ H_{i_1}^{-1} \cdot H_{i_2}^{-1} = \begin{pmatrix}
 \end{pmatrix}
 $$
 
+\par\smallskip
+
+Modifichiamo il codice MATLAB della scorsa sessione per calculare, oltre all'eliminazione di Gauss (cioè la matrice $U$), la matrice dei moltiplicatori $L$:
+
+\lstinputlisting{../matlab/gauss_decomp.m}
+
+A questo punto per calcolare la fattorizzazione LU di una matrice basterà eseguire:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+>> [U, ~, L] = gauss_decomp(A, b)
+>> L * U % idealmente dara' A
+\end{lstlisting}
+\par\smallskip
+
 Si osserva quindi che se già si conoscono $L$ ed $U$ (magari di una matrice che dovremo usare spesso) risolvere $Ax = b$ costa $O(n^2)$, in quanto basta dire:
 $$
 Ax = b \, \Rightarrow \, LUx = b \implies x = U^{-1} L^{-1} b
@@ -464,11 +632,18 @@ dove basta risolvere a cascata:
 		Ux = y
 	\end{cases}
 \]
-Questi sono due sistemi triangolari, da cui l'andamento complessivo $O(n^2)$.
+Questi sono due sistemi triangolari, uno \textbf{inferiore} (risolvibile per \textit{sostituzione in avanti}), l'altro \textbf{superiore} (risolvibile per \textit{sostituzione all'indietro}), da cui l'andamento complessivo $O(n^2)$.
 
-Notiamo che questo vale se $L$ ed $U$ sono note, quindi tolto il prezzo dato dal doverle calcolare (come avevamo notato, conviene per matrici che magari dobbiamo usare spesso).
+In MATLAB, la soluzione si può quindi avere usando le funzioni definite finora:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+>> [U, ~, L] = gauss_decomp(A, b)
+>> y = fwd_subst(L, b)
+>> x = bck_subst(U, y) % x e' la soluzione del sistema
+\end{lstlisting}
 
-\subsubsection{Varianti del metodo di Gauss}
+Notiamo che questo vale se $L$ ed $U$ sono note (o come nell'esempio vengono calcolate), quindi tolto il prezzo dato dal doverle calcolare (come avevamo notato, conviene per matrici che magari dobbiamo usare spesso).
+
+\subsubsection{Metodo di Gauss per variabili matriciali}
 Se si vuole risolvere $AX = B$ con $X$ e $B$ matrici di vettori colonna di $s$ colonne:
 $$
 X = \begin{pmatrix}
@@ -487,17 +662,46 @@ si può modificare l'algoritmo di Gauss, effettuando le mosse di Gauss sulla mat
 \end{pmatrix}$.
 Alla fine troveremo una matrice $\begin{pmatrix}
 	U \, | \, B^{(n - 1)}
-\end{pmatrix}$ che risolverà i sistemi triangolari superiori:
+\end{pmatrix}$, dove gli apici $(n - 1)$ rappresentano che è la $B$ che si ottiene all'$n-1$-esimo passaggio, che risolverà i sistemi triangolari superiori:
 $$
 Ux_1 = b_1^{(n - 1)}, \quad ..., \quad Ux_s = b_s^{(n - 1)}
 $$
 
-Un caso particolare è il calcolo dell inversa di $I$ con l'algoritmo di \textbf{Gauss-Jordan}.
+\subsubsection{Metodo di Gauss per il calcolo dell'inversa}
+Un caso particolare è il \textbf{calcolo dell'inversa} con l'algoritmo di \textbf{Gauss-Jordan}.
 Infatti, scegliendo:
 $$
 AX = I
 $$
 con $n = s$, le colonne in $X$ diventeranno l'inversa di $A$ (basti vedere che $A A^{-1} = I$ per definizione).
 
+Facciamo un ultimo esempio, assistito da MATLAB, per comprendere a pieno questo risultato.
+Vogliamo calcolare $A^{-1}$ come la soluzione del sistema $AX = I$, e capiamo quindi che quello che cerchiamo sono i vettori colonna $i_1, ..., i_n$ tali per cui:
+$$
+A i_1 = I_1, \quad ..., \quad A i_n = I_n
+$$
+con $I_i$ il vettore di zeri con un 1 all'$i$-esima riga.
+Sfruttiamo allora l'eliminazione di Gauss per ricavare due matrici, $U$ e $B^{(n - 1)}$, tali che $Ux = B^{(n - 1)}$, con il vantaggio che $U$ è triangolare superiore e quindi risolvibile per sostituzione all'indietro.
+Possiamo fare questo in MATLAB come:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+AI = [A, eye(n)]
+UB = gauss_decomp(AI, zeros(n, 1)) % argomento fittizio per b
+U = UB(1:n, 1:n)
+B = UB(1:n, (n + 1):(2 * n)
+\end{lstlisting}
+
+A questo punto potremo trovare le colonne $i_i$ come:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+>> i1 = bck_subst(U, B(1:n, 1))
+>> i2 = bck_subst(U, B(1:n, 2))
+...
+\end{lstlisting}
+e infine concatenare le colonne come:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+>> inv_A = [i1, ..., in]
+\end{lstlisting}
+
+In un unico script MATLAB, questo procedimento si realizza come:
+\lstinputlisting{../matlab/gauss_inv.m}
 
 \end{document}

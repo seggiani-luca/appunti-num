@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024/Arch Linux) (preloaded format=pdflatex 2025.3.1)  21 MAR 2025 12:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024/Arch Linux) (preloaded format=pdflatex 2025.3.1)  22 MAR 2025 18:20
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1286,7 +1286,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [20])
-<../figures/scalar_perf.png, id=518, 638.1441pt x 506.3718pt>
+<../figures/scalar_perf.png, id=526, 638.1441pt x 506.3718pt>
 File: ../figures/scalar_perf.png Graphic file (type png)
 <use ../figures/scalar_perf.png>
 Package pdftex.def Info: ../figures/scalar_perf.png  used on input line 217.
@@ -1300,7 +1300,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [21 <../figures/scalar_perf.png (PNG copy)>] (../matlab/time_matrix.m)
-<../figures/matrix_perf.png, id=549, 638.385pt x 506.3718pt>
+<../figures/matrix_perf.png, id=557, 638.385pt x 506.3718pt>
 File: ../figures/matrix_perf.png Graphic file (type png)
 <use ../figures/matrix_perf.png>
 Package pdftex.def Info: ../figures/matrix_perf.png  used on input line 233.
@@ -1470,7 +1470,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [41] (../matlab/draw_gersh.m)
-<../figures/gersh.png, id=719, 303.0522pt x 241.8636pt>
+<../figures/gersh.png, id=727, 303.0522pt x 241.8636pt>
 File: ../figures/gersh.png Graphic file (type png)
 <use ../figures/gersh.png>
 Package pdftex.def Info: ../figures/gersh.png  used on input line 518.
@@ -1536,13 +1536,11 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [48]
-../03-21/main.tex:251: You can't use `macro parameter character #' in vertical mode.
-l.251 #
-        esempio matrice vista lezione, e esempio risoluzione
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
+<../figures/A1_graph.png, id=811, 240.9pt x 204.765pt>
+File: ../figures/A1_graph.png Graphic file (type png)
+<use ../figures/A1_graph.png>
+Package pdftex.def Info: ../figures/A1_graph.png  used on input line 283.
+(pdftex.def)             Requested size: 216.80798pt x 184.28677pt.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1551,7 +1549,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[49]
+[49 <../figures/A1_graph.png>]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -1560,15 +1558,23 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
 [50]
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 350.
 
-../03-21/main.tex:364: You can't use `macro parameter character #' in vertical mode.
-l.364 #
-        implementalo
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[51] (../matlab/bck_subst.m) (../matlab/fwd_subst.m)
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[52]
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 483.
 
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1577,7 +1583,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[51]
+[53]
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -1585,7 +1591,7 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[52])
+[54] (../matlab/gauss_decomp.m)
 
 Package fancyhdr Warning: \headheight is too small (12.0pt): 
 (fancyhdr)                Make it at least 13.59999pt, for example:
@@ -1593,27 +1599,43 @@ Package fancyhdr Warning: \headheight is too small (12.0pt):
 (fancyhdr)                You might also make \topmargin smaller to compensate:
 (fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
 
-[53] (./master.aux)
+[55]
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[56] (../matlab/gauss_inv.m))
+
+Package fancyhdr Warning: \headheight is too small (12.0pt): 
+(fancyhdr)                Make it at least 13.59999pt, for example:
+(fancyhdr)                \setlength{\headheight}{13.59999pt}.
+(fancyhdr)                You might also make \topmargin smaller to compensate:
+(fancyhdr)                \addtolength{\topmargin}{-1.59999pt}.
+
+[57] (./master.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
  ***********
 Package rerunfilecheck Info: File `master.out' has not changed.
-(rerunfilecheck)             Checksum: F3057432493FECD42634667BADA1F5C2;14865.
+(rerunfilecheck)             Checksum: 7E3DAA8F1B6722325ABC33E068A15ACF;15385.
  ) 
 Here is how much of TeX's memory you used:
- 68068 strings out of 476040
- 1702724 string characters out of 5792328
+ 68260 strings out of 476040
+ 1705798 string characters out of 5792328
  2765471 words of memory out of 5000000
- 88924 multiletter control sequences out of 15000+600000
+ 88983 multiletter control sequences out of 15000+600000
  622599 words of font info for 95 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  136i,15n,127p,1582b,2228s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmex10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmmi8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy6.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy8.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmtt9.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/share/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/share/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on master.pdf (53 pages, 615622 bytes).
+Output written on master.pdf (57 pages, 642167 bytes).
 PDF statistics:
- 1011 PDF objects out of 1200 (max. 8388607)
- 904 compressed objects within 10 object streams
- 399 named destinations out of 1000 (max. 500000)
- 652 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1178 PDF objects out of 1200 (max. 8388607)
+ 1064 compressed objects within 11 object streams
+ 520 named destinations out of 1000 (max. 500000)
+ 673 words of extra memory for PDF output out of 10000 (max. 10000000)
 
