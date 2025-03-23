@@ -251,8 +251,8 @@ Possiamo quindi enunciare il terzo teorema di Gershgorin:
 	dove con $\partial$ si indica il bordo, cioè esiste un indice, $\exists k \in \{ 1, ..., n \}$ tale che:
 	$
 	|\lambda - a_{kk}| = \sum_{j \neq k} a_{kj}
-	$.
-	Allora dovrà essere che:
+	$,
+	allora dovrà essere che:
 	$$
 		\lambda \in \bigcap_{i = 1}^n \partial \left( \mathcal{F}_i(A) \right)
 	$$
@@ -293,7 +293,7 @@ A \in \mathbb{C}^{m \times n}, \quad A = \begin{pmatrix}
 $$
 Si può sempre scrivere una matrice a blocchi, purché le sottomatrici abbiano dimensioni compatibili (sia le somme delle dimensioni devono corrispondere alle dimensioni effettive della matrice, sia le dimensioni delle matrici adiacenti devono corrispondere), cioè si deve avere:
 $$
-A_{ij} \in \mathbb{C}^{m_j \times n_j}, \quad \sum_{i=1}^s m_i = m, \ \sum_{j=1}^r n_j = n
+A_{ij} \in \mathbb{C}^{m_i \times n_j}, \quad \sum_{i=1}^s m_i = m, \quad \sum_{j=1}^r n_j = n
 $$
 
 Notiamo che per noi sarà il importante il caso di matrici quadrate poste come sottomatrici quadrate, cioè $m = n$, $s = r$ e $m_i = n_i$ $\forall i = 1, ..., r \cdot s$.
