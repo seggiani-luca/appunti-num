@@ -26,3 +26,6 @@
 
 # ignora file relativi a xournal++
 *.autosave.*
+
+# ignora file relativi a matlab
+*.asv
