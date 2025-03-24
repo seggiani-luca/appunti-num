@@ -494,6 +494,7 @@ L'idea è quella di eliminare, per ogni elemento $i$-esimo sulla diagonale a par
 \end{algorithmic}
 \end{algorithm}
 
+\subsubsection{Implementazione MATLAB del metodo di eliminazione Gauss}
 Una semplice implementazione in MATLAB del suddetto algoritmo può essere la seguente:
 \begin{lstlisting}[language=matlab, style=codestyle]	
 function [A, b] = gauss_decomp(A, b)
@@ -506,7 +507,7 @@ function [A, b] = gauss_decomp(A, b)
             mul = A(j, i) / den; % moltiplicatore
             
             A(j, :) = A(j, :) - A(i, :) * mul;
-            b(j) = b(j) + b(i) * mul;
+            b(j) = b(j) - b(i) * mul;
         end
     end
 end
@@ -608,9 +609,8 @@ H_{i_1}^{-1} \cdot H_{i_2}^{-1} = \begin{pmatrix}
 \end{pmatrix}
 $$
 
-\par\smallskip
-
-Modifichiamo il codice MATLAB della scorsa sessione per calculare, oltre all'eliminazione di Gauss (cioè la matrice $U$), la matrice dei moltiplicatori $L$:
+\subsubsection{Implementazione MATLAB della riduzione LU}
+Modifichiamo il codice MATLAB della scorsa sezione per calcolare, oltre all'eliminazione di Gauss (cioè la matrice $U$), la matrice dei moltiplicatori $L$:
 \begin{lstlisting}[language=matlab, style=codestyle]	
 function [A, b, L] = gauss_decomp(A, b)
     n = height(A);
@@ -625,7 +625,7 @@ function [A, b, L] = gauss_decomp(A, b)
             L(j, i) = mul;
             
             A(j, :) = A(j, :) - A(i, :) * mul;
-            b(j) = b(j) + b(i) * mul;
+            b(j) = b(j) - b(i) * mul;
         end
     end
 end
@@ -636,7 +636,8 @@ A questo punto per calcolare la fattorizzazione LU di una matrice basterà esegu
 >> [U, ~, L] = gauss_decomp(A, b)
 >> L * U % idealmente dara' A
 \end{lstlisting}
-\par\smallskip
+
+\par\medskip
 
 Si osserva quindi che se già si conoscono $L$ ed $U$ (magari di una matrice che dovremo usare spesso) risolvere $Ax = b$ costa $O(n^2)$, in quanto basta dire:
 $$
@@ -684,7 +685,94 @@ $$
 Ux_1 = b_1^{(n - 1)}, \quad ..., \quad Ux_s = b_s^{(n - 1)}
 $$
 
-Facciamo un esempio, assistito da MATLAB, per comprendere a pieno questo risultato.
+\par\smallskip
+
+Vediamo un esempio numerico.
+Partiamo dalle matrici $A$ e $B$:
+$$
+A = \begin{pmatrix}
+	-2 & 1 & 1 \\ 
+	-1 & 3 & 1 \\ 
+	1 & 1 & 2
+\end{pmatrix}, \quad B = \begin{pmatrix}
+	-2 & 0 \\ 
+	-3 & 0 \\ 
+	2 & 1
+\end{pmatrix}
+$$
+Avremo che le due colonne di $B$ rappresentano due vettori "termini noti" diversi, e che quindi la soluzione $X$ di $AX = B$ rappresenterà in verità due vettori soluzione:
+$$
+X = \begin{pmatrix}
+	x_1^{(1)} & x_1^{(2)} \\
+	x_2^{(1)} & x_2^{(2)} \\
+	x_3^{(1)} & x_3^{(2)} \\
+\end{pmatrix}
+$$
+
+Costruiamo quindi la matrice $AB$ ed applichiamo il metodo di riduzione di Gauss:
+$$
+AB = 
+\left(\begin{array}{@{}c c c | c c@{}}
+	-2 & 1 & 1 & -2 & 0 \\
+	-1 & 3 & 1 & -3 & 0 \\
+	1 & 1 & 2 & 2 & 1
+\end{array}\right) \xrightarrow{\text{Gauss}}
+\left(\begin{array}{@{}c c c | c c@{}}
+	-2 & 1 & 1 & -2 & 0 \\
+	0 & \frac{5}{2} & \frac{1}{2} & -2 & 0 \\ 
+	0 & 0 & \frac{11}{5} & \frac{11}{5} & 1
+\end{array}\right) = UB^{(n - 1)}
+$$
+
+Avremo quindi due sistemi dati dalla forma $UX = B^{(n - 1)}$:
+
+\begin{minipage}{0.45\textwidth}
+
+	\[
+		x^{(1)} :
+		\begin{cases}
+			-2 x_1^{(1)} + x_2^{(1)} + x_3^{(1)} = -2 \\ 
+			\frac{5}{2} x_2^{(1)} + \frac{1}{2} x_3^{(1)} = -2 \\ 
+			\frac{11}{5} x_3^{(1)} = \frac{11}{5}
+		\end{cases}
+	\]
+
+\end{minipage}%
+\hfill % This adds horizontal space between the two minipages
+\begin{minipage}{0.45\textwidth}
+
+	\[
+		x^{(2)} :
+		\begin{cases}
+			-2 x_1^{(2)} + x_2^{(2)} + x_3^{(2)} = 0 \\ 
+			\frac{5}{2} x_2^{(2)} + \frac{1}{2} x_3^{(2)} = 0 \\ 
+			\frac{11}{5} x_3^{(2)} = 1
+		\end{cases}
+	\]
+
+\end{minipage}
+
+da cui le soluzioni:
+$$
+x^{(1)} = \begin{pmatrix}
+	1 \\ -1 \\ 1
+\end{pmatrix} \quad 
+x^{(2)} = \begin{pmatrix}
+	\frac{2}{11} \\ -\frac{1}{11} \\ \frac{5}{11}
+\end{pmatrix}
+$$
+e quindi la matrice incognita $X$:
+$$
+X = \begin{pmatrix}
+	1 & \frac{2}{11} \\
+	-1 & -\frac{1}{11} \\
+	1 & \frac{5}{11} \\
+\end{pmatrix}
+$$
+
+
+\subsubsection{Implementazione MATLAB del metodo di Gauss}
+Implementiamo un risolutore per sistemi lineari, per comprendere a pieno questo risultato.
 Vogliamo calcolare $X$ come la soluzione del sistema $AX = B$, e capiamo quindi che quello che cerchiamo sono i vettori colonna $x_1, ..., x_n$ tali per cui:
 $$
 A x_1 = B_1, \quad ..., \quad A x_n = b_n
@@ -694,7 +782,7 @@ Sfruttiamo allora l'eliminazione di Gauss per ricavare due matrici, $U$ e $B^{(n
 Possiamo fare questo in MATLAB come:
 \begin{lstlisting}[language=matlab, style=codestyle]	
 AI = [A, B]
-UB1 = gauss_decomp(AB, zeros(n, 1)) % argomento fittizio per b
+UB1 = gauss_decomp(AB) % modificando gauss_decomp per un solo argomento 
 U = UB1(1:n, 1:n)
 B1 = UB1(1:n, (n + 1):(n + s)
 \end{lstlisting}
@@ -712,8 +800,6 @@ e infine concatenare le colonne come:
 che realizzato in un unico script risulta:
 \lstinputlisting{../matlab/gauss_solve.m}
 
-# esempietto numerico fatto in classe?
-
 \subsubsection{Metodo di Gauss per il calcolo dell'inversa}
 Un caso particolare è il \textbf{calcolo dell'inversa} con l'algoritmo di \textbf{Gauss-Jordan}.
 Infatti, scegliendo:
@@ -722,7 +808,80 @@ AX = I
 $$
 con $n = s$, le colonne in $X$ diventeranno l'inversa di $A$ (basti vedere che $A A^{-1} = I$ per definizione).
 
-Facciamo un ultimo esempio di questo procedimento.
+\par\smallskip
+
+Facciamo un esempio numerico.
+Prendiamo la stessa matrice di prima:
+$$
+A = \begin{pmatrix}
+	-2 & 1 & 1 \\ 
+	-1 & 3 & 1 \\ 
+	1 & 1 & 2
+\end{pmatrix}
+$$
+e calcoliamone l'inversa come soluzione a $AX = I$.
+Impostiamo quindi la matrice $AI$ e riduciamola:
+$$
+AI = 
+\left(\begin{array}{@{}c c c | c c c@{}}
+		-2 & 1 & 1 & 1 & 0 & 0 \\
+		-1 & 3 & 1 & 0 & 1 & 0 \\
+		1 & 1 & 2 & 0 & 0 & 1
+\end{array}\right) \xrightarrow{\text{Gauss}}
+\left(\begin{array}{@{}c c c | c c c @{}}
+		-2 & 1 & 1 & 1 & 0 & 0 \\
+		0 & \frac{5}{2} & \frac{1}{2} & -\frac{1}{2} & 1 & 0 \\ 
+	0 & 0 & \frac{11}{5} & \frac{4}{5} & -\frac{3}{5} & 1
+\end{array}\right) = UB^{(n - 1)}
+$$
+da cui i 3 sistemi lineari:
+
+\begin{minipage}{0.35\textwidth}
+
+	\[
+	x^{(1)} :
+		\begin{cases}
+			-2 x_1^{(1)} + x_2^{(1)} + x_3^{(1)} = 1 \\ 
+			\frac{5}{2} x_2^{(1)} + \frac{1}{2} x_3^{(1)} = -\frac{1}{2} \\ 
+			\frac{11}{5} x_3^{(1)} = \frac{4}{5}
+		\end{cases}
+	\]
+
+\end{minipage}%
+\hfill
+\begin{minipage}{0.35\textwidth}
+
+	\[
+	x^{(2)} :
+		\begin{cases}
+			-2 x_1^{(2)} + x_2^{(2)} + x_3^{(2)} = 0 \\ 
+			\frac{5}{2} x_2^{(2)} + \frac{1}{2} x_3^{(2)} = 1 \\ 
+			\frac{11}{5} x_3^{(2)} = -\frac{3}{5}
+		\end{cases}
+	\]
+
+\end{minipage}
+\[
+x^{(3)} :
+	\begin{cases}
+		-2 x_1^{(3)} + x_2^{(3)} + x_3^{(3)} = 0 \\ 
+		\frac{5}{2} x_2^{(3)} + \frac{1}{2} x_3^{(3)} = 0 \\ 
+		\frac{11}{5} x_3^{(3)} = 1
+	\end{cases}
+\]
+che hanno come soluzione:
+$$
+X = \begin{pmatrix}
+	x^{(1)} & x^{(2)} & x^{(3)}
+\end{pmatrix} = A^{-1} = \begin{pmatrix}
+	-\frac{5}{11} & \frac{1}{11} & \frac{2}{11} \\ 
+	-\frac{3}{11} & \frac{5}{11} & -\frac{1}{11} \\ 
+	\frac{4}{11} & -\frac{3}{11} & \frac{5}{11}
+\end{pmatrix}
+$$
+
+\subsubsection{Implementazione MATLAB del metodo di Gauss per il calcolo dell'inversa}
+Facciamo un ultimo esempio MATLAB di questo procedimento.
 Vogliamo calcolare $A^{-1}$ come la soluzione del sistema $AX = I$, e capiamo quindi che quello che cerchiamo sono i vettori colonna $i_1, ..., i_n$ tali per cui:
 $$
 A i_1 = I_1, \quad ..., \quad A i_n = I_n
@@ -732,7 +891,5 @@ $$
 
 	Questo è esattamente quello che ci permette di fare la funzione \lstinline|gauss_solve()| definita prima, fissando il secondo argomento all'identità $I$ (in matlab \lstinline|eye(n)|):
 	\lstinputlisting{../matlab/gauss_inv.m}
-
-# altro esempietto numerico ???
 
 \end{document}

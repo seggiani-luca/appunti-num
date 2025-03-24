@@ -217,7 +217,7 @@ e scambiare la riga $i$ con la riga $h$.
 Infatti, se $\det(A) \neq 0$, allora necessariamente esiste un $a_{ji}^{(i - 1)} \neq 0$ (altrimenti si ha uno 0 obbligato sulla diagonale, che con la matrice triangolare a blocchi dà $\det(A^{(i - 1)}) = 0$). \qed
 
 Un altra conseguenza di questo approccio è che tutti i moltiplicatori $l_{ji}$ diventeranno $\leq 1$.
-L'algoritmo di Gauss con questa modifica si chiama \textbf{eliminazione di Gauss con pivoting parziale} (parziale perché ne esistono versioni più sofisticate, che non vedremo).
+L'algoritmo di Gauss con questa modifica si chiama \textbf{eliminazione di Gauss con pivoting parziale} (\textit{parziale} perché ne esistono versioni più sofisticate, che non vedremo).
 
 Osserviamo che ogni scambio di righe equivale a moltiplicare a sinistra per una matrice di permutazione $\Pi_i$.
 Quindi il metodo di Gauss con pivoting può essere rappresentato come:
@@ -238,9 +238,62 @@ Quindi il metodo di Gauss con pivoting può essere rappresentato come:
 \end{algorithmic}
 \end{algorithm}
 
-# esempio numerico
+\par\smallskip
 
-# modifica l'alg.
+Vediamo un esempio pratico dell'algoritmo prima di procedere all'implementazione MATLAB.
+Prendiamo la matrice $A$ e il vettore $b$:
+$$
+A = \begin{pmatrix}
+	1 & 2 & 3 \\ 
+	4 & 5 & 6 \\ 
+	7 & 8 & 0
+\end{pmatrix}, \quad
+b = \begin{pmatrix}
+	1 \\ 2 \\ 3
+\end{pmatrix}
+$$
+Nel ridurre la matrice aumentata $Ab$:
+$$
+\left(\begin{array}{@{}c c c | c@{}}
+	1 & 2 & 3 & 1 \\ 
+	4 & 5 & 6 & 2 \\ 
+	7 & 8 & 0 & 3
+\end{array}\right)
+$$
+ci accorgiamo che alla prima colonna l'entrata di modulo massimo è 7, di indice 3. Si permutano quindi la prima e la terza riga:
+$$
+\xrightarrow{\Pi_1}
+\left(\begin{array}{@{}c c c | c@{}}
+	7 & 8 & 0 & 3 \\
+	4 & 5 & 6 & 2 \\ 
+	1 & 2 & 3 & 1
+\end{array}\right)
+\xrightarrow{H_1 \Pi_1}
+\left(\begin{array}{@{}c c c | c@{}}
+		7 & 8 & 0 & 3 \\ 
+		0 & \frac{3}{7} & 6 & \frac{2}{7} \\ 
+		0 & \frac{6}{7} & 3 & \frac{4}{7}
+\end{array}\right)
+$$
+nuovamente, l'entrata di modulo massimo è all'indice 3. Si permutano quindi la seconda e la terza riga:
+$$
+\xrightarrow{\Pi_2 H_1 \Pi_1}
+\left(\begin{array}{@{}c c c | c@{}}
+		7 & 8 & 0 & 3 \\ 
+		0 & \frac{6}{7} & 3 & \frac{4}{7} \\
+		0 & \frac{3}{7} & 6 & \frac{2}{7} 
+\end{array}\right)
+\xrightarrow{H_2 \Pi_2 H_1 \Pi_1}
+\left(\begin{array}{@{}c c c | c@{}}
+		7 & 8 & 0 & 3 \\ 
+		0 & \frac{6}{7} & 3 & \frac{4}{7} \\
+		0 & 0 & \frac{9}{2} & 0
+\end{array}\right)
+$$
+
+\subsubsection{Implementazione MATLAB del metodo di eliminazione di Gauss con pivoting}
+Modifichiamo quindi la funzione \lstinline|gauss_decomp()| per introdurre il meccanismo di pivoting appena visto:
+# pivoting
 
 \subsubsection{Fattorizzazione LU con pivoting}
 Vediamo come ricavare una fattorizzazione LU dal metodo di Gauss modificato con il pivoting.
@@ -257,10 +310,117 @@ dove la matrice $\Pi$ rappresenta tutte le permutazioni fatte sulle righe di $A$
 Si ha quindi che:
 \begin{itemize}
 	\item $U$ è la matrice triangolare superiore trovata alla fine del metodo di Gauss con pivoting;
-	\item $L$ è la matrice dei moltiplicatori, a cui peroò si defono applicare gli scambi delle righe, come segue: se al passo $i$ applico la matrice $\Pi_i$, devo applicare lo stesso cambio nelle prime $i - 1$ colonne di $L$.
+	\item $L$ è la matrice dei moltiplicatori, a cui però si defono applicare gli scambi delle righe, come segue: se al passo $i$ applico la matrice $\Pi_i$, devo applicare lo stesso cambio nelle prime $i - 1$ colonne di $L$.
 \end{itemize}
 
-# esempio numerico
+\par\smalskip 
+
+Vediamo un esempio numerico spieghi il processo di formazione della matrice $L$ e della matrice di permutazione $\Pi$.
+Presa la stessa matrice dell'esempio precedente:
+$$
+A = \begin{pmatrix}
+	1 & 2 & 3 \\ 
+	4 & 5 & 6 \\ 
+	7 & 8 & 0
+\end{pmatrix}
+$$
+abbiamo che le permutazioni sono, in sequenza:
+$$
+\Pi_1 : 
+\begin{pmatrix}
+	1 \\ 2 \\ 3
+\end{pmatrix}
+\rightarrow
+\begin{pmatrix}
+	3 \\ 2 \\ 1
+\end{pmatrix}, \quad 
+\Pi_2 :
+\begin{pmatrix}
+	3 \\ 2 \\ 1
+\end{pmatrix}
+\rightarrow
+\begin{pmatrix}
+	3 \\ 1 \\ 2
+\end{pmatrix}
+$$
+o, in forma matriciale:
+$$
+\Pi_1 = \begin{pmatrix}
+	0 & 0 & 1 \\ 
+	0 & 1 & 0 \\ 
+	1 & 0 & 0
+\end{pmatrix}, \quad
+\Pi_2 = \begin{pmatrix}
+	1 & 0 & 0 \\ 
+	0 & 0 & 1 \\ 
+	0 & 1 & 0
+\end{pmatrix}
+$$
+
+Calcoliamo quindi $L$.
+$\Pi_1$ è irrilevante al calcolo di $L$, quindi la ignoriamo.
+Vediamo che i primi due moltiplicatori sono $l_{21} = \frac{4}{7}$ e $l_{31} = \frac{1}{7}$, da cui si imposta $L^{(1)}$:
+$$
+L^{(1)} = \begin{pmatrix}
+	1 & 0 & 0 \\ 
+	\frac{4}{7} & 1 & 0 \\ 
+	\frac{1}{7} & 0 & 1
+\end{pmatrix}
+$$
+
+Notiamo quindi che dalla $\Pi_2$ dobbiamo scambiare gli elementi sotto la diagonale della prima colonna, quindi:
+$$
+L^{(1)} = \begin{pmatrix}
+	1 & 0 & 0 \\ 
+	\frac{1}{7} & 1 & 0 \\ 
+	\frac{4}{7} & 0 & 1
+\end{pmatrix}
+$$
+
+Infine, l'ultimo moltiplicatore $l_{32} = \frac{1}{2}$ non ha ambiguità:
+$$
+L^{(2)} = L = \begin{pmatrix}
+	1 & 0 & 0 \\ 
+	\frac{1}{7} & 1 & 0 \\ 
+	\frac{4}{7} & \frac{1}{2} & 1
+\end{pmatrix}
+$$
+
+Il calcolo di $\Pi$ deriva invece direttamente studiando la permutazione complessiva data dalle $\Pi_1, ..., \Pi_{n - 1}$, in questo caso:
+$$
+\Pi : \begin{pmatrix}
+	1 \\ 2 \\ 3
+\end{pmatrix}
+\xrightarrow{\Pi_1}
+\begin{pmatrix}
+	3 \\ 2 \\ 1
+\end{pmatrix}
+\xrightarrow{\Pi_2}
+\begin{pmatrix}
+	3 \\ 1 \\ 2
+\end{pmatrix}
+$$
+da cui:
+$$
+\Pi = \begin{pmatrix}
+	0 & 0 & 1 \\ 
+	1 & 0 & 0 \\ 
+	0 & 1 & 0
+\end{pmatrix}
+$$
+
+Con brevi calcoli si verifica che:
+$$
+LU = \Pi A
+$$
+
+\par\medskip 
+
+\subsubsection{Implementazione MATLAB completa del metodo di eliminazione di Gauss con pivoting}
+Vediamo quindil'implementazione completa, che calcola anche la matrice $L$ e la matrice $\Pi$.
+Notiamo inoltre l'argomento condizionale $b$, che viene ignorato se non fornito abbiamo (constatato che spesso è così).
+
+# algo
 
 \subsubsection{Determinante con pivoting}
 Possiamo sfruttare la matrice $\Pi$ per il calcolo del determinante.
