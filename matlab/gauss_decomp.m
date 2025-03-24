@@ -1,4 +1,4 @@
-function [A, b, L] = gauss_decomp(A, b)
+function [A, b, L, P] = gauss_decomp(A, b)
     n = height(A);
 
     if nargin < 2
@@ -6,13 +6,20 @@ function [A, b, L] = gauss_decomp(A, b)
     end
 
     L = eye(n); % prepara L
+    P = eye(n); % prepara P
 
     for i = 1:n % i itera sulle diagonali
         % qui fai il pivot
-        h = find(abs(A(i:n, i)) == max(abs(A(i:n, i)))) + i - 1;
+        max_abs = max(abs(A(i:n, i)));
+        h = find(abs(A(i:n, i)) == max_abs, 1);
+        h = h + i - 1; % max abs si conta da i in poi
 
         A([i, h], :) = A([h, i], :); % permuta A
         b([i, h]) = b([h, i]); % permuta b
+        if i > 1
+            L([i, h], 1:(i - 1)) = L([h, i], 1:(i - 1)); % permuta L
+        end
+        P([i, h], :) = P([h, i], :); % permuta P 
         
         den = A(i, i);
 

@@ -293,7 +293,35 @@ $$
 
 \subsubsection{Implementazione MATLAB del metodo di eliminazione di Gauss con pivoting}
 Modifichiamo quindi la funzione \lstinline|gauss_decomp()| per introdurre il meccanismo di pivoting appena visto:
-# pivoting
+\begin{lstlisting}[language=matlab, style=codestyle]	
+function [A, b] = gauss_decomp(A, b)
+    n = height(A);
+
+    if nargin < 2
+        b = zeros(n, 1);
+    end
+
+    for i = 1:n % i itera sulle diagonali
+        % qui fai il pivot
+        max_abs = max(abs(A(i:n, i)));
+        h = find(abs(A(i:n, i)) == max_abs, 1);
+        h = h + i - 1; % max abs si conta da i in poi
+
+        A([i, h], :) = A([h, i], :); % permuta A
+        b([i, h]) = b([h, i]); % permuta b
+        
+        den = A(i, i);
+
+        for j = (i + 1):n % j itera sulle righe
+            mul = A(j, i) / den; % moltiplicatore
+            L(j, i) = mul;
+            
+            A(j, :) = A(j, :) - A(i, :) * mul;
+            b(j) = b(j) - b(i) * mul;
+        end
+    end
+end
+\end{lstlisting}
 
 \subsubsection{Fattorizzazione LU con pivoting}
 Vediamo come ricavare una fattorizzazione LU dal metodo di Gauss modificato con il pivoting.
@@ -310,10 +338,10 @@ dove la matrice $\Pi$ rappresenta tutte le permutazioni fatte sulle righe di $A$
 Si ha quindi che:
 \begin{itemize}
 	\item $U$ è la matrice triangolare superiore trovata alla fine del metodo di Gauss con pivoting;
-	\item $L$ è la matrice dei moltiplicatori, a cui però si defono applicare gli scambi delle righe, come segue: se al passo $i$ applico la matrice $\Pi_i$, devo applicare lo stesso cambio nelle prime $i - 1$ colonne di $L$.
+	\item $L$ è la matrice dei moltiplicatori, a cui però si devono applicare gli scambi delle righe, come segue: se al passo $i$ applico la matrice $\Pi_i$, devo applicare lo stesso cambio nelle prime $i - 1$ colonne di $L$, sotto la diagonale.
 \end{itemize}
 
-\par\smalskip 
+\par\smallskip 
 
 Vediamo un esempio numerico spieghi il processo di formazione della matrice $L$ e della matrice di permutazione $\Pi$.
 Presa la stessa matrice dell'esempio precedente:
@@ -417,14 +445,15 @@ $$
 \par\medskip 
 
 \subsubsection{Implementazione MATLAB completa del metodo di eliminazione di Gauss con pivoting}
-Vediamo quindil'implementazione completa, che calcola anche la matrice $L$ e la matrice $\Pi$.
-Notiamo inoltre l'argomento condizionale $b$, che viene ignorato se non fornito abbiamo (constatato che spesso è così).
+Vediamo quindi l'implementazione completa, che calcola anche la matrice $L$ e la matrice $\Pi$.
+Notiamo inoltre l'argomento condizionale $b$, che viene ignorato se non fornito (abbiamo constatato che spesso è così).
 
-# algo
+\lstset{style=codestyle, language=matlab}
+\lstinputlisting{../matlab/gauss_decomp.m}
 
 \subsubsection{Determinante con pivoting}
 Possiamo sfruttare la matrice $\Pi$ per il calcolo del determinante.
-Si ha infatti dal teorema di Binet-Cauchy che:
+Si ha infatti dal teorema di Binet-Cauchy (4.1) che:
 $$
 \det(\Pi) \det(A) = \det(\Pi A) = \det(L U) = \det(L) \det(U)
 $$
@@ -444,7 +473,10 @@ $$
 $$
 Si può quindi usare il metodo di Gauss, ancora una volta, per il calcolo del determinante di una matrice, con costo pari al costo dell'eliminazione di Gauss ($O(\frac{2}{3}n^3)$), molto meglio dello sviluppo di Laplace! ($O(n!)$).
 
-# implementa 
+\subsubsection{Implementazione MATLAB del metodo di Gauss per il determinante}
+In MATLAB si può calcolare il prodotto delle diagonali come \lstinline|prod(diag(A))| e il segno di una permutazione come \lstinline|det(P)| (anche se sicuramente esistono approcci più efficienti).
+Si può quindi realizzare uno script simile al seguente per il calcolo del determinante sfuttando \lstinline|gauss_decomp()| con permutazioni:
+\lstinputlisting{../matlab/gauss_det.m}
 
 \subsection{Condizionamento di un sistema lineare}
 Date $A \in \mathbb{C}^{n \times n}$ e $b \in \mathbb{C}^n$, supponiamo di voler trovare $Ax = b$ ma a causa di errori nei dati o errori di arrotondamento troviamo (con un qualunque metodo) un vettore perturbato $x + \delta x \in \mathbb{C}^n$ che risolve un sistema lineare di per sé perturbato:
@@ -476,7 +508,7 @@ Perturbando $b$ a $\begin{pmatrix}
 	0.999999 & 1
 \end{pmatrix}$, si ha $x$ perturbato a $\begin{pmatrix}
 	-10^{-6} & -1
-\end{pmatrix}$, che è chiaramente un cambiamento drastico. # riguarda
+\end{pmatrix}$, che è chiaramente un cambiamento drastico.
 Viene da sé che agendo sulla matrice $A$ potremo ottenere effetti anche più drammatici.
 
 Riprendiamo quindi la definizione di errore relativo:
@@ -499,7 +531,7 @@ quindi:
 $$
 \frac{|\delta x|}{|x|} \leq \frac{|A^{-1}| \cdot |\delta b| \cdot |A|}{|b|} = \frac{|\delta b|}{|b|} \cdot |A| \cdot |A^{-1}|
 $$
-dove ci interessa il valore $|A| \cdot |A^{-1}|$, l'unico che non dipende dall'errore assoluto $\delta b$.
+dove ci interessa il valore $|A| \cdot |A^{-1}|$, l'unico che non dipende dall'errore assoluto $\delta b$.det(U)
 \begin{definition}{Numero di condizionamento}
 	Chiamiamo numero di condizionamento di una matrice $A$, data una certa norma $|\cdot|$, il valore:
 	$$
