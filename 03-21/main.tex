@@ -611,8 +611,25 @@ $$
 \par\smallskip
 
 Modifichiamo il codice MATLAB della scorsa sessione per calculare, oltre all'eliminazione di Gauss (cioè la matrice $U$), la matrice dei moltiplicatori $L$:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+function [A, b, L] = gauss_decomp(A, b)
+    n = height(A);
 
-\lstinputlisting{../matlab/gauss_decomp.m}
+    L = eye(n); % prepara L
+
+    for i = 1:n % i itera sulle diagonali
+        den = A(i, i);
+
+        for j = (i + 1):n % j itera sulle righe
+            mul = A(j, i) / den; % moltiplicatore
+            L(j, i) = mul;
+            
+            A(j, :) = A(j, :) - A(i, :) * mul;
+            b(j) = b(j) + b(i) * mul;
+        end
+    end
+end
+\end{lstlisting}
 
 A questo punto per calcolare la fattorizzazione LU di una matrice basterà eseguire:
 \begin{lstlisting}[language=matlab, style=codestyle]	
@@ -667,6 +684,36 @@ $$
 Ux_1 = b_1^{(n - 1)}, \quad ..., \quad Ux_s = b_s^{(n - 1)}
 $$
 
+Facciamo un esempio, assistito da MATLAB, per comprendere a pieno questo risultato.
+Vogliamo calcolare $X$ come la soluzione del sistema $AX = B$, e capiamo quindi che quello che cerchiamo sono i vettori colonna $x_1, ..., x_n$ tali per cui:
+$$
+A x_1 = B_1, \quad ..., \quad A x_n = b_n
+$$
+con $b_i$ l'$i$-esimo vettore colonna di $B$.
+Sfruttiamo allora l'eliminazione di Gauss per ricavare due matrici, $U$ e $B^{(n - 1)}$, tali che $Ux = B^{(n - 1)}$, con il vantaggio che $U$ è triangolare superiore e quindi risolvibile per sostituzione all'indietro.
+Possiamo fare questo in MATLAB come:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+AI = [A, B]
+UB1 = gauss_decomp(AB, zeros(n, 1)) % argomento fittizio per b
+U = UB1(1:n, 1:n)
+B1 = UB1(1:n, (n + 1):(n + s)
+\end{lstlisting}
+
+A questo punto potremo trovare le colonne $x_i$ come:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+>> x1 = bck_subst(U, B1(1:n, 1))
+>> x2 = bck_subst(U, B1(1:n, 2))
+...
+\end{lstlisting}
+e infine concatenare le colonne come:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+>> X = [x1, ..., xn]
+\end{lstlisting}
+che realizzato in un unico script risulta:
+\lstinputlisting{../matlab/gauss_solve.m}
+
+# esempietto numerico fatto in classe?
+
 \subsubsection{Metodo di Gauss per il calcolo dell'inversa}
 Un caso particolare è il \textbf{calcolo dell'inversa} con l'algoritmo di \textbf{Gauss-Jordan}.
 Infatti, scegliendo:
@@ -675,33 +722,17 @@ AX = I
 $$
 con $n = s$, le colonne in $X$ diventeranno l'inversa di $A$ (basti vedere che $A A^{-1} = I$ per definizione).
 
-Facciamo un ultimo esempio, assistito da MATLAB, per comprendere a pieno questo risultato.
+Facciamo un ultimo esempio di questo procedimento.
 Vogliamo calcolare $A^{-1}$ come la soluzione del sistema $AX = I$, e capiamo quindi che quello che cerchiamo sono i vettori colonna $i_1, ..., i_n$ tali per cui:
 $$
 A i_1 = I_1, \quad ..., \quad A i_n = I_n
 $$
-con $I_i$ il vettore di zeri con un 1 all'$i$-esima riga.
-Sfruttiamo allora l'eliminazione di Gauss per ricavare due matrici, $U$ e $B^{(n - 1)}$, tali che $Ux = B^{(n - 1)}$, con il vantaggio che $U$ è triangolare superiore e quindi risolvibile per sostituzione all'indietro.
-Possiamo fare questo in MATLAB come:
-\begin{lstlisting}[language=matlab, style=codestyle]	
-AI = [A, eye(n)]
-UB = gauss_decomp(AI, zeros(n, 1)) % argomento fittizio per b
-U = UB(1:n, 1:n)
-B = UB(1:n, (n + 1):(2 * n)
-\end{lstlisting}
+	con $I_i$ il vettore di zeri con un 1 all'$i$-esima riga. 
+	Anche allora vogliamo sfruttare l'eliminazione di Gauss per ricavare due matrici, $U$ e $B^{(n - 1)}$, tali che $Ux = B^{(n - 1)}$, con il vantaggio che $U$ è triangolare superiore e quindi risolvibile per sostituzione all'indietro.
 
-A questo punto potremo trovare le colonne $i_i$ come:
-\begin{lstlisting}[language=matlab, style=codestyle]	
->> i1 = bck_subst(U, B(1:n, 1))
->> i2 = bck_subst(U, B(1:n, 2))
-...
-\end{lstlisting}
-e infine concatenare le colonne come:
-\begin{lstlisting}[language=matlab, style=codestyle]	
->> inv_A = [i1, ..., in]
-\end{lstlisting}
+	Questo è esattamente quello che ci permette di fare la funzione \lstinline|gauss_solve()| definita prima, fissando il secondo argomento all'identità $I$ (in matlab \lstinline|eye(n)|):
+	\lstinputlisting{../matlab/gauss_inv.m}
 
-In un unico script MATLAB, questo procedimento si realizza come:
-\lstinputlisting{../matlab/gauss_inv.m}
+# altro esempietto numerico ???
 
 \end{document}
