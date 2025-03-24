@@ -1,11 +1,15 @@
 function [A, b, L] = gauss_decomp(A, b)
     n = height(A);
 
+    if nargin < 2
+        b = zeros(n, 1);
+    end
+
     L = eye(n); % prepara L
 
     for i = 1:n % i itera sulle diagonali
         % qui fai il pivot
-        h = find(A(i:n, i) == max(A(i:n, i))) + i - 1;
+        h = find(abs(A(i:n, i)) == max(abs(A(i:n, i)))) + i - 1;
 
         A([i, h], :) = A([h, i], :); % permuta A
         b([i, h]) = b([h, i]); % permuta b
@@ -17,7 +21,7 @@ function [A, b, L] = gauss_decomp(A, b)
             L(j, i) = mul;
             
             A(j, :) = A(j, :) - A(i, :) * mul;
-            b(j) = b(j) - b(i) * mul; # qui c'è un errore diffuso usavi +
+            b(j) = b(j) - b(i) * mul;
         end
     end
 end
