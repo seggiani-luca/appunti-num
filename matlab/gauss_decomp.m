@@ -8,8 +8,7 @@ function [A, b, L] = gauss_decomp(A, b)
         h = find(A(i:n, i) == max(A(i:n, i))) + i - 1;
 
         A([i, h], :) = A([h, i], :); % permuta A
-                                     % permuta b
-                                     % permuta L
+        b([i, h]) = b([h, i]); % permuta b
         
         den = A(i, i);
 
@@ -18,7 +17,7 @@ function [A, b, L] = gauss_decomp(A, b)
             L(j, i) = mul;
             
             A(j, :) = A(j, :) - A(i, :) * mul;
-            b(j) = b(j) + b(i) * mul;
+            b(j) = b(j) - b(i) * mul; # qui c'è un errore diffuso usavi +
         end
     end
 end
