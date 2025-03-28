@@ -13,7 +13,7 @@
 *.fls
 *.log
 *.synctex.gz
-*.synctex
+*.synctex*
 
 # ignora archivi senno fai danni
 *.zip
