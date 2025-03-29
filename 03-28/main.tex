@@ -207,6 +207,7 @@
 % testo
 Riprendiamo il discorso sull'errore inerente dei sistemi lineari.
 
+\subsubsection{Condizionamento in $\mathbf{ \delta A}$}
 Avevamo preso delle perturbazioni sulle matrici $A$ e $b$ (dovute a vari effetti reali, quali errori di arrotondamento, di misura, ecc...) nella forma:
 $$
 (A + \delta A) (x + \delta x) = (b + \delta b)
@@ -223,14 +224,14 @@ con $\mu(A) = |A| \cdot |A^{-1}|$ \textit{numero di condizionamento} (definizion
 
 Riguardo a $\mu(A)$, si ha che è $\geq 1$, cioè chiaramente non si può ridurre l'errore oltre la perfezione, e se $\mu(A) \approx 10^{k}$, $k$ è il numero di cifre significative che si \textit{perdono} nel risultato $x + \delta x$.
 
-Possiamo quindi enunciare il seguente teorema:
+Possiamo quindi reintrodurre il termine $\delta A$ ed enunciare il seguente teorema:
 \begin{theorem}{Condizionamento in $\mathbf{ \delta A }$}
 	Se $|\delta A| \cdot |A^{-1}| < 1$ allora si ha:
 	$$
 	\frac{| \delta x|}{|x|} \leq \frac{\mu(A)}{1 - \mu(A) \cdot \frac{ |\delta A| }{|A|}} \cdot \left( \frac{|\delta A|}{|A|} + \frac{|\delta b|}{|b|} \right)
 	$$
 \end{theorem}
-dove osserviamo che se $\delta A = 0$ si otiene la stessa diseguaglianza che abbiamo visto prima.
+dove osserviamo che se $\delta A = 0$ si ottiene la stessa diseguaglianza che abbiamo visto prima.
 
 \subsubsection{Stima di $\mathbf{\mu}$}
 In genere è abbastanza costoso calcolare il numero di condizionamento, in quanto bisogna calcolare un inversa e quindi la sua norma.
