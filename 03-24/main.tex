@@ -449,7 +449,7 @@ Vediamo quindi l'implementazione completa, che calcola anche la matrice $L$ e la
 Notiamo inoltre l'argomento condizionale $b$, che viene ignorato se non fornito (abbiamo constatato che spesso è così).
 
 \lstset{style=codestyle, language=matlab}
-\lstinputlisting{../matlab/gauss_decomp.m}
+\lstinputlisting{../code/matlab/gauss_decomp.m}
 
 \subsubsection{Determinante con pivoting}
 Possiamo sfruttare la matrice $\Pi$ per il calcolo del determinante.
@@ -476,7 +476,7 @@ Si può quindi usare il metodo di Gauss, ancora una volta, per il calcolo del de
 \subsubsection{Implementazione MATLAB del metodo di Gauss per il determinante}
 In MATLAB si può calcolare il prodotto delle diagonali come \lstinline|prod(diag(A))| e il segno di una permutazione come \lstinline|det(P)| (anche se sicuramente esistono approcci più efficienti).
 Si può quindi realizzare uno script simile al seguente per il calcolo del determinante sfuttando \lstinline|gauss_decomp()| con permutazioni:
-\lstinputlisting{../matlab/gauss_det.m}
+\lstinputlisting{../code/matlab/gauss_det.m}
 
 \subsection{Condizionamento di un sistema lineare}
 Date $A \in \mathbb{C}^{n \times n}$ e $b \in \mathbb{C}^n$, supponiamo di voler trovare $Ax = b$ ma a causa di errori nei dati o errori di arrotondamento troviamo (con un qualunque metodo) un vettore perturbato $x + \delta x \in \mathbb{C}^n$ che risolve un sistema lineare di per sé perturbato:

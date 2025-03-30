@@ -1,8 +1,10 @@
-function x_old = jacobi(A, b, k)
+function x_old = jacobi(A, b, k, x_old)
     n = height(A);
 
-    % stima iniziale
-    x_old = zeros(n, 1);
+    if nargin < 4
+        % stima iniziale
+        x_old = zeros(n, 1);
+    end
     
     % imposta le matrici D E F
     D = diag(A);
@@ -16,6 +18,7 @@ function x_old = jacobi(A, b, k)
         x_old = x_new;
 
         % stampa informazioni
-        fprintf("it = %d, res = %.3f\n", j, norm(b - A*x_new));
+        fprintf("it = %d, res = %.3f\n", j, norm(b - A * x_old));
+        disp(x_old);
     end
 end

@@ -201,7 +201,7 @@ Usiamo MATLAB per studiare il tempo di computazione richiesto per effettuare alc
 \begin{itemize}
 	\item Potremmo iniziare con il \textbf{prodotto scalare}. Avevamo detto che la complessità era $O(n)$. Scriviamo allora uno script per valutare, in scala logaritmica, il prodotto scalare fra vettori di dimensioni crescenti:
 \lstset{style=codestyle, language=MATLAB}
-\lstinputlisting{../matlab/time_scalar.m}
+\lstinputlisting{../code/matlab/time_scalar.m}
 
 Un esempio di esecuzione potrebbe allora essere:
 \begin{lstlisting}[language=MATLAB, style=codestyle]	
@@ -220,7 +220,7 @@ Il grafico ottenuto è quindi:
 Vediamo dal grafico che le prestazioni sono effettivamente vicine a quelle previste dalla complessità computazionale, se non per errori dati all'overhead di inizializzazione del timer \lstinline|tic| e \lstinline|toc| di MATLAB (lato sinistro del grafico) e della velocità generale molto elevata delle operazioni, che rende più visibile il rumore dato dallo scheduling della CPU e altri fattori di basso livello.
 
 \item Vediamo allora l'andamento del \textbf{prodotto fra matrici}. Lo script MATLAB è praticamente identico al precedente:
-\lstinputlisting{../matlab/time_matrix.m}
+\lstinputlisting{../code/matlab/time_matrix.m}
 che eseguito come:
 \begin{lstlisting}[language=MATLAB, style=codestyle]	
 >> n = time_matrix(7);

@@ -529,7 +529,9 @@ Vediamo i metodi più famosi di questo tipo, detti metodi di \textbf{Jacobi} e \
 
 L'idea è di scomporre la matrice $A$ come:
 $$
-A = D - E - F = 
+A = D - E - F =
+$$
+$$
 \begin{pmatrix}
 	d_1 & 0 & ... & 0 \\
 	0 & d_2 & ... & 0 \\
@@ -600,11 +602,86 @@ $$
 
 Le matrici che descriveranno il passo di Jacobi saranno allora:
 $$
-x_i^{k + 1} = \frac{1}{a_{ii}} \left( b_i - \sum_{i \neq j}^n a_{ij} x_j^{(k)}  \right)
+x_i^{(k + 1)} = \frac{1}{a_{ii}} \left( b_i - \sum_{i \neq j}^n a_{ij} x_j^{(k)}  \right)
 $$
-osservando che per calcolare $x_i^{(k + 1)}$ servano \textit{tutte} le componenti di $x^{(k)}$, cioè in codice bisogna mantenere due vettori, in quanto non si può sovrascrivere $x^{(k)}$ prima di aver finito di calcolare $x^{(k + 1)}$.
+osservando che per calcolare $x_i^{(k + 1)}$ serviranno \textit{tutte} le componenti di $x^{(k)}$, cioè in codice bisogna mantenere due vettori, in quanto non si può sovrascrivere $x^{(k)}$ prima di aver finito di calcolare $x^{(k + 1)}$.
 
-# metti implementazione
+\subsubsection{Implementazione MATLAB del metodo di Jacobi}
+In MATLAB, una possibile implementazione che sfrutta le funzionalità di calcolo matriciale può essere la seguente:
+
+\lstset{style=codestyle, language=MATLAB}
+\lstinputlisting{../code/matlab/jacobi.m}
+
+\subsubsection{Implementazione C++ del metodo di Jacobi}
+Possiamo sfruttare la forma scalare del metodo di Jacobi per realizzarne un'implementazione direttamente in C++.
+Definiamo inizialmente alcune funzioni helper in un header, \lstinline|mat.h|, che useremo anche nell'esempio successivo a questo:
+\lstset{style=codestyle, language=c++}
+\lstinputlisting{../code/cpp/mat.h}
+
+E definiamo quindi l'algoritmo come segue:
+\begin{lstlisting}[language=C++, style=codestyle]	
+double* jacobi(unsigned n, unsigned k, double** A, double* b) {
+	// inizializza vettori
+	double* v1, *v2;
+	v1 = new double[n];
+	v2 = new double[n];
+
+	for(int r = 0; r < n; r++) {
+		v1[r] = 0;
+	}
+
+	for(int i = 0; i < k; i++) {
+		std::cout << "Iterazione " << i + 1 << std::endl;
+
+		std::cout << "Il vettore vecchio e':" << std::endl;
+		print_vector(v1, n);
+		
+		for(int r = 0; r < n; r++) {
+			v2[r] = b[r];
+
+			for(int c = 0; c < n; c++) {
+				if(r == c) continue;
+
+				v2[r] -= A[r][c] * v1[c];
+			}
+
+			v2[r] /= A[r][r];
+		}
+
+		vec_copy(n, v2, v1);
+
+		std::cout << "Il vettore nuovo e':" << std::endl;
+		print_vector(v1, n);
+		std::cout << std::endl;
+	}
+
+	// ripulisci
+	delete v2;
+	
+	return v1;
+}
+\end{lstlisting}
+
+A questo punto un semplice programma dovrà semplicemente usare le funzioni per il caricamento dell'ambiente di \lstinline|mat.h| e chiamare la funzione \lstinline|jacobi()|:
+\begin{lstlisting}[language=C++, style=codestyle]	
+int main() {
+	// inizializza ambiente
+	unsigned n, k; double** A; double* b;
+	init_env(n, k, A, b);
+
+	double* x = jacobi(n, k, A, b);
+
+	std::cout << "Il risultato finale e':" << std::endl;
+	print_vector(x, n);
+	std::cout << std::endl;
+
+	delete[] x;
+
+	// ripulisci
+	clean_env(n, A, b);
+	return 0;
+}
+\end{lstlisting}
 
 \subsubsection{Metodo di Gauss-Seidel}
 Il metodo di Gauss-Seidel consiste nel riscrivere quanto trovato come:
@@ -625,32 +702,40 @@ Avremo che la matrice di iterazione è:
 $$
 H_{GS} = (D - E)^{-1} F
 $$
-Osserviamo quindi che non si forma $H_{GS}$, ma ad ogni iterazione si calcola il prodotto matrice-vettore:
+di cui osserviamo che la prima colonna è il vettore di zeri in quanto $F$ ha anch'essa la prima colonna al vettore di zeri.
+
+In ogni caso, notiamo che non è necessario esplicitare $H_{GS}$, ma ad ogni iterazione basta calcolare il prodotto matrice-vettore:
 $$
 x^{(k)} \rightarrow F x^{(k)}
 $$
-e si risolve:
+e risolvere col metodo di sostituzione all'indietro il sistema lineare: 
 $$
 (D - E) y = F x^{(k)}
 $$
-Stesso discorso per $c$, che si trova risolvendo una sola volta il sistema lineare:
+Stesso discorso per $c$, che si trova sempre risolvendo una sola volta, col metodo di sostituzione all'indietro, il sistema lineare:
 $$
 (D - E) c = b
 $$
 
-Osserviamo poi che $H_{GS}$ ha come prima colonna il vettore di zeri in quanto $F$ ha anch'essa la prima colonna al vettore di zeri.
+\subsubsection{Implementazione MATLAB del metodo di Gauss-Seidel}
+In MATLAB, una possibile implementazione che sfrutta le funzionalità di calcolo matriciale (in particolare la funzione per la sostituzione all'indietro \lstinline|bck_subst()| che abbiamo già implementato) può essere la seguente:
 
-Vediamo quindi che, preso:
+\lstset{style=codestyle, language=MATLAB}
+\lstinputlisting{../code/matlab/seidel.m}
+
+\subsubsection{Ottimizzazione del metodo di Gauss-Seidel}
+L'implementazione vista adesso del metodo di Gauss-Seidel non è la più efficiente. 
+Vediamo infatti che, preso:
 $$
 x^{(k + 1)} = (D - E)^{-1} F x^{(k)} + (D - E)^{-1} b
 $$
-moltiplicando per $D^{-1}(D - E)$ si ha:
+e moltiplicando per $D^{-1}(D - E)$ si ha:
 $$
 x^{(k + 1)} = D^{-1} E x^{(k + 1)} + D^{-1} F x^{(k)} + D^{-1} b
 $$
 
-Esplicitare una dipendenza di $x^{(k + 1)}$ da se stessa potrebbe sembrare poco intuitivo,
-ma è invece conveniente in quanto ogni elemento di $x^{(k + 1)}$ dipende dai soli elementi precedenti, cioè si ha:
+Esplicitare una dipendenza di $x^{(k + 1)}$ da sé stessa potrebbe sembrare poco intuitivo,
+ma è invece conveniente in quanto ogni elemento di $x^{(k + 1)}$ dipenderà dai soli elementi precedenti, cioè si avrà:
 $$
 x_i^{(k + 1)} = \frac{1}{a_{ii}} \left( b_i - \sum_{j = 1}^{i - 1} a_{ij} x_j^{(k + 1)} - \sum_{j = i + 1}^n a_{ij} x_j^{(k)} \right), \quad i = 1, ..., n
 $$
@@ -661,8 +746,50 @@ In questo modo si hanno due vantaggi:
 	\item Per calcolare $x_i^{(k + 1)}$ non si ha bisogno di $x_h^{k}$ per $h < i$, e quindi si possono sovrascrivere le entrate di $x^{(k)}$, e mantenere un unico vettore.
 \end{enumerate}
 
-\par\medskip
+\subsubsection{Implementazione C++ del meotod di Gauss-Seidel}
+Vediamo come si può usare quest'ultima versione (scalare) del metodo di Gauss-Seidel per realizzarne un'implementazione C++, sfruttando la stessa libreria \lstinline|mat.h| dell'esempio 10.2.3:
+\begin{lstlisting}[language=C++, style=codestyle]	
+double* jacobi(unsigned n, unsigned k, double** A, double* b) {
+	// inizializza vettori
+	double* v1;
+	v1 = new double[n];
 
+	for(int r = 0; r < n; r++) {
+		v1[r] = 0;
+	}
+
+	for(int i = 0; i < k; i++) {
+		std::cout << "Iterazione " << i + 1 << std::endl;
+
+		std::cout << "Il vettore vecchio e':" << std::endl;
+		print_vector(v1, n);
+		
+		for(int r = 0; r < n; r++) {
+			v1[r] = b[r];
+
+			for(int c = 0; c < n; c++) {
+				if(r == c) continue;
+
+				v1[r] -= A[r][c] * v1[c];
+			}
+
+			v1[r] /= A[r][r];
+		}
+
+		std::cout << "Il vettore nuovo e':" << std::endl;
+		print_vector(v1, n);
+		std::cout << std::endl;
+	}
+	
+	return v1;
+}
+\end{lstlisting}
+
+Come vediamo, la proprietà dimostrata comporta modifiche minime al codice (la semplice rimozione del vettore \lstinline|v2|, con prodotti scalari che vengono fatti tutti su \lstinline|v1|).
+
+La realizzazione di un programma che esegue questo algoritmo è ancora analoga all'esempio 10.2.3 (implementazioni complete si trovano in \lstinline|../matlab/code|).
+
+\subsubsection{Jacobi/Gauss-Seidel e matrici di permutazione}
 Un'ultima osservazione è che sia Jacobi che Gauss-Seidel hanno come condizione che $a_{ii} \neq 0, \, \forall i$, in quanto altrimenti $D$ diagonale non sarebbe invertibile.
 Se questa condizione non è soddisfatta, si possono fare delle trasformazioni "indolori" sul sistema per ritrovare la diagonale non nulla (applicare matrici di permutazione e applicare il metodo sul sistema permutato, per trovare poi una soluzione che al limite andrà \textit{de}-permutata).
 
@@ -670,6 +797,6 @@ Ad esempio, si può pensare di applicare Jacobi a:
 $$
 \Pi A x = \Pi b
 $$
-per trovare una qualche permutazione di $x$. # quale?
+per trovare una qualche permutazione $\Pi x$ di $x$.
 
 \end{document}

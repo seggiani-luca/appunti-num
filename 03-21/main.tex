@@ -349,7 +349,7 @@ $$
 $$
 che è una forma più agile per la risoluzione della matrice originale $A$.
 
-Nella directory \lstinline|/matlab| si rende disponibile uno script \lstinline|block_decomp.m| per la decomposizione in matrici a blocchi come nell'esempio.
+Nella sottodirectory \lstinline|/code/matlab| si rende disponibile uno script \lstinline|block_decomp.m| per la decomposizione in matrici a blocchi come nell'esempio.
 Un'esecuzione tipica dello script potrebbe avere l'aspetto:
 \begin{lstlisting}[language=matlab, style=codestyle]	
 p = block_decomp(A) % ottieni una permutazione
@@ -454,7 +454,7 @@ Il \textbf{metodo risolutivo} sarà allora la \textit{sostituzione all'indietro}
 	\end{cases}
 \]
 che equivale all'algoritmo, in MATLAB:
-\lstinputlisting{../matlab/bck_subst.m}
+\lstinputlisting{../code/matlab/bck_subst.m}
 
 Riguardo alla complessità, si potra dire che al passo $i$ si eseguono $n - i + n - i + 2 = 2(n - 1) + 2$ passaggi, cioè 2 per la divisione per $u_{jj}$ e la somma fra $c_i$ e il termine accumulato a destra, $n - i$ per i prodotti nella sommatoria e di nuovo $n - i$ per la sommatoria stessa.
 Sarà allora che:
@@ -471,7 +471,7 @@ Osserviamo poi che per \textbf{sistemi triangolari inferiori} la situazione è u
 	\end{cases}
 \]
 che equivale all'algoritmo, in MATLAB:
-\lstinputlisting{../matlab/fwd_subst.m}
+\lstinputlisting{../code/matlab/fwd_subst.m}
 
 Il metodo ottenuto, speculare al quello di sostituzione all'indietro, viene detto \textit{sostituzione in avanti}, di costo identico ($O(n^2)$).
 
@@ -801,7 +801,7 @@ e infine concatenare le colonne come:
 >> X = [x1, ..., xn]
 \end{lstlisting}
 che realizzato in un unico script risulta:
-\lstinputlisting{../matlab/gauss_solve.m}
+\lstinputlisting{../code/matlab/gauss_solve.m}
 
 \subsubsection{Metodo di Gauss per il calcolo dell'inversa}
 Un caso particolare è il \textbf{calcolo dell'inversa} con l'algoritmo di \textbf{Gauss-Jordan}.
@@ -893,6 +893,6 @@ $$
 	Anche allora vogliamo sfruttare l'eliminazione di Gauss per ricavare due matrici, $U$ e $B^{(n - 1)}$, tali che $Ux = B^{(n - 1)}$, con il vantaggio che $U$ è triangolare superiore e quindi risolvibile per sostituzione all'indietro.
 
 	Questo è esattamente quello che ci permette di fare la funzione \lstinline|gauss_solve()| definita prima, fissando il secondo argomento all'identità $I$ (in matlab \lstinline|eye(n)|):
-	\lstinputlisting{../matlab/gauss_inv.m}
+	\lstinputlisting{../code/matlab/gauss_inv.m}
 
 \end{document}
