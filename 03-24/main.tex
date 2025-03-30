@@ -516,7 +516,23 @@ Riprendiamo quindi la definizione di errore relativo:
 $$
 \epsilon = \frac{|\delta x|}{|x|}
 $$
-assumendo $\delta A = 0$ con $\det(A) \neq 0$, come nell'esempio precedente, e quindi perturbazioni solo del termine noto, si ha:
+Pirma di valutare questo errore, diamo la definizione di \textbf{numero di condizionamento}:
+\begin{definition}{Numero di condizionamento}
+	Chiamiamo numero di condizionamento di una matrice $A$, data una certa norma $|\cdot|$, il valore:
+	$$
+		\mu(A) = |A| \cdot |A^{-1}|
+	$$
+\end{definition}
+
+Si potrà allora dare, rispetto alla sola deviazione in $b$ ($\delta b$), il seguente risultato:
+\begin{theorem}{Condizionamento in $\mathbf{\delta b}$}
+	Se $\delta A = 0$, si ha:
+	$$
+	\frac{|\delta x|}{|x|} \leq \mu(A) \cdot \frac{|\delta b|}{|b|}
+	$$
+\end{theorem}
+
+Assumendo $\delta A = 0$ con $\det(A) \neq 0$, come nell'esempio precedente, e quindi perturbazioni solo del termine noto, si ha:
 $$
 A (x + \delta x) = (b + \delta b) \ \Leftrightarrow \ A\delta x = \delta b
 $$
@@ -532,13 +548,7 @@ quindi:
 $$
 \frac{|\delta x|}{|x|} \leq \frac{|A^{-1}| \cdot |\delta b| \cdot |A|}{|b|} = \frac{|\delta b|}{|b|} \cdot |A| \cdot |A^{-1}|
 $$
-dove ci interessa il valore $|A| \cdot |A^{-1}|$, l'unico che non dipende dall'errore assoluto $\delta b$.
-\begin{definition}{Numero di condizionamento}
-	Chiamiamo numero di condizionamento di una matrice $A$, data una certa norma $|\cdot|$, il valore:
-	$$
-		\mu(A) = |A| \cdot |A^{-1}|
-	$$
-\end{definition}
+dove ci interessa il valore $|A| \cdot |A^{-1}|$, cioè il numero di condizionamento $\mu(A)$, l'unico che non dipende dall'errore assoluto $\delta b$. \qed
 
 Abbiamo quindi che se $\mu(A) >> 1$, allora l'errore relativo può essere molto più grande dell'errore relativo dei dati e il problema si dice \textit{mal condizionato}.
 

@@ -231,7 +231,84 @@ Possiamo quindi reintrodurre il termine $\delta A$ ed enunciare il seguente teor
 	\frac{| \delta x|}{|x|} \leq \frac{\mu(A)}{1 - \mu(A) \cdot \frac{ |\delta A| }{|A|}} \cdot \left( \frac{|\delta A|}{|A|} + \frac{|\delta b|}{|b|} \right)
 	$$
 \end{theorem}
-dove osserviamo che se $\delta A = 0$ si ottiene la stessa diseguaglianza che abbiamo visto prima.
+dove osserviamo che se $\delta A = 0$ si ottiene la stessa diseguaglianza che abbiamo dimostrato col teorema 9.1.
+
+La dimostrazione del teorema non è immediata.
+Ci arriviamo in 3 iterazioni successive, restringendo man mano le approssimazioni fatte. 
+\begin{enumerate}
+	\item 
+Una prima stima si potrebbe avere calcolando direttamente:
+$$
+(A + \delta A) (x + \delta x) = (b + \delta b) \implies Ax + A \delta x + \delta A x + \delta A \delta x = b + \delta b
+$$
+
+$Ax = b$ dalle ipotesi, mentre il termine $\delta A \delta b$, il prodotto di due errori, è trascurabile, quindi:
+$$
+A \delta x + \delta A x \approx \delta b \implies \delta x \approx A^{-1} \left( \delta b - \delta A x \right)
+$$
+Passando alle norme si ha:
+\begin{equation}
+| \delta x | \leq |A^{-1}| \left(|\delta b| + |\delta A| |x| \right)
+\end{equation}
+da cui dividendo per $|x| \geq \frac{|A|}{|b|}$ e moltiplicando e dividendo il termine a destra per $|A|$, si ha:
+$$
+\frac{|\delta x|}{|x|} \leq |A^{-1}| \left( \frac{|\delta b|}{|b|} |A| + |\delta A| \frac{|A|}{|A|} \right) = |A^{-1}| |A| \left( \frac{|\delta b|}{|b|} + \frac{|\delta A|}{|A|} \right) = \mu(A) \left( \frac{|\delta b|}{|b|} + \frac{|\delta A|}{|A|} \right)
+$$
+Da cui otteniamo essenzialmente la forma del teorema. 
+
+\item
+Per capire il denominatore del numero di condizionamento, che migliora il maggiorante nei casi dove $A$ è quasi singolare, adottiamo un procedimento diverso che evidenzia l'errore fatto sull'inversa $(A + \delta A)^{-1}$ (nel calcolo precedente, starebbe nel termine $\delta A \delta x$ che abbiamo trascurato).
+Avremo quindi:
+$$
+(A + \delta A) (x + \delta x) = (b + \delta b) \implies (x + \delta x) = (A + \delta A)^{-1} (b + \delta b)
+$$
+$(A + \delta A)^{-1}$ risulta di difficile approssimazione.
+Riscriviamolo come:
+$$
+(A + \delta A)^{-1} = (I + A^{-1} \delta A)^{-1} A^{-1}
+$$
+e consideriamo la serie di Von Neumann:
+$$
+(I - M)^{-1} = I + M + M^2 + ...
+$$
+troncando al primo termine, si ha che possiamo riscrivere la prima inversa come:
+$$
+(I + A^{-1} \delta A)^{-1} \approx I - A^{-1} \delta A 
+$$
+e quindi:
+\begin{equation}
+(A + \delta A)^{-1} \approx (I - A^{-1} \delta A ) A^{-1} = A^{-1} - A^{-1} \delta A A^{-1} 
+\end{equation}
+Possiamo convincerci che l'approssimazione è valida sostituendo nella formula per $x + \delta x$ e trovando:
+$$
+x + \delta x = (A^{-1} - A^{-1} \delta A A^{-1}) (b + \delta b) = A^{-1} b + A^{-1} \delta b - A^{-1} \delta A A^{-1} b - A^{-1} \delta A A^{-1} \delta b
+$$
+$x = A^{-1}$ dalle ipotesi, mentre il termine $A^{-1} \delta A A^{-1} \delta b$ contiene il prodotto di due errori, ed è trascurabile, quindi:
+$$
+\delta x \approx A^{-1} \delta b - A^{-1} \delta A A^{-1} b = A^{-1} \delta b - A^{-1} \delta A x = A^{-1} \left( \delta b - \delta A x \right)
+$$
+che è esattamente la forma della (1) che avevamo al primo metodo.
+
+\item 
+Riprendiamo la forma in (2) dell'inversa:
+$$
+(A + \delta A)^{-1} \approx (I - A^{-1} \delta A ) A^{-1} 
+$$
+per introdurre il denominatore che vediamo nell'enunciato del teorema.
+Passando alle norme, si avrà:
+$$
+|I - A^{-1} \delta A| |A^{-1}| = \frac{|A^{-1}|}{1 + |A^{-1} \delta A|}
+$$
+Prendendo questa come la norma dell'inversa per il passaggio alle norme della (1), si ha:
+$$
+\frac{|\delta x|}{|x|} \leq \frac{|A^{-1}|}{1 + |A^{-1} \delta A|} \left( \frac{|\delta b|}{|b|} |A| + |\delta A| \frac{|A|}{|A|} \right) \leq \frac{ |A^{-1}| |A| }{ 1 + |A^{-1}| |\delta A| } \left( \frac{|\delta b|}{|b|} + \frac{|\delta A|}{|A|} \right)
+$$
+dove l'$|A^{-1} \delta A|$ al denominatore si può scrivere come $\mu(A) \frac{|\delta A|}{|A|}$, in quanto:
+$$
+|A^{-1}| |\delta A| = \mu(A) \cdot \frac{|\delta A|}{|A|} = |A||A^{-1|} \cdot \frac{|\delta A|}{|A|}
+$$
+da cui la forma del teorema. \qed
+\end{enumerate}
 
 \subsubsection{Stima di $\mathbf{\mu}$}
 In genere è abbastanza costoso calcolare il numero di condizionamento, in quanto bisogna calcolare un inversa e quindi la sua norma.
@@ -274,8 +351,8 @@ $$
 \frac{ \frac{ |x - \tilde{x}| }{|x|} }{ |r| } \approx \mu(A)
 $$
 
-\subsection{Tecniche per l'approssimazione delle inverse}
-Ogni volta che c'è bisogno di risolvere una forma del tipo:
+\subsubsection{Tecniche per l'approssimazione delle inverse}
+Come nota conclusiva della sezione sul'errore nei sistemi lineari, notiamo che ogni volta che c'è bisogno di risolvere una forma del tipo:
 $$
 Ax = b \implies x = A^{-1} b
 $$
@@ -400,9 +477,9 @@ $$
 qualsiasi sia l'errore iniziale $e^{(0)}$ (e quindi la scelta di soluzione iniziale $x^{(0)})$ \qed
 
 In particolare, possiamo ricordare che se $|H| < 1 \implies \rho(H) < 1$, quindi può risultare verificare questa condizione, che è sì più stretta ma anche più facile da verificare.
-Ricordiamo che non vale assolutamente il contrario, cioè $|H| > 1 \not \implies \rho(H) > 1$. # uff uff
+Ricordiamo che non vale assolutamente il contrario, cioè $|H| > 1 \;\not\!\!\!\implies \rho(H) > 1$. 
 
-Di contro, vale anche la condizione $|\det(H)| \geq 1 \implies \rho(H) > 1$, che come prima non si inverte in $|\det(H)| < 1 \not \implies \rho(H) < 1$.
+Di contro, vale anche la condizione $|\det(H)| \geq 1 \implies \rho(H) > 1$, che come prima non si inverte in $|\det(H)| < 1 \;\not\!\!\!\implies \rho(H) < 1$.
 
 \subsubsection{Velocità di convergenza}
 Guardando alla dimostrazione del teorema 10.2, possiamo osservare che il raggio spettrale $\rho(H)$ ci dà un informazione anche riguardo alla \textbf{velocità di convergenza} del metodo di punto fisso.
@@ -433,7 +510,7 @@ $$
 $$
 
 \subsubsection{Criteri di stop}
-Molto spesso non è pratico decidere un errore e fare le $k$ iterazioni che dovrebbero portare a tale errore (in quanto non è scontato conoscere $\rho(H)$), ma bensì si preferisce definire un \textbf{criterio di stop} per la terminazione dell'algoritmo raggiunte determinate condizoni.
+Molto spesso non è pratico decidere un errore e fare le $k$ iterazioni che dovrebbero portare a tale errore (in quanto non è scontato conoscere $\rho(H)$), ma bensì si preferisce definire un \textbf{criterio di stop} per la terminazione dell'algoritmo raggiunte determinate condizioni.
 
 Queste condizioni possono essere:
 \begin{enumerate}
@@ -443,7 +520,7 @@ Queste condizioni possono essere:
 		$$
 	\item Si può restringere direttamente la variazione di errore:
 		$$
-			| x^{k + 1} - x^{k} | < \delta	
+			| x^{(k + 1)} - x^{(k)} | < \delta	
 		$$
 \end{enumerate}
 
@@ -452,9 +529,29 @@ Vediamo i metodi più famosi di questo tipo, detti metodi di \textbf{Jacobi} e \
 
 L'idea è di scomporre la matrice $A$ come:
 $$
-A = D - E - F
+A = D - E - F = 
+\begin{pmatrix}
+	d_1 & 0 & ... & 0 \\
+	0 & d_2 & ... & 0 \\
+	0 & ... & d_{n-1} & 0 \\
+	0 & ... & 0 & d_n \\
+\end{pmatrix}
+-
+\begin{pmatrix}
+	0 & 0 & ... & 0 \\
+	-e_{21} & 0 & ... & 0 \\
+	-e_{n-1,1} & ... & 0 & 0 \\
+	-e_{n1} & ... & -e_{n, n-1} & 0 \\
+\end{pmatrix}
+-
+\begin{pmatrix}
+	0 & -f_{12} & ... & -f_{1n} \\
+	0 & 0 & ... & -f_{2n} \\
+	0 & ... & 0 & -f_{n-1, n} \\
+	0 & ... & 0 & 0 \\
+\end{pmatrix}
 $$
-con $D$ diagonale, $E$ l'opposta della triangolare inferiore a diagonale nulla e $F$ l'opposta della triangolare superiore a diagonale nulla. # scrivile
+con $D$ diagonale, $E$ l'opposta della triangolare inferiore a diagonale nulla e $F$ l'opposta della triangolare superiore a diagonale nulla.
 Varrà quindi:
 $$
 Ax = b \ \Leftrightarrow \ (D - E - F) x = b
@@ -476,14 +573,25 @@ e quindi applicare l'algoritmo:\[
 	\end{cases}
 \]
 
-Osserviamo che ad ogni iterazione si calcola un prodotto matrice-vettore e si risolve un sistema diagonale ($O(n)$), in quanto la $D$ si inverte facilmente (è diagonale): # scrivile
+Osserviamo che ad ogni iterazione si calcola un prodotto matrice-vettore e si risolve un sistema diagonale ($O(n)$), in quanto la $D$ si inverte facilmente (è diagonale):
 $$
-H_J = D^{-1} (E + F) = ...
+H_J = D^{-1} (E + F) = 
+\begin{pmatrix}
+	\frac{1}{d_1} & 0 & ... & 0 \\
+	0 & \frac{1}{d_2} & ... & 0 \\
+	0 & ... & \frac{1}{d_{n-1}} & 0 \\
+	0 & ... & 0 & \frac{1}{d_n} \\
+\end{pmatrix}
+\begin{pmatrix}
+	0 & -f_{12} & ... & -f_{1n} \\
+	-e_{21} & 0 & ... & -f_{2n} \\
+	-e_{n-1,1} & ... & 0 & -f_{n-1, n} \\
+	-e_{n1} & ... & -e_{n, n-1} & 0 \\
+\end{pmatrix}
 $$
-
 per cui:
 $$
-(H_j)_{ij} = 
+(H_J)_{ij} = 
 \begin{cases}
 	-\frac{ a_{ij} }{a_{ii}}, \quad i \neq j \\ 
 	0 \quad i = j
@@ -499,7 +607,7 @@ osservando che per calcolare $x_i^{(k + 1)}$ servano \textit{tutte} le component
 # metti implementazione
 
 \subsubsection{Metodo di Gauss-Seidel}
-Il metodo di Gauss-Sidel consiste nel riscrivere quanto trovato come:
+Il metodo di Gauss-Seidel consiste nel riscrivere quanto trovato come:
 $$
 (D - E) x = F x + b \implies x = (D - E)^{-1} F x + (D - E)^{-1} b
 $$cioè trovare un equazione di punto fisso con:
@@ -530,15 +638,13 @@ $$
 (D - E) c = b
 $$
 
-Osserviamo poi che $H_{GS}$ ha come prima colonna il vettore di zeri in quanto $F$ ha anch'essa la prima colonna al vettore di zeri. # scrivile! (lui prende F = [ 0 | f2 ... f_n ])
-
-# implementa
+Osserviamo poi che $H_{GS}$ ha come prima colonna il vettore di zeri in quanto $F$ ha anch'essa la prima colonna al vettore di zeri.
 
 Vediamo quindi che, preso:
 $$
 x^{(k + 1)} = (D - E)^{-1} F x^{(k)} + (D - E)^{-1} b
 $$
-moltiplicando per $D^{-1}(D - E)$ si ha.
+moltiplicando per $D^{-1}(D - E)$ si ha:
 $$
 x^{(k + 1)} = D^{-1} E x^{(k + 1)} + D^{-1} F x^{(k)} + D^{-1} b
 $$
