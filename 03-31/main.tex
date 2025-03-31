@@ -207,14 +207,156 @@
 % testo
 Riprendiamo la trattazione dei metodi iterativi per i sistemi lineari.
 
-\subsubsection{Criteri di convergenza di matrici di iterazione}
-Avevamo visto che un problema perchè un metodo di punto sia convergente è che la sua matrice $H$ in:
+\subsubsection{Valutazione della convergenza}
+Avevamo visto che affinché un metodo di punto fisso sia convergente è necessario che la sua matrice di iterazione $H$ in:
 $$
 x = H x + c
 $$
-sia convergente, cioè avesse norma spettrale $\rho(H) < 1$.
+sia convergente, cioè abbia norma spettrale $\rho(H) < 1$.
 
-Vediamo che vale il seguente problema.
+Vediamo un esempio di valutazione di tale matrice sia per il metodo di Jacobi e di Gauss-Siedel applicato ad una certa matrice $A$, svolgendo esplicitamente tutti i calcoli:
+$$
+A = \begin{pmatrix}
+	1 & \frac{2}{3} & \frac{4}{9} \\
+	\frac{2}{3} & 1 & \frac{2}{3} \\ 
+	\frac{4}{9} & \frac{2}{3} & 1
+\end{pmatrix}
+$$
+
+\begin{itemize}
+	\item \textbf{Jacobi:} avremo la matrice di convergenza:
+$$
+x = \underbrace{D^{-1}(E + F)}_{H_J} x + D^{-1} b
+$$
+da cui:
+$$
+H_J = D^{-1}(E + F) = I \cdot \begin{pmatrix}
+	0 & \frac{2}{3} & \frac{4}{9} \\
+	\frac{2}{3} & 0 & \frac{2}{3} \\ 
+	\frac{4}{9} & \frac{2}{3} & 0
+\end{pmatrix}
+$$
+Calcoliamo quindi gli autovalori attraverso il polinomio caratteristico:
+$$
+p(\lambda) = \det \left( \lambda I - D^{-1} (E + F) \right) = \det \begin{pmatrix}
+	\lambda & \frac{2}{3} & \frac{4}{9} \\
+	\frac{2}{3} & \lambda & \frac{2}{3} \\ 
+	\frac{4}{9} & \frac{2}{3} & \lambda
+\end{pmatrix} = \lambda^3 + \frac{16}{81} \cdot 2 - \frac{16}{81} \lambda - 2 \cdot \frac{4}{9} \lambda
+$$
+per la regola di Sarrus, quindi:
+$$
+p(\lambda) = \lambda^3 - \frac{88}{81} \lambda + \frac{32}{81}
+$$
+Accorgiamoci che $\lambda_1 = \frac{4}{9}$ è radice del polinomio, e quindi dividiamo:
+$$
+\frac{ \lambda^3 - \frac{88}{81} \lambda + \frac{32}{81}}{\lambda - \frac{4}{9}} = \lambda^2 + \frac{4}{9} \lambda - \frac{8}{9} 
+$$
+per cui:
+$$
+p(\lambda) = \left( \lambda - \frac{4}{9} \right) \left( \lambda^2 + \frac{4}{9} \lambda - \frac{8}{9} \right)
+$$
+Risolviamo quindi la quadratica:
+$$
+\lambda_{2, 3} = \frac{-\frac{4}{9} \pm \sqrt{ \frac{16}{81} + \frac{32}{9} }}{2} = -\frac{2}{9} \left( 1 \mp \sqrt{19} \right)
+$$
+Delle 3 radici trovate si ha che $\lambda_3 = -\frac{2}{9} \left( 1 + \sqrt{19} \right) \approx - 1.19087$ è in modulo $\geq 0$, ergo la condizione di convergenza non è rispettata, e il metodo di Jacobi potrebbe non convergere.
+
+	\item \textbf{Gauss-Seidel:} avremo la matrice di convergenza:
+$$
+x = \underbrace{(D - E)^{-1} F}_{H_{GS}} x + (D - E)^{-1} b
+$$
+da cui:
+$$
+H_{GS} = (D - E)^{-1} F  = \begin{pmatrix}
+	1 & 0 & 0 \\ 
+	\frac{2}{3} & 1 & 0 \\ 
+	\frac{4}{9} & \frac{2}{3} & 1
+\end{pmatrix}^{-1}
+\begin{pmatrix}
+	0 & -\frac{2}{3} & -\frac{4}{9} \\ 
+	0 & 0 & -\frac{2}{3} \\ 
+	0 & 0 & 0
+\end{pmatrix}
+$$
+che sfruttando quanto avevamo detto sui prodotti per inverse:
+$$
+= \begin{pmatrix}
+(D - E)^{-1} \begin{pmatrix}
+	0 \\ 0 \\ 0
+\end{pmatrix} & 
+(D - E)^{-1} \begin{pmatrix}
+	-\frac{2}{3} \\ 0 \\ 0
+\end{pmatrix} & 
+(D - E)^{-1} \begin{pmatrix}
+	-\frac{4}{9} \\ -\frac{2}{3} \\ 0
+\end{pmatrix} 
+\end{pmatrix} 
+$$
+cioè dobbiamo risolvere 3 sistemi lineari (di cui uno banale) usando il metodo di sostituzione all'indietro.
+Avremo quindi:
+\begin{itemize}
+	\item Il sistema:
+$$
+\begin{pmatrix}
+	1 & 0 & 0 \\ 
+	\frac{2}{3} & 1 & 0 \\ 
+	\frac{4}{9} & \frac{2}{3} & 1
+\end{pmatrix}
+\begin{pmatrix}
+	x \\ y \\ z
+\end{pmatrix} =
+\begin{pmatrix}
+	-\frac{2}{3} \\ 0 \\ 0
+\end{pmatrix}
+$$
+che dà:
+$$
+\begin{pmatrix}
+	x \\ y \\ z
+\end{pmatrix} = 
+\begin{pmatrix}
+	-\frac{2}{3} \\ \frac{4}{9} \\ 0
+\end{pmatrix}
+$$
+	\item Il sistema:
+$$
+\begin{pmatrix}
+	1 & 0 & 0 \\ 
+	\frac{2}{3} & 1 & 0 \\ 
+	\frac{4}{9} & \frac{2}{3} & 1
+\end{pmatrix}
+\begin{pmatrix}
+	x \\ y \\ z
+\end{pmatrix} =
+\begin{pmatrix}
+	-\frac{4}{9} \\ -\frac{2}{3} \\ 0
+\end{pmatrix}
+$$
+che dà:
+$$
+\begin{pmatrix}
+	x \\ y \\ z
+\end{pmatrix} = 
+\begin{pmatrix}
+	-\frac{4}{9} \\ -\frac{10}{27} \\ \frac{4}{9}
+\end{pmatrix}
+$$
+\end{itemize}
+da cui:
+$$
+H_{GS} = \begin{pmatrix}
+	-\frac{2}{3} & -\frac{4}{9} & -\frac{4}{9} \\ 
+	0 & \frac{4}{9} & -\frac{10}{27} \\ 
+	0 & 0 & \frac{4}{9}
+\end{pmatrix}
+$$
+da cui $\lambda_1 = -\frac{2}{3}$ e $\lambda_2 = \frac{4}{9}$ con molteplicità $\mu_2 = 2$, quindi tutti gli autovalori a modulo $< 1$ e la condizione è rispettata.
+\end{itemize}
+
+\subsubsection{Criteri di convergenza di matrici di iterazione}
+Cerchiamo un modo più generale per fare ciò che abbiamo fatto nell'ultimo esempio.
+Vediamo che vale il seguente teorema:
 \begin{theorem}{Criteri di convergenza di matrici di iterazione}
 	Se $A \in \mathbb{C}^{n \times n}$ rispetta una delle seguenti condizioni:
 	\begin{enumerate}
@@ -283,11 +425,48 @@ Vediamo quindi come risolvere sistemi \textbf{rettangolari}, cioè del tipo $Ax 
 In questo caso si avranno $m$ equazioni in $n$ incognite, quindi con $x \in \mathbb{C}^n$ e $b \in \mathbb{C}^m$.
 Supponiamo poi che $A$ sia di rango massimo, ovvero $\mathrm{rank}(A) = \min(m, n)$.
 
-Scopriamo che anche in questo scenario si può applicare l'eliminazione di Gauss, e nel caso $m < n$, si può immaginare di rendere il sistema quadrato aggiungendo $n - m$ equazioni fittizie della forma $0 = 0$, lasciando $n - m$ parametri liberi.
+Scopriamo che anche in questo scenario si può applicare l'eliminazione di Gauss, e nel caso $m < n$, si può immaginare di rendere il sistema quadrato aggiungendo $n - m$ equazioni fittizie della forma $0 = 0$, lasciando $n - m$ parametri liberi:
+
+$$
+\begin{pmatrix}
+	1 & ... & ... & ... \\ 
+	0 & 1 & ... & ... \\ 
+	0 & ... & 1 & ... \\
+	0 & ... & ... & 0 \\ 
+	\vdots & & & \vdots \\ 
+	0 & ... & ... & 0
+\end{pmatrix}
+\begin{pmatrix}
+	x_1 \\ \vdots \\ x_m \\ x_{m + 1} \\ \vdots \\ x_n
+\end{pmatrix}
+=
+\begin{pmatrix}
+	b_1 \\ \vdots \\ b_m
+\end{pmatrix}
+$$
+
 Diciamo che questo tipo di sistemi si dicono \textbf{sottodeterminati}.
 
 Caso più interessante sarà quello dei sistemi \textbf{sovradeterminati}, cioè dove $n < m$ e si hanno più equazioni che incognite.
-In questo caso l'applicazione dell'eliminazione di Gauss porta ad $n$ equazioni determinate, e $m  - n$ equazioni della forma $0 = \, ?$ dove $?$ sono i termini che si formano ai termini noti nelle ultime $m - n$ righe.
+In questo caso l'applicazione dell'eliminazione di Gauss porta ad $n$ equazioni determinate, e $m  - n$ equazioni della forma $0 = \, ?$ dove $?$ sono i termini noti che si formano nelle ultime $m - n$ righe:
+
+$$
+\begin{pmatrix}
+	1 & ... & ... \\ 
+	0 & 1 & ... \\ 
+	0 & ... & 1 \\ 
+	0 & ... & 0 \\ 
+	\vdots & & \vdots \\ 
+	0 & ... & 0
+\end{pmatrix}
+\begin{pmatrix}
+	x_1 \\ \vdots \\ x_n
+\end{pmatrix} =
+\begin{pmatrix}
+	b_1 \\ \vdots \\ b_n \\ b_{n + 1} = \ ?_1 \\ \vdots \\ b_m = \ ?_{m - n + 1}
+\end{pmatrix}
+$$
+
 Se esiste almeno un termine noto $? \neq 0$, allora il sistema è impossibile (ed è questo il caso tipico).
 Questa affermazione è essenzialmente il teorema di Rouchè-Capelli, dove si impone:
 $$
@@ -339,12 +518,13 @@ $$
 $$
 = 2 \left( \left(A^T Ax \right)_s - \left( A^T b \right)_s \right) = 2 \left( A^T A x - A^T b \right)_s
 $$
+dove l'$s$ al pedice indica che si prende la $s$-esima riga.
 
 Si ha quindi che:
 $$
 \nabla \psi(x) = 0 \, \Leftrightarrow \, A^T A x - A^T b = 0 \, \Leftrightarrow \, A^T A x = A^T b
 $$
-è quindi il sistema da risolvere per i punti di minimo di $\psi(x)$, quindi le soluzioni del problema dei minimi quadrati, è:
+e quindi il sistema da risolvere per i punti di minimo di $\psi(x)$, cioè le soluzioni del problema dei minimi quadrati, è:
 $$
 A^T A x = A^T b
 $$
