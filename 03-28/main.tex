@@ -303,7 +303,7 @@ Prendendo questa come la norma dell'inversa per il passaggio alle norme della (1
 $$
 \frac{|\delta x|}{|x|} \leq \frac{|A^{-1}|}{1 + |A^{-1} \delta A|} \left( \frac{|\delta b|}{|b|} |A| + |\delta A| \frac{|A|}{|A|} \right) \leq \frac{ |A^{-1}| |A| }{ 1 + |A^{-1}| |\delta A| } \left( \frac{|\delta b|}{|b|} + \frac{|\delta A|}{|A|} \right)
 $$
-dove l'$|A^{-1} \delta A|$ al denominatore si può scrivere come $\mu(A) \frac{|\delta A|}{|A|}$, in quanto:
+dove l'$|A^{-1}| |\delta A|$ al denominatore si può scrivere come $\mu(A) \frac{|\delta A|}{|A|}$, in quanto:
 $$
 |A^{-1}| |\delta A| = \mu(A) \cdot \frac{|\delta A|}{|A|} = |A||A^{-1|} \cdot \frac{|\delta A|}{|A|}
 $$
@@ -474,7 +474,7 @@ Perchè questo tenda a $0$, basterà imporre $\rho(H) < 1$, in quanto in tal cas
 $$
 \lim_{k \rightarrow + \infty} H^k e^{(0)} = 0
 $$
-qualsiasi sia l'errore iniziale $e^{(0)}$ (e quindi la scelta di soluzione iniziale $x^{(0)})$ \qed
+qualsiasi sia l'errore iniziale $e^{(0)}$ (e quindi la scelta di soluzione iniziale $x^{(0)})$. \qed
 
 In particolare, possiamo ricordare che se $|H| < 1 \implies \rho(H) < 1$, quindi può risultare verificare questa condizione, che è sì più stretta ma anche più facile da verificare.
 Ricordiamo che non vale assolutamente il contrario, cioè $|H| > 1 \;\not\!\!\!\implies \rho(H) > 1$. 
@@ -662,7 +662,7 @@ double* jacobi(unsigned n, unsigned k, double** A, double* b) {
 }
 \end{lstlisting}
 
-A questo punto un semplice programma dovrà semplicemente usare le funzioni per il caricamento dell'ambiente di \lstinline|mat.h| e chiamare la funzione \lstinline|jacobi()|:
+A questo punto un programma dovrà semplicemente usare le funzioni per il caricamento dell'ambiente di \lstinline|mat.h| e chiamare la funzione \lstinline|jacobi()|:
 \begin{lstlisting}[language=C++, style=codestyle]	
 int main() {
 	// inizializza ambiente
@@ -746,7 +746,7 @@ In questo modo si hanno due vantaggi:
 	\item Per calcolare $x_i^{(k + 1)}$ non si ha bisogno di $x_h^{k}$ per $h < i$, e quindi si possono sovrascrivere le entrate di $x^{(k)}$, e mantenere un unico vettore.
 \end{enumerate}
 
-\subsubsection{Implementazione C++ del meotod di Gauss-Seidel}
+\subsubsection{Implementazione C++ del metodo di Gauss-Seidel}
 Vediamo come si può usare quest'ultima versione (scalare) del metodo di Gauss-Seidel per realizzarne un'implementazione C++, sfruttando la stessa libreria \lstinline|mat.h| dell'esempio 10.2.3:
 \begin{lstlisting}[language=C++, style=codestyle]	
 double* jacobi(unsigned n, unsigned k, double** A, double* b) {
