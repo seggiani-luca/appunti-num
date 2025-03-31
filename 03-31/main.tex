@@ -1,0 +1,353 @@
+
+\documentclass[a4paper,11pt]{article}
+\usepackage[a4paper, margin=8em]{geometry}
+
+% usa i pacchetti per la scrittura in italiano
+\usepackage[french,italian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\frenchspacing 
+
+% usa i pacchetti per la formattazione matematica
+\usepackage{amsmath, amssymb, amsthm, amsfonts}
+
+% usa altri pacchetti
+\usepackage{gensymb}
+\usepackage{hyperref}
+\usepackage{standalone}
+
+% imposta il titolo
+\title{Appunti Calcolo Numerico}
+\author{Luca Seggiani}
+\date{2025}
+
+% disegni
+\usepackage{pgfplots}
+\pgfplotsset{width=10cm,compat=1.9}
+
+% imposta lo stile
+% usa helvetica
+\usepackage[scaled]{helvet}
+% usa palatino
+\usepackage{palatino}
+% usa un font monospazio guardabile
+\usepackage{lmodern}
+
+% tikz in sans
+\tikzset{every picture/.style={/utils/exec={\sffamily}}}
+
+\renewcommand{\rmdefault}{ppl}
+\renewcommand{\sfdefault}{phv}
+\renewcommand{\ttdefault}{lmtt}
+
+% circuiti
+\usepackage{circuitikz}
+\usetikzlibrary{babel}
+
+% disponi il titolo
+\makeatletter
+\renewcommand{\maketitle} {
+	\begin{center} 
+		\begin{minipage}[t]{.8\textwidth}
+			\textsf{\huge\bfseries \@title} 
+		\end{minipage}%
+		\begin{minipage}[t]{.2\textwidth}
+			\raggedleft \vspace{-1.65em}
+			\textsf{\small \@author} \vfill
+			\textsf{\small \@date}
+		\end{minipage}
+		\par
+	\end{center}
+
+	\thispagestyle{empty}
+	\pagestyle{fancy}
+}
+\makeatother
+
+% disponi teoremi
+\usepackage{tcolorbox}
+\newtcolorbox[auto counter, number within=section]{theorem}[2][]{%
+	colback=blue!10, 
+	colframe=blue!40!black, 
+	sharp corners=northwest,
+	fonttitle=\sffamily\bfseries, 
+	title=Teorema~\thetcbcounter: #2, 
+	#1
+}
+
+% disponi definizioni
+\newtcolorbox[auto counter, number within=section]{definition}[2][]{%
+	colback=red!10,
+	colframe=red!40!black,
+	sharp corners=northwest,
+	fonttitle=\sffamily\bfseries,
+	title=Definizione~\thetcbcounter: #2,
+	#1
+}
+
+% disponi problemi
+\newtcolorbox[auto counter, number within=section]{problem}[2][]{%
+	colback=green!10,
+	colframe=green!40!black,
+	sharp corners=northwest,
+	fonttitle=\sffamily\bfseries,
+	title=Problema~\thetcbcounter: #2,
+	#1
+}
+
+% disponi codice
+\usepackage{listings}
+\usepackage[table]{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{codestyle}{
+		backgroundcolor=\color{black!5}, 
+		commentstyle=\color{codegreen},
+		keywordstyle=\bfseries\color{magenta},
+		numberstyle=\sffamily\tiny\color{black!60},
+		stringstyle=\color{green!50!black},
+		basicstyle=\ttfamily\footnotesize,
+		breakatwhitespace=false,         
+		breaklines=true,                 
+		captionpos=b,                    
+		keepspaces=true,                 
+		numbers=left,                    
+		numbersep=5pt,                  
+		showspaces=false,                
+		showstringspaces=false,
+		showtabs=false,                  
+		tabsize=2
+}
+
+\lstdefinestyle{shellstyle}{
+		backgroundcolor=\color{black!5}, 
+		basicstyle=\ttfamily\footnotesize\color{black}, 
+		commentstyle=\color{black}, 
+		keywordstyle=\color{black},
+		numberstyle=\color{black!5},
+		stringstyle=\color{black}, 
+		showspaces=false,
+		showstringspaces=false, 
+		showtabs=false, 
+		tabsize=2, 
+		numbers=none, 
+		breaklines=true
+}
+
+\lstdefinelanguage{javascript}{
+	keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+	keywordstyle=\color{blue}\bfseries,
+	ndkeywords={class, export, boolean, throw, implements, import, this},
+	ndkeywordstyle=\color{darkgray}\bfseries,
+	identifierstyle=\color{black},
+	sensitive=false,
+	comment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	commentstyle=\color{purple}\ttfamily,
+	stringstyle=\color{red}\ttfamily,
+	morestring=[b]',
+	morestring=[b]"
+}
+
+% disponi sezioni
+\usepackage{titlesec}
+
+\titleformat{\section}
+	{\sffamily\Large\bfseries} 
+	{\thesection}{1em}{} 
+\titleformat{\subsection}
+	{\sffamily\large\bfseries}   
+	{\thesubsection}{1em}{} 
+\titleformat{\subsubsection}
+	{\sffamily\normalsize\bfseries} 
+	{\thesubsubsection}{1em}{}
+
+% disponi alberi
+\usepackage{forest}
+
+\forestset{
+	rectstyle/.style={
+		for tree={rectangle,draw,font=\large\sffamily}
+	},
+	roundstyle/.style={
+		for tree={circle,draw,font=\large}
+	}
+}
+
+% disponi algoritmi
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\makeatletter
+\renewcommand{\ALG@name}{Algoritmo}
+\makeatother
+
+% disponi numeri di pagina
+\usepackage{fancyhdr}
+\fancyhf{} 
+\fancyfoot[L]{\sffamily{\thepage}}
+
+\makeatletter
+\fancyhead[L]{\raisebox{1ex}[0pt][0pt]{\sffamily{\@title \ \@date}}} 
+\fancyhead[R]{\raisebox{1ex}[0pt][0pt]{\sffamily{\@author}}}
+\makeatother
+
+\begin{document}
+
+% sezione (data)
+\section{Lezione del 31-03-25}
+
+% stili pagina
+\thispagestyle{empty}
+\pagestyle{fancy}
+
+% testo
+Riprendiamo la trattazione dei metodi iterativi per i sistemi lineari.
+
+\subsubsection{Criteri di convergenza di matrici di iterazione}
+Avevamo visto che un problema perchè un metodo di punto sia convergente è che la sua matrice $H$ in:
+$$
+x = H x + c
+$$
+sia convergente, cioè avesse norma spettrale $\rho(H) < 1$.
+
+Vediamo che vale il seguente problema.
+\begin{theorem}{Criteri di convergenza di matrici di iterazione}
+	Se $A \in \mathbb{C}^{n \times n}$ rispetta una delle seguenti condizioni:
+	\begin{enumerate}
+		\item $A$ è ha predominanza diagonale forte;
+		\item $A$ è irriducibile e a predominanza diagonale debole;
+	\end{enumerate}
+	allora sia il metodo di Jacobi che il metodo di Gauss-Seidel danno iterazioni convergenti applicati ad un sistema $Ax = b$. 
+\end{theorem}
+
+\begin{enumerate}
+	\item 
+La dimostrazione del teorema comincia dall'imporre che $a_{ii} \neq 0$, $\forall i = 1, ..., n$.
+Avevamo visto che questa condizione può essere forzata scambiando $A$ con una qualche permutazione $\Pi A$.
+
+Abbiamo allora che la condizione è ovvia nel caso di predominanza diagonale forte (1), mentre nel caso di matrice irriducibile a predominanza diagonale debole (2), se esistesse un $a_{ii} = 0$ per qualche $i$ allora applicando la predominanza diagonale debole si avrebbe $a_{ij} = 0$ ($0 \geq \sum_{i \neq j}^n a_{ij}$), che sarebbe assurdo (la matrice non può essere singolare).
+Notiamo che in questo caso nemmeno una matrice di permutazione $\Pi$ potrebbe portarci a diagonale non negativa.
+
+	\item 
+Dimostriamo la convergenza per i due metodi:
+\begin{itemize}
+\item \textbf{Jacobi:} si ha che:
+$$
+H_J = D^{-1}(E + F) = \begin{pmatrix}
+	0 & ... & -\frac{a_{ij}}{a_{ii}} \\ 
+	... & 0 & ... \\ 
+	-\frac{a_{ij}}{a_{ii}} & ... & 0
+\end{pmatrix}
+$$
+e allora la norma a infinito di $H_J$ sarà:
+$$
+|H_J|_{\infty} = \max_{i = 1, ..., n} \sum_{i \neq j}^n \left|\frac{a_{ij}}{a_{ii}}\right|
+$$
+Se $A$ è a predominanza diagonale forte (1), allora $|a_{ii}| > \sum_{j \neq i}^n |a_{ij}|$, e quindi $|H_J|_\infty < 1$ e $\rho(H_j) < 1$.
+
+Se $A$ è invece irriducibile a predominanza diagonale debole (2), sarà che nuovamente $|H_J|_\infty \leq 1$, quindi gli autovalori di $A$ sono $|\lambda| \leq 1$, ma non esiste $|\lambda| = 1$ in quanto starebbe sul bordo di un cerchio di Gershgorin, quindi di tutti, ma esiste almeno un cerchio $\mathcal{F}_i(A)$ con raggio $r < 1$. 
+
+\item \textbf{Gauss-Seidel:} supponiamo che esista $\lambda^*$ autovalore di $H_{GS}$:
+$$
+H_{GS} = (D - E)^{-1} F
+$$
+tale che $|\lambda^*| \geq 1$.
+Allora dovrà valere:
+$$
+0 = \det(\lambda^* I - H_{GS}) = \det\left (\lambda^* I - (D - E)^{-1} F \right) = \det \left( (D- E)^{-1} \left( \lambda(D - E) - F \right) \right)
+$$
+che per Binet-Cauchy dà:
+$$
+0 = \det \left( (D - E)^{-1} \right) \cdot \det \left(\lambda^* (D - E) - F \right)
+$$
+Il primo termine è chiaramente $\neq 0$, e quindi si considera:
+$$
+0 = \det \left( \lambda^* (D - E) - F \right) = \left(\lambda^*\right)^n \det \left(D - E - (\lambda^*)^{-1} F \right)
+$$
+cioè:
+$$
+0 = \det \left(D - E - (\lambda^*)^{-1} F \right)
+$$
+\end{itemize}
+La matrice che troviamo è quella dove gli elementi sopra la diagonale hanno modulo $\leq$ ai corrispondenti nella matrice $A$.
+Se $A$ è dominante diagonale forte o dominante diagonale debole, quindi, conserva tale proprietà, e conserva anche l'irriducibilità.
+Quindi, necessariamente, è non singolare (altrimenti anche $A$ sarebbe singolare), e l'ipotesi $|\lambda^*| \geq 1$ è assurda, cioè $|\lambda^*| < 1$.
+\end{enumerate} \qed
+
+\subsection{Sistemi rettangolari}
+Vediamo quindi come risolvere sistemi \textbf{rettangolari}, cioè del tipo $Ax = b$ con $A \in \mathbb{C}^{m \times n}$ rettangolare.
+In questo caso si avranno $m$ equazioni in $n$ incognite, quindi con $x \in \mathbb{C}^n$ e $b \in \mathbb{C}^m$.
+Supponiamo poi che $A$ sia di rango massimo, ovvero $\mathrm{rank}(A) = \min(m, n)$.
+
+Scopriamo che anche in questo scenario si può applicare l'eliminazione di Gauss, e nel caso $m < n$, si può immaginare di rendere il sistema quadrato aggiungendo $n - m$ equazioni fittizie della forma $0 = 0$, lasciando $n - m$ parametri liberi.
+Diciamo che questo tipo di sistemi si dicono \textbf{sottodeterminati}.
+
+Caso più interessante sarà quello dei sistemi \textbf{sovradeterminati}, cioè dove $n < m$ e si hanno più equazioni che incognite.
+In questo caso l'applicazione dell'eliminazione di Gauss porta ad $n$ equazioni determinate, e $m  - n$ equazioni della forma $0 = \, ?$ dove $?$ sono i termini che si formano ai termini noti nelle ultime $m - n$ righe.
+Se esiste almeno un termine noto $? \neq 0$, allora il sistema è impossibile (ed è questo il caso tipico).
+Questa affermazione è essenzialmente il teorema di Rouchè-Capelli, dove si impone:
+$$
+\mathrm{rank}(A | b) = \mathrm{rank}(A)
+$$
+
+Il problema che ci poniamo in questi casi è quello di minimizzare il residuo, cioè posto:
+$$
+x - Ab = r(x)
+$$
+cercare di risolvere il problema di ottimizzazione:
+$$
+r^* = \min_{x \in \mathbb{C}^n} |b - Ax|_2 = \min_{x \in \mathbb{C}^n} |r(x)|_2
+$$
+
+Questo tipo di problema viene detto \textbf{problema dei minimi quadrati}.
+Osserviamo che il problema è equivalente a risolvere:
+$$
+\left(r^*\right)^2 = \min_{x \in \mathbb{C}^n} |b - Ax|_2^2 = \min_{x \in \mathbb{C}^n} |r(x)|_2^2
+$$
+Cioè ci possiamo liberare della radice della norma quadratica.
+
+Potremo innanzitutto chiederci come trovare il punto $x^*$ che dà $r^*$, o in principio se questo problema ammette soluzione.
+Facciamo allora un esempio del caso $x \in \mathbb{R}^n$
+Considereremo la funzione:
+$$
+\psi(x) = |b - Ax|_2^2 = (b - Ax)^T (b - Ax) : \mathbb{R}^n \rightarrow \mathbb{R}
+$$
+questa funzione è convessa, e quindi il punto $x^*$ è quello che soddisfa $\nabla \psi(x) = 0$ (gradiente nullo).
+Vediamo allora le derivate parziali, osservando che:
+$$
+|b - Ax|_2^2 = |r(x)|_2^2 = \sum_{i = 1}^m r_i(x)^2
+$$
+e:
+$$
+r_i(x)^2 = \left( b_i - \sum_j^n a_{ij} x_j \right)^2
+$$
+Calcoliamo quindi la derivata parziale vera e propria rispetto alla $s$-esima componente:
+$$
+\frac{\partial}{\partial x_s} \left( r_i(x)^2 \right) = 2 \left( b_i - \sum_{j = 1}^n a_{ij} x_j \right) (-a_{is}) 
+$$
+da cui:
+$$
+\frac{\partial}{\partial x_s} \left( \psi(x) \right) = \sum_{i = 1}^n \frac{\partial}{\partial x_s} \left( r_i(x)^2 \right) = 2 \sum_{i = 1}^m \left( \sum_{j = 1}^n a_{is} a_{ij} x_j - a_{is} b_i \right)
+$$
+$$
+= 2 \left( \sum_{i = 1}^m \sum_{j = 1}^n a_{is} a_{ij} x_j - \sum_{i = 1}^n a_{is} b_i \right) = 2 \left( \sum_{i = 1}^m a_{is} \sum_{j = 1}^{n} a_{ij} x_j - \sum_{i = 1}^m a_{is} b_i \right)
+$$
+$$
+= 2 \left( \left(A^T Ax \right)_s - \left( A^T b \right)_s \right) = 2 \left( A^T A x - A^T b \right)_s
+$$
+
+Si ha quindi che:
+$$
+\nabla \psi(x) = 0 \, \Leftrightarrow \, A^T A x - A^T b = 0 \, \Leftrightarrow \, A^T A x = A^T b
+$$
+è quindi il sistema da risolvere per i punti di minimo di $\psi(x)$, quindi le soluzioni del problema dei minimi quadrati, è:
+$$
+A^T A x = A^T b
+$$
+detto \textbf{sistema delle equazioni normali}.
+
+\end{document}
