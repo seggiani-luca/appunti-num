@@ -1,0 +1,542 @@
+
+\documentclass[a4paper,11pt]{article}
+\usepackage[a4paper, margin=8em]{geometry}
+
+% usa i pacchetti per la scrittura in italiano
+\usepackage[french,italian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\frenchspacing 
+
+% usa i pacchetti per la formattazione matematica
+\usepackage{amsmath, amssymb, amsthm, amsfonts}
+
+% usa altri pacchetti
+\usepackage{gensymb}
+\usepackage{hyperref}
+\usepackage{standalone}
+
+% imposta il titolo
+\title{Appunti Calcolo Numerico}
+\author{Luca Seggiani}
+\date{2025}
+
+% disegni
+\usepackage{pgfplots}
+\pgfplotsset{width=10cm,compat=1.9}
+
+% imposta lo stile
+% usa helvetica
+\usepackage[scaled]{helvet}
+% usa palatino
+\usepackage{palatino}
+% usa un font monospazio guardabile
+\usepackage{lmodern}
+
+% tikz in sans
+\tikzset{every picture/.style={/utils/exec={\sffamily}}}
+
+\renewcommand{\rmdefault}{ppl}
+\renewcommand{\sfdefault}{phv}
+\renewcommand{\ttdefault}{lmtt}
+
+% circuiti
+\usepackage{circuitikz}
+\usetikzlibrary{babel}
+
+% disponi il titolo
+\makeatletter
+\renewcommand{\maketitle} {
+	\begin{center} 
+		\begin{minipage}[t]{.8\textwidth}
+			\textsf{\huge\bfseries \@title} 
+		\end{minipage}%
+		\begin{minipage}[t]{.2\textwidth}
+			\raggedleft \vspace{-1.65em}
+			\textsf{\small \@author} \vfill
+			\textsf{\small \@date}
+		\end{minipage}
+		\par
+	\end{center}
+
+	\thispagestyle{empty}
+	\pagestyle{fancy}
+}
+\makeatother
+
+% disponi teoremi
+\usepackage{tcolorbox}
+\newtcolorbox[auto counter, number within=section]{theorem}[2][]{%
+	colback=blue!10, 
+	colframe=blue!40!black, 
+	sharp corners=northwest,
+	fonttitle=\sffamily\bfseries, 
+	title=Teorema~\thetcbcounter: #2, 
+	#1
+}
+
+% disponi definizioni
+\newtcolorbox[auto counter, number within=section]{definition}[2][]{%
+	colback=red!10,
+	colframe=red!40!black,
+	sharp corners=northwest,
+	fonttitle=\sffamily\bfseries,
+	title=Definizione~\thetcbcounter: #2,
+	#1
+}
+
+% disponi problemi
+\newtcolorbox[auto counter, number within=section]{problem}[2][]{%
+	colback=green!10,
+	colframe=green!40!black,
+	sharp corners=northwest,
+	fonttitle=\sffamily\bfseries,
+	title=Problema~\thetcbcounter: #2,
+	#1
+}
+
+% disponi codice
+\usepackage{listings}
+\usepackage[table]{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{codestyle}{
+		backgroundcolor=\color{black!5}, 
+		commentstyle=\color{codegreen},
+		keywordstyle=\bfseries\color{magenta},
+		numberstyle=\sffamily\tiny\color{black!60},
+		stringstyle=\color{green!50!black},
+		basicstyle=\ttfamily\footnotesize,
+		breakatwhitespace=false,         
+		breaklines=true,                 
+		captionpos=b,                    
+		keepspaces=true,                 
+		numbers=left,                    
+		numbersep=5pt,                  
+		showspaces=false,                
+		showstringspaces=false,
+		showtabs=false,                  
+		tabsize=2
+}
+
+\lstdefinestyle{shellstyle}{
+		backgroundcolor=\color{black!5}, 
+		basicstyle=\ttfamily\footnotesize\color{black}, 
+		commentstyle=\color{black}, 
+		keywordstyle=\color{black},
+		numberstyle=\color{black!5},
+		stringstyle=\color{black}, 
+		showspaces=false,
+		showstringspaces=false, 
+		showtabs=false, 
+		tabsize=2, 
+		numbers=none, 
+		breaklines=true
+}
+
+\lstdefinelanguage{javascript}{
+	keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+	keywordstyle=\color{blue}\bfseries,
+	ndkeywords={class, export, boolean, throw, implements, import, this},
+	ndkeywordstyle=\color{darkgray}\bfseries,
+	identifierstyle=\color{black},
+	sensitive=false,
+	comment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	commentstyle=\color{purple}\ttfamily,
+	stringstyle=\color{red}\ttfamily,
+	morestring=[b]',
+	morestring=[b]"
+}
+
+% disponi sezioni
+\usepackage{titlesec}
+
+\titleformat{\section}
+	{\sffamily\Large\bfseries} 
+	{\thesection}{1em}{} 
+\titleformat{\subsection}
+	{\sffamily\large\bfseries}   
+	{\thesubsection}{1em}{} 
+\titleformat{\subsubsection}
+	{\sffamily\normalsize\bfseries} 
+	{\thesubsubsection}{1em}{}
+
+% disponi alberi
+\usepackage{forest}
+
+\forestset{
+	rectstyle/.style={
+		for tree={rectangle,draw,font=\large\sffamily}
+	},
+	roundstyle/.style={
+		for tree={circle,draw,font=\large}
+	}
+}
+
+% disponi algoritmi
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\makeatletter
+\renewcommand{\ALG@name}{Algoritmo}
+\makeatother
+
+% disponi numeri di pagina
+\usepackage{fancyhdr}
+\fancyhf{} 
+\fancyfoot[L]{\sffamily{\thepage}}
+
+\makeatletter
+\fancyhead[L]{\raisebox{1ex}[0pt][0pt]{\sffamily{\@title \ \@date}}} 
+\fancyhead[R]{\raisebox{1ex}[0pt][0pt]{\sffamily{\@author}}}
+\makeatother
+
+\begin{document}
+
+% sezione (data)
+\section{Lezione del 04-04-25}
+
+% stili pagina
+\thispagestyle{empty}
+\pagestyle{fancy}
+
+% testo
+Riprendiamo il discorso dei problemi ai minimi quadrati.
+
+\subsection{Esistenza delle soluzioni al sistema delle equazioni normali}
+Avevamo detto che di sistemi $Ax = b$ con $A \in \mathbb{C}^{m \times n}$, $m > n$, cioè \textit{sovradeterminati}, se la soluzione di $Ax = b$ non esiste, ergo $\mathrm{rank}(A|b) > \mathrm{rank}(A)$, potrebbe essere interessante cercare di risolvere il problema diottimizzazione:
+$$
+\min_{x \in \mathbb{C}^n} |Ax - b|_2 = \min_{x \in \mathbb{C}^n} |b - Ax|_2
+$$
+dove il punto $p_1$ di minimo è lo stesso di quello del problema:
+$$
+\min_{x \in \mathbb{C}^n} |Ax - b|_2^2
+$$
+
+Avevamo quindi definito la funzione $\phi$, assunta per semplicità $\psi:\mathbb{R}^n \rightarrow [0, +\infty)$:
+$$
+\psi(x) = |b - Ax|_2^2 = |r(x)|_2^2 = \sum_{i = 1}^n r_i(x)^2
+$$
+A questo punto il minimo sarà semplicemente nel punto:
+$$
+\begin{pmatrix}
+	\frac{\partial \psi}{\partial x_1}(x) \\
+	\vdots \\
+	\frac{\partial \psi}{\partial x_n}(x)
+\end{pmatrix}
+=
+\begin{pmatrix}
+	0 \\ 
+	\vdots \\
+	0
+\end{pmatrix}
+$$
+da cui avevamo visto ricavamo il sistema \textbf{lineare} (in quanto $\psi$ è quadratica e quindi deriva ad una lineare):
+$$
+A^T A x = A^T b
+$$
+
+# scrivi che vale in C con le hermitiane
+
+Vediamo che vale il seguente teorema:
+\begin{theorem}{Esistenza delle soluzioni dei problemi ai minimi quadrati}
+	Il sistema $A^T A x  A^T b$ ammette soluzione $\forall A \in \mathbb{R}^{m \times n}$ e $\forall b \in \mathbb{C}^m$ (1).
+	Inoltre, la soluzione è unica se e solo se $\mathrm{rank}(A) = n$, $(m > n)$ (2).
+\end{theorem}
+
+Dimostriamo le due tesi in ordine.
+\begin{enumerate}
+	\item 
+La prima tesi si dimostra verificando che $A^T b \in I_m(A^T A)$ con $I_m$ \textit{immagine} o \textbf{spazio delle colonne} di $A^T A$, cioè verificando che è rispettata la condizione:
+$$
+\mathrm{rank}(A^T A | A^T b) = \mathrm{rank}(A^T A)
+$$
+di Rouché-Capelli, per cui esiste una soluzione.
+Abbiamo quindi:
+$$
+I_m (A^T A) = \{ y \in \mathbb{C}^n \ : \ y = A^T A z, \quad z \in \mathbb{C}^n \}
+$$
+Il caso buono è $A^T b \in I_m(A)$, cioè:
+$$
+I_m (A) = \{ y \in \mathbb{C}^n \ : \ y = A z, \quad z \in \mathbb{C}^n \}
+$$
+così che:
+$$
+A^T b = A^T A z \in I_m (A)
+$$
+Questo però non è sempre vero.
+Possiamo allora dire che uno spazio vettoriale è sempre dato dallo spazio delle colonne il suo spazio perpendicolare di una trasformazione $A$ 
+$$
+\mathbb{C}^m = I_m(A) \oplus I_m(A)^\perp
+$$
+da cui definiamo lo spazio delle colonne perependicolare:
+$$
+I_m(A)^\perp = \{ y : y^H z = 0, \quad \forall z \in I_m(A) \}
+$$
+Potremo allora riscrivere $b$ come la somma delle componenti \textit{parallela} e perpendicolare:
+$$
+b \in \mathbb{C}^m \implies b = b_1 + b_2, \quad
+	\begin{cases}
+		b_1 \in I_m(A) \\ 
+		b_2 \in I_m(A)^\perp \\ 
+	\end{cases}
+$$
+Prendiamo allora $A^T b$ come:
+$$
+A^T b = A^T b_1 + A^T b_2
+$$
+Si ha che $A^T b_1 \in I_m (A^T A)$ da quanto avevamo detto prima, mentre riguardo ad $A^T b_2$ si può dire:
+$$
+A^T b_2 = \begin{pmatrix}
+	a_1^T b_2 \\
+	\vdots \\
+	a_m^T b_2
+\end{pmatrix} = 0
+$$
+perchè $b_2 \in I_m(A)^\perp$ e le colonne di $A$ stanno in $I_m(A)$, quindi la condizione di Rouché-Capelli è soddisfatta e la soluzione esiste.
+\qed
+
+\item 
+Per l'unicità, vogliamo verificare che $\det(A^T A) \neq 0$ soddisfatta la proprietà $\mathrm{rank}(A) = n$.
+Abbiamo allora che dal teorema di Binet-Cauchy \textit{generalizzato}:
+$$
+\det(A^T A) = \sum_{[j]} \det(A_{[j]}^T) \cdot \det(A_[j]) = \sum_{[j]} |\det(A_{[j]})|^2
+$$
+dove la sommatoria varia su tutte le possibili scelte di $n$ indici in $\{ 1, ..., m \}$.
+Vogliamo allora mostrare che $\det(A^T A) \geq 0$, cioè che $\exists$ almeno una sottomatrice $A_{[j]}$ tale che $\det(A_{[j]}) \neq 0$.
+Questa esisterà sempre se $\mathrm{rank}(A) = n$, e quindi anche l'ultima tesi del teorema è soddisfatta. \qed 
+\end{enumerate}
+
+# 2 esempi
+
+\subsubsection{Considerazioni di complessità del sistema delle equazioni normali}
+Valutiamo la complessità del sistema visto finora.
+Dobbiamo:
+\begin{enumerate}
+	\item Calcolare $A^H A$, che ha complessità $O(mn^2)$ (da una $(n \times m) (m \times n)$);
+	\item Calcolare $A^H b$, che ha complessità $O(mn)$ (da una $(n \times m)(m \times 1)$);
+	\item Risolvere il sistema $A^H A x = A^H b$, che ha complessità $O(mn^2 + n^3) \sim O(n^3)$.
+\end{enumerate}
+Vediamo che il problema non è tanto la complessità, ma il fatto che $A^T A$ ha spesso un numero di condizionamento piuttosto alto, ad esempio nel caso $m = n$ si ha:
+$$
+\mu(A^T A) = \mu(A)^2
+$$
+Se $\mu(A^T A)$ ($< 10^k$ con $k$ moderato), questo è fastidioso in quanto abbatte sostanzialmente la precisione.
+Conviene quindi applicare un metodo alternativo.
+
+\subsection{Metodo QR per problemi ai minimi quadrati}
+Vediamo quindi un metodo basato sulla fattorizzazione QR.
+
+\subsubsection{Fattorizzazione QR}
+La fattorizzazione QR è un tipo di fattorizzazione, come lo era la \textbf{fattorizzazione LU} che abbiamo già visto (8.3.4).
+
+Diamo quindi la definizione:
+\begin{definition}{Fattorizzazione LU}
+	Data $A \in \mathbb{C}^{m \times n}$, con $m \geq n$, una fattorizzazione QR di $A$ è una coppia di matrici $(Q, R)$ tali che: $A = Q R$, con $Q \in \mathbb{C}^{m \times m}$ unitaria ($Q^H Q = Q Q^H = I$), e $R \in \mathbb{C}^{m \times m}$ della forma triangolare superiore rettangolare (con un certo numero di righe a zero sotto il triangolo), cioè esprimibile come:
+	$$
+R = \begin{pmatrix}
+R_1 \\ 0
+\end{pmatrix}
+	$$
+	con $R_1 \in \mathbb{C}^{n \times n}$ triangolare superiore.
+\end{definition}
+
+Varrà allora il teorema:
+\begin{theorem}{Esistenza della fattorizzazione QR}
+	Per ogni matrice $\exists$ sempre una fattorizzazione QR, a non è mai unica.
+\end{theorem}
+
+Questo viene dal fatto che data $A = QR$, si potrebbe prendere $D \in \mathbb{R}^{m \times m}$ diagonale con $|d_j| = 1$ per $j = \, ..., m$, e dire:
+$$
+A = Q_2 R_2, \quad
+	\begin{cases}
+		Q_2 = QD \\
+		R_2 = D^{-1} R
+	\end{cases}
+$$
+in quanto:
+$$
+A = QR =  \underbrace{QD}_{Q_2} \cdot \underbrace{D^{-1}R}_{R_2}
+$$
+
+\par\smallskip
+
+Una proprietà di rilievo è che la norma 2 e la norma di Frobenius sono invarianti per moltiplicazioni con matrici unitarie, ovvero:
+$$
+|A| = |QA| = |AQ| = |Q_1 A Q_2|
+$$
+con norma $|\cdot |$ 2 o di Frobenius.
+
+Dimostriamo per le due norme:
+\begin{itemize}
+	\item \textbf{Norma 2:} 
+questo si ha prendendo la definizione di norma 2:
+$$
+|A|_2 = \sqrt{\rho(A^H A)}
+$$
+Allora la norma di $AQ$, ad esempio, sarà:
+$$
+|AQ|_2 = \sqrt{\rho( (AQ)^H AQ )} = \sqrt{\rho(Q^H A^H A Q)}
+$$
+$Q^H A^H A Q$ è simile a $A^H A$ in quanto dalla definizione di unarietà di $Q$, si può intendere $Q^H = Q^{-1}$ e quindi prendere la forma come un applicazione di matrice di trasformazione, da cui la tesi per la norma 2. \qed
+
+	\item \textbf{Norma di Frobenius:}
+questo si ha prendendo la definizione di norma di Frobenius:
+$$
+|A|_F = \sqrt{\mathrm{trace}(A^H A)}
+$$
+Allora la norma di $AQ$, ad esempio, sarà:
+$$
+|AQ|_F = \sqrt{\mathrm{trace}(Q^H A^H A Q)} 
+$$
+da cui come sopra. \qed
+\end{itemize}
+
+\par\smallskip
+
+Nei problemi ai minimi quadrati, la fattorizzazione QR è utile in quanto se $A = QR$:
+$$
+\min_{x \in \mathbb{C}^n} | b - Ax |_2 = \min_{x \in \mathbb{C}^n} |b - QR x|_2 = \min_{x \in \mathbb{C}} |Q^H b - Rx|_2
+$$
+moltiplicando per $Q^H$ all'ultimo passaggio.
+
+Chiamato $Q^H b = c$, osserviamo quindi poter prendere:
+$$
+\psi(x) = |cx - Rx|_2^2
+$$
+che preso:
+	$$
+R = \begin{pmatrix}
+R_1 \\ 0
+\end{pmatrix}
+	$$
+diventa:
+$$
+\psi(x) = \left| \begin{pmatrix}
+	c_1 \\ c_2
+\end{pmatrix} - \begin{pmatrix}
+	R_1 \\ 0
+\end{pmatrix} x \right|^2_2
+=
+\left|
+\begin{pmatrix}
+	c_1 - R_1 x \\ 
+	c_2
+\end{pmatrix}
+\right|_2^2
+=
+\left|
+	c_1 - R_1 x
+\right|_2^2
++
+|c_2|_2^2
+$$
+l'unico termine su cui abbiamo controllo è il primo, e possiamo quindi trascurare $|c_2|_2^2$.
+Prendiamo allora:
+$$
+\psi'(x) = |c_1 - R_1 x|_2^2
+$$
+che rappresenta un sistema lineare $n \times n$, dove bastera scegliere $x$ tale che:
+$$
+R_1 x = c
+$$
+così da trovare 0 e ottenere il valore di $\psi'$ (e quindi di $\psi$) minore possibile.
+Il vantaggio aggiunto è che $R_1$ è triangolare superiore, e quindi si può calcolare:
+$$
+x = R_1^{-1} c
+$$
+per sostituzione all'indietro.
+
+Riassumendo, quindi, abbiamo ottenuto il metodo:
+\begin{enumerate}
+	\item Si calcola la fattorizzazione $A = QR$;
+	\item Si calcola $Q^H b = \begin{pmatrix}
+		c_1 \\ c_2
+	\end{pmatrix}$, che ha costo $O(nm)$ (non è $O(m^2 n)$, per via della struttura di $Q$);
+\item Si risolve $R_1 x = c_1$, che è un sistema lineare triangolare superiore $n \times n$, quindi ha costo $O(n^2)$ per sostituzione all'indietro.
+\end{enumerate}
+
+L'unica incognita è allora il costo della fattorizzazione, che anticipiamo è $O(mn^2)$.
+
+\subsubsection{Matrici di Householder}
+Una proprietà rilevante è che dato un vettore $v \in \mathbb{C}^m$ esiste sempre una matrice unitaria $H_v$ tale che:
+$$
+H_v \cdot v = c \cdot e_1, \quad c \in \mathbb{C}
+$$
+per $e_1$ primo elemento della base canonica.
+Dato che la moltiplicazione per matrici unitarie non cambia la norma si ha:
+$$
+|c| = |v|_2
+$$
+Inoltre, $H_v$ può essere scelta perché:
+$$
+H_v = I - 2 v \cdot \frac{\tilde{v} \tilde{v}^H}{|\tilde{v}|_2^2} 
+$$
+con $\tilde{v}$ definita come:
+$$
+\tilde{v} = v \pm |v|_2 \cdot e_1 =
+\begin{pmatrix}
+	v_1 \pm |v|_2 \\ 
+	v_2 \\ 
+	\vdots \\ 
+	v_m
+\end{pmatrix}
+$$
+Le matrici costituite in questo modo vengono anche dette \textbf{Matrici di Householder} associate al vettore $v$.
+
+\subsubsection{Calcolo della fattorizzazione QR}
+Analogamente al metodo di Gauss, per la fattorizzazione QR si moltiplica a sinistra per matrici unitarie che \textit{"sistemano"} gli elementi sotto la diagonale.
+
+Sfruttando la proprietà delle matrici di Householder, agiamo come segue:
+$$
+H_1 = H_{a_1} = \text{matrice di Householder associata ad $a_1$, prima colonna di $A$}
+$$
+diciamo:
+$$
+H_1 \begin{pmatrix}
+	a_1 & a_2 & ... & a_n
+\end{pmatrix} =
+\begin{pmatrix}
+	? & ... \\
+	0 & ... \\ 
+	\vdots & ... \\ 
+	0 & ...
+\end{pmatrix}
+$$
+a questo punto basterà prendere $H_2$ per \textit{"sistemare"} gli elementi della sottomatrice di coda successiva:
+$$
+H_2 = \begin{pmatrix}
+	1 & 0 & ... & 0 \\
+	0 & & & \\
+	\vdots & & \tilde{H}_2 & \\
+	0 & & & \\
+\end{pmatrix}
+$$
+e così via, introducendo di volta in volta più elementi della diagonale in testa.
+Si potrà quindi riscrivere la matrice $A$ come:
+$$
+A = \underbrace{H_1^H H_2^H ... H_n^H}_Q R
+$$
+dove il prodotto delle unitarie rappresenterà la matrice $Q$.
+
+Osserviamo che per avere costo $O(mn^2)$ (ed anche costo $O(mn)$ per $Q^H b$) si sfrutta il fatto che:
+$$
+H_j = I + a b^T ??? 
+$$
+e quindi # boh
+nel caso:
+$$
+H_j b \rightarrow O(m), \implies H_n \cdot H_{n - 1} \cdot ... \cdot H_1 b \rightarrow O(mn)
+$$
+
+Osserviamo poi che nel caso $m = n$ si può sfruttare la fattorizzazione QR per risolvere sistemi lineari, con costo $O(\frac{4}{3}n^3)$ per la fattorizzazione, il doppio rispetto a Gauss, ma solitamente più stabile.
+
+Osserviamo che se $A \in \mathbb{R}^{m \times n}$ si può restare nei reali ed avere $Q \in \mathbb{R}^{m \times m}$, $Q^T Q = I$, ecc...
+
+# uff
+
+\end{document}
