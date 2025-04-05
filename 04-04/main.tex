@@ -208,7 +208,7 @@
 Riprendiamo il discorso dei problemi ai minimi quadrati.
 
 \subsection{Esistenza delle soluzioni al sistema delle equazioni normali}
-Avevamo detto che di sistemi $Ax = b$ con $A \in \mathbb{C}^{m \times n}$, $m > n$, cioè \textit{sovradeterminati}, se la soluzione di $Ax = b$ non esiste, ergo $\mathrm{rank}(A|b) > \mathrm{rank}(A)$, potrebbe essere interessante cercare di risolvere il problema diottimizzazione:
+Avevamo detto che di sistemi $Ax = b$ con $A \in \mathbb{C}^{m \times n}$, $m > n$, cioè \textit{sovradeterminati}, che se la soluzione di $Ax = b$ non esiste, ergo $\mathrm{rank}(A|b) > \mathrm{rank}(A)$, potrebbe essere interessante cercare di risolvere il problema di ottimizzazione:
 $$
 \min_{x \in \mathbb{C}^n} |Ax - b|_2 = \min_{x \in \mathbb{C}^n} |b - Ax|_2
 $$
@@ -216,7 +216,6 @@ dove il punto $p_1$ di minimo è lo stesso di quello del problema:
 $$
 \min_{x \in \mathbb{C}^n} |Ax - b|_2^2
 $$
-
 Avevamo quindi definito la funzione $\phi$, assunta per semplicità $\psi:\mathbb{R}^n \rightarrow [0, +\infty)$:
 $$
 \psi(x) = |b - Ax|_2^2 = |r(x)|_2^2 = \sum_{i = 1}^n r_i(x)^2
@@ -240,11 +239,15 @@ $$
 A^T A x = A^T b
 $$
 
-# scrivi che vale in C con le hermitiane
+Non lo abbiamo dimostrato formalmente, ma possiamo dire che lo stesso vale nel campo complesso, cioè con $x \in \mathbb{C}^n$:
+$$
+A^H A x = A^H b
+$$
+prese le hermitiane invece delle trasposte.
 
-Vediamo che vale il seguente teorema:
+Vediamo quindi che vale il seguente teorema:
 \begin{theorem}{Esistenza delle soluzioni dei problemi ai minimi quadrati}
-	Il sistema $A^T A x  A^T b$ ammette soluzione $\forall A \in \mathbb{R}^{m \times n}$ e $\forall b \in \mathbb{C}^m$ (1).
+	Il sistema $A^T A x = A^T b$ ammette soluzione $\forall A \in \mathbb{R}^{m \times n}$ e $\forall b \in \mathbb{C}^m$ (1).
 	Inoltre, la soluzione è unica se e solo se $\mathrm{rank}(A) = n$, $(m > n)$ (2).
 \end{theorem}
 
@@ -269,11 +272,11 @@ $$
 A^T b = A^T A z \in I_m (A)
 $$
 Questo però non è sempre vero.
-Possiamo allora dire che uno spazio vettoriale è sempre dato dallo spazio delle colonne il suo spazio perpendicolare di una trasformazione $A$ 
+Possiamo allora dire che uno spazio vettoriale è sempre dato dalla somma dello spazio delle colonne di una trasformazione $A$ e il corrispettivo spazio perpendicolare: 
 $$
 \mathbb{C}^m = I_m(A) \oplus I_m(A)^\perp
 $$
-da cui definiamo lo spazio delle colonne perependicolare:
+con lo spazio perpendicolare allo spazio delle colonne definito come:
 $$
 I_m(A)^\perp = \{ y : y^H z = 0, \quad \forall z \in I_m(A) \}
 $$
@@ -304,14 +307,193 @@ perchè $b_2 \in I_m(A)^\perp$ e le colonne di $A$ stanno in $I_m(A)$, quindi la
 Per l'unicità, vogliamo verificare che $\det(A^T A) \neq 0$ soddisfatta la proprietà $\mathrm{rank}(A) = n$.
 Abbiamo allora che dal teorema di Binet-Cauchy \textit{generalizzato}:
 $$
-\det(A^T A) = \sum_{[j]} \det(A_{[j]}^T) \cdot \det(A_[j]) = \sum_{[j]} |\det(A_{[j]})|^2
+\det(A^T A) = \sum_{[j]} \det(A_{[j]}^T) \cdot \det(A_{[j]}) = \sum_{[j]} |\det(A_{[j]})|^2
 $$
 dove la sommatoria varia su tutte le possibili scelte di $n$ indici in $\{ 1, ..., m \}$.
 Vogliamo allora mostrare che $\det(A^T A) \geq 0$, cioè che $\exists$ almeno una sottomatrice $A_{[j]}$ tale che $\det(A_{[j]}) \neq 0$.
 Questa esisterà sempre se $\mathrm{rank}(A) = n$, e quindi anche l'ultima tesi del teorema è soddisfatta. \qed 
 \end{enumerate}
 
-# 2 esempi
+Vediamo due esempi pratici per osservare il teorema in azione.
+\begin{enumerate}
+	\item Prendiamo il sistema:
+\[
+	\begin{cases}
+		2x_1 - x_2 = 1 \\ 
+		-x_1 + x_2 = 0 \\ 
+		x_1 + 2 x_2 = 1
+	\end{cases}
+\]
+con $m = 3$ equazioni in $n = 2$ incognite.
+Avremo che le matrici $A$ e $b$, e l'incognita $x$, saranno:
+$$
+A = 
+\begin{pmatrix}
+	2 & -1 \\
+	-1 & 1 \\ 
+	1 & 2
+\end{pmatrix}, \quad
+b =
+\begin{pmatrix}
+	1 \\ 
+	0 \\ 
+	1
+\end{pmatrix}, \quad
+x = 
+\begin{pmatrix}
+	x_1 \\ 
+	x_2
+\end{pmatrix}
+$$
+per il sistema $Ax = b$.
+Vediamo che il rango di $A$ è 2, quindi dal teorema appena dimostrato la soluzione sarà unica. 
+Calcoliamo allora le matrici $A^T A$ e $A^t b$ per il sistema $A^T A x = A^T b$:
+$$
+A^T A = 
+\begin{pmatrix}
+	6 & -1 \\ 
+	-1 & 6
+\end{pmatrix}, \quad
+A^T b =
+\begin{pmatrix}
+	3 \\ 
+	1
+\end{pmatrix}
+$$
+Avremo quindi il sistema:
+\[
+	\begin{cases}
+		6 x_1 - x_2 = 3 \\
+		-x_1 + 6 x_2 = 1
+	\end{cases}
+\]
+da cui:
+$$
+x^* =
+\begin{pmatrix}
+	x_1 \\ x_2
+\end{pmatrix}
+=
+\begin{pmatrix}
+	\frac{19}{35} \\ \frac{9}{35}
+\end{pmatrix}
+$$
+Che è la soluzione ottima.
+Possiamo quindi calcolare la norma di residuo:
+$$
+r = b - A x^* = b - A \cdot
+\begin{pmatrix}
+	\frac{19}{35} \\ 
+	\frac{9}{35}
+\end{pmatrix}
+=
+\begin{pmatrix}
+	\frac{6}{35} \\ 
+	\frac{10}{35} \\
+	-\frac{2}{35}
+\end{pmatrix}
+$$
+da cui ottieniamo uno scarto di $\approx 0.3381$ dal valore ideale.
+\item Un problema simmetrico al precedente potrebbe essere quello di trovare per quali parametri una matrice parametrizzata rispetta il teorema, cioè ammette una soluzione unica.
+	Prendiamo ad esempio il sistema:
+$$
+\underbrace{
+\begin{pmatrix}
+	1 & 1 & 1 \\ 
+	1 & \alpha & 1 \\
+	0 & 0 & \alpha \\ 
+	\beta & 0 & 0
+\end{pmatrix}
+}_A
+\begin{pmatrix}
+	x_1 \\ 
+	x_2 \\
+	x_3
+\end{pmatrix}
+=
+\underbrace{
+\begin{pmatrix}
+	1 \\ 
+	-1 \\
+	1 \\
+	-1
+\end{pmatrix}
+}_b
+$$
+con $\alpha, \beta \in \mathbb{R}$.
+Iniziamo imponendo l'antitesi del teorema cioè:
+$$
+\mathrm{rank}(A) < n \ \Leftrightarrow \ \exists A_{[j]} \in \mathbb{R}^{3 \times 3} \text{ non invertibile}
+$$
+con $A_{[j]}$ le sottomatrici quadrate $3 \times 3$ prese dal teorema di Binet-Cauchy.
+Consideriamo allora tutte le possibili $A_{[j]}$ coi loro determinanti:
+
+\noindent
+\begin{minipage}{0.22\textwidth}
+$$
+\begin{array}{c}
+\begin{pmatrix}
+	1 & 1 & 1 \\
+	1 & \alpha & 1 \\
+	0 & 0 & 1
+\end{pmatrix} \\ 
+\downarrow \\
+\alpha(\alpha - 1)
+\end{array}
+$$
+\end{minipage}
+\begin{minipage}{0.22\textwidth}
+$$
+\begin{array}{c}
+\begin{pmatrix}
+	1 & 1 & 1 \\
+	1 & \alpha & 1 \\
+	\beta & 0 & 0
+\end{pmatrix} \\ 
+\downarrow \\
+\beta(1 - \alpha)
+\end{array}
+$$
+\end{minipage}
+\begin{minipage}{0.22\textwidth}
+$$
+\begin{array}{c}
+\begin{pmatrix}
+	1 & 1 & 1 \\
+	0 & 0 & \alpha \\
+	\beta & 0 & 0
+\end{pmatrix} \\ 
+\downarrow \\
+\alpha \beta
+\end{array}
+$$
+\end{minipage}
+\begin{minipage}{0.22\textwidth}
+$$
+\begin{array}{c}
+\begin{pmatrix}
+	1 & \alpha & 1 \\
+	0 & 0 & \alpha \\
+	\beta & 0 & 0
+\end{pmatrix} \\ 
+\downarrow \\
+\alpha^2 \beta
+\end{array}
+$$
+\end{minipage}
+\par\bigskip
+da cui avere tutti determinanti nulli singifica soddisfare il sistema (non lineare):
+\[
+	\begin{cases}
+		\alpha(\alpha - 1) = 0 \\
+		\beta(1 - \alpha) = 0 \\ 
+		\alpha \beta = 0 \\
+		\alpha^2 \beta = 0
+	\end{cases}
+\]
+con soluzioni $(\alpha, \beta) = (0, 0)$ o $(\alpha, \beta) = (1, 0)$.
+Si ha quindi che per queste due combinazioni di valori di $\alpha$ e $\beta$ il sistema di partenza non ammette soluzione ottima unica.
+\end{enumerate}
 
 \subsubsection{Considerazioni di complessità del sistema delle equazioni normali}
 Valutiamo la complessità del sistema visto finora.
@@ -332,9 +514,9 @@ Conviene quindi applicare un metodo alternativo.
 Vediamo quindi un metodo basato sulla fattorizzazione QR.
 
 \subsubsection{Fattorizzazione QR}
-La fattorizzazione QR è un tipo di fattorizzazione, come lo era la \textbf{fattorizzazione LU} che abbiamo già visto (8.3.4).
+La \textbf{fattorizzazione QR} è un tipo di fattorizzazione matriciale, come lo era la \textit{fattorizzazione LU} che abbiamo già visto (8.3.4).
 
-Diamo quindi la definizione:
+Diamone quindi la definizione:
 \begin{definition}{Fattorizzazione LU}
 	Data $A \in \mathbb{C}^{m \times n}$, con $m \geq n$, una fattorizzazione QR di $A$ è una coppia di matrici $(Q, R)$ tali che: $A = Q R$, con $Q \in \mathbb{C}^{m \times m}$ unitaria ($Q^H Q = Q Q^H = I$), e $R \in \mathbb{C}^{m \times m}$ della forma triangolare superiore rettangolare (con un certo numero di righe a zero sotto il triangolo), cioè esprimibile come:
 	$$
@@ -347,10 +529,10 @@ R_1 \\ 0
 
 Varrà allora il teorema:
 \begin{theorem}{Esistenza della fattorizzazione QR}
-	Per ogni matrice $\exists$ sempre una fattorizzazione QR, a non è mai unica.
+	Per ogni matrice $\exists$ sempre una fattorizzazione QR, ma non è mai unica.
 \end{theorem}
 
-Questo viene dal fatto che data $A = QR$, si potrebbe prendere $D \in \mathbb{R}^{m \times m}$ diagonale con $|d_j| = 1$ per $j = \, ..., m$, e dire:
+Questo viene dal fatto che data $A = QR$, si potrebbe prendere $D \in \mathbb{R}^{m \times m}$ diagonale con $|d_j| = 1$ per $j = 1, ..., m$, e dire:
 $$
 A = Q_2 R_2, \quad
 	\begin{cases}
@@ -472,11 +654,7 @@ Dato che la moltiplicazione per matrici unitarie non cambia la norma si ha:
 $$
 |c| = |v|_2
 $$
-Inoltre, $H_v$ può essere scelta perché:
-$$
-H_v = I - 2 v \cdot \frac{\tilde{v} \tilde{v}^H}{|\tilde{v}|_2^2} 
-$$
-con $\tilde{v}$ definita come:
+Per creare tale matrice, scegliamo $\tilde{v}$:
 $$
 \tilde{v} = v \pm |v|_2 \cdot e_1 =
 \begin{pmatrix}
@@ -486,7 +664,20 @@ $$
 	v_m
 \end{pmatrix}
 $$
-Le matrici costituite in questo modo vengono anche dette \textbf{Matrici di Householder} associate al vettore $v$.
+$H_v$ dovrà quindi essere scelta come:
+$$
+H_v = I - 2  \frac{\tilde{v} \tilde{v}^H}{|\tilde{v}|_2^2}
+$$
+dove il termine $\frac{\tilde{v} \tilde{v}^H}{|\tilde{v}|_2^2}$ rappresenta una proiezione sulla retta tracciata dal vettore $\tilde{v}$, e quindi $H_v$ uguale alla \textit{matrice di riflessione} sull'iperpiano ortogonale a $\tilde{v}$.   
+Visto che abbiamo scelto $\tilde{v}$ perchè fosse effettivamente \textit{"equidistante"} sia da $v$ che da $e_1$, otteniamo una matrice che porta $v$ esattamente sulla base $e_1$.
+
+Le matrici costruite in questo modo vengono anche dette \textbf{Matrici di Householder} associate al vettore $v$.
+
+Possiamo scrivere una funzione MATLAB, che ci torneà utile a breve, per il calcolo della matrice di Householder relativa a un certo vettore:
+\lstset{language=MATLAB,style=codestyle}
+\lstinputlisting{../code/matlab/householder.m}
+
+Vediamo inoltre come si è scelto il segno della norma aggiunta a \lstinline|vt| ($\tilde{v}$) in modo da ridurre gli errori di cancellazione.
 
 \subsubsection{Calcolo della fattorizzazione QR}
 Analogamente al metodo di Gauss, per la fattorizzazione QR si moltiplica a sinistra per matrici unitarie che \textit{"sistemano"} gli elementi sotto la diagonale.
@@ -509,34 +700,49 @@ H_1 \begin{pmatrix}
 $$
 a questo punto basterà prendere $H_2$ per \textit{"sistemare"} gli elementi della sottomatrice di coda successiva:
 $$
-H_2 = \begin{pmatrix}
+H_2 = \left( \begin{array}{c| c c c}
 	1 & 0 & ... & 0 \\
+	\hline
 	0 & & & \\
 	\vdots & & \tilde{H}_2 & \\
 	0 & & & \\
-\end{pmatrix}
+\end{array} \right)
 $$
 e così via, introducendo di volta in volta più elementi della diagonale in testa.
-Si potrà quindi riscrivere la matrice $A$ come:
+Si potrà quindi definire la matrice $R$ come:
 $$
-A = \underbrace{H_1^H H_2^H ... H_n^H}_Q R
+R = \underbrace{H_1^H H_2^H ... H_n^H}_Q A
 $$
 dove il prodotto delle unitarie rappresenterà la matrice $Q$.
 
-Osserviamo che per avere costo $O(mn^2)$ (ed anche costo $O(mn)$ per $Q^H b$) si sfrutta il fatto che:
+\subsubsection{Ottimizzazioni della fattorizzazione QR}
+Osserviamo che per avere costo $O(mn^2)$ (ed anche costo $O(mn)$ per $Q^H b$) si sfrutta il fatto che $H_j$ è del tipo \textit{identità + rango 1}, cioè:
 $$
-H_j = I + a b^T ??? 
+H_j = I + a b^T
 $$
-e quindi # boh
-nel caso:
+dove gli $a$ e $b$ vengono presi qui a scopo di esempio, risulterebbero dalla forma della matrice di Householder cha abbiamo visto alla 12.2.2.
+La parte importante è che il prodotto per una matrice generica $B$ assume la forma:
 $$
-H_j b \rightarrow O(m), \implies H_n \cdot H_{n - 1} \cdot ... \cdot H_1 b \rightarrow O(mn)
+H_j \cdot B = B - a \cdot b^T \cdot B
 $$
+dove l'ultimo termine è il prodotto di una colonna per il prodotto di una riga per $B$.
+Quindi, nel caso $B$ sia un vettore $b$, si hanno solo prodotti scalari di costo $m$, ergo:
+$$
+H_j b \rightarrow O(m)
+$$
+Se prendiamo il prodotto per tutte le matrici $H_j$, cioè per $Q$, abbiamo che questa cosa si ripete $n$ volte e quindi il costo è $O(mn)$.
+$$
+\implies H_n \cdot H_{n - 1} \cdot ... \cdot H_1 b \rightarrow O(mn)
+$$
+il costo $O(mn^2)$ a questo punto è immediato dal fatto che abbiamo semplicemente una dimensione $n$ in più dalla matrice $A$.
 
 Osserviamo poi che nel caso $m = n$ si può sfruttare la fattorizzazione QR per risolvere sistemi lineari, con costo $O(\frac{4}{3}n^3)$ per la fattorizzazione, il doppio rispetto a Gauss, ma solitamente più stabile.
 
-Osserviamo che se $A \in \mathbb{R}^{m \times n}$ si può restare nei reali ed avere $Q \in \mathbb{R}^{m \times m}$, $Q^T Q = I$, ecc...
+Osserviamo infine che se $A \in \mathbb{R}^{m \times n}$ si può restare nei reali ed avere $Q \in \mathbb{R}^{m \times m}$, $Q^T Q = I$, ecc...
 
-# uff
+\subsubsection{Implementazione MATLAB della decomposizione QR}
+Concludiamo quindi con l'implementazione MATLAB di questo algoritmo:
+\lstinputlisting{../code/matlab/qr_decomp.m}
+Dove la funzione \lstinline|blkdiag| ci permette di realizzare la forma a blocchi diagonale, con l'identità in testa, che la $H_j$ assume ad ogni passaggio dell'algoritmo.
 
 \end{document}
