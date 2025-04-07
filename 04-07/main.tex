@@ -207,12 +207,15 @@
 % testo
 \subsection{Interpolazione di funzioni}
 Poniamo di avere una qualche funzione $f(x) : \mathbb{C} \rightarrow \mathbb{C}$ che non conosciamo esplicitamente ma di cui possiamo solo calcolare il valore $y_0, ..., y_k$ in determinati punti $x_0, ..., x_k$ non necessariamente equspaziati fra di loro.
+Chiamiamo questi punti \textbf{nodi}.
 Il problema sarà allora trovare un'\textit{approssimazione} di $f(x)$ \textbf{interpolando} i punti dati.
-
+\begin{itemize}
+	\item 
 Un approccio valido quando si hanno pochi punti ($k$) è considerare un polinomio di grado $k$ che passi per tutti questi, sperando che si raggiunga un'approssimazione sufficientemente precisa nei punti esterni ai nodi.
-
+	\item
 Un'altro approccio, quando si hanno molti punti, è trovare una funzione particolarmente semplice (solitamente una retta) che minimizzi la distanza da questi.
 E' questo ad esempio il caso della \textit{regressione lineare}.
+\end{itemize}
 
 \subsubsection{Interpolazione polinomiale}
 Vogliamo quindi trovare un polinomio $p(x)$ tale che:
@@ -292,6 +295,61 @@ $$
 $$
 che solitamente per la matrice di Vandermonde è particolarmente grande.
 
+\par\smallskip
+
+Ricordiamo che questo è un problema non da poco.
+Infatti, avevamo che il numero di condizionamento dava un limite alla variazione del resto del sistema in funzione della perturbazione delle soluzioni, cioè presa una $\tilde{x}$ perturbata da una $x$ soluzione di $Ax = b$ si aveva:
+$$
+|x - \tilde{x}| \leq \mu(A) \cdot |A \tilde{x} - b|
+$$
+
+Ad esempio, preso il sistema:
+$$
+\underbrace{
+\begin{pmatrix}
+	1 & 0 \\ 
+	0 & \epsilon
+\end{pmatrix}
+}_A
+\underbrace{
+\begin{pmatrix}
+	1 \\ 1
+\end{pmatrix}
+}_x
+=
+\underbrace{
+\begin{pmatrix}
+	1 \\ \epsilon
+\end{pmatrix}
+}_b
+$$
+potremmo pensare di considerare la soluzione perturbata:
+$$
+\tilde{x} =
+\begin{pmatrix}
+	1 \\ 1 + \delta
+\end{pmatrix}
+$$
+Avremo quindi l'\textit{errore sulla soluzione}:
+$$
+|x - \tilde{x}|_2 = |\delta|
+$$
+e l'\textit{errore sul resto}:
+$$
+|A \tilde{x} - b|_2 = \left| \begin{pmatrix}
+	0 \\ \delta \epsilon
+\end{pmatrix} \right|_2
+= |\delta| \cdot \epsilon
+$$
+che chiaramente cresce al crescere di $\epsilon$.
+
+Questo ci è problematico in quanto l'\textit{errore sulla soluzione} può essere considerato come l'\textbf{errore sui coefficienti} del polinomio, e l'\textit{errore sul resto} può essere considerato come l'\textbf{errore di approssimazione} della funzione, cioè:
+$$
+|A \tilde{x} - b| = |p(x_i) - y_i|
+$$
+
+\par\smallskip
+
 Vediamo che in verità la situazione è sotto controllo se:
 $$
 \mu(A) \leq \frac{1}{u}
@@ -299,6 +357,8 @@ $$
 per $u$ precisione macchina, in quanto l'errore dato dal cattivo condizionamento diventa comparabile con la precisione macchina, comunque piuttosto piccola.
 Un altro caso di interesse è quello in cui i punti $x_i$ sono equispaziati sulla circonferenza unitaria sul piano di Argand-Gauss.
 Vediamo che anche qui l'errore è mantenuto sotto controllo, e questo sarà infatti il caso che considereremo per la \textit{trasformata (discreta) veloce di Fourier}.
+
+\par\medskip
 
 Un'idea potrebbe essere quindi quella di cambiare la base dei monomi in:
 $$
@@ -338,7 +398,6 @@ $$
 Finora avevamo preso il caso della base canonica, cioè $\{1, x, ..., x^k\}$, ma nessuno ci nega di prendere altre basi.
 Basi che ci saranno di particolare interesse, vedremo, sono la base di \textbf{Lagrange} e la base di \textbf{Newton}.
 
-# se hai voglia esempio condizionamento (foto)
 
 \subsubsection{Base di Lagrange}
 Presi sempre i nostri nodi di interpolazione, decidiamo di scegliere la base guardando proprio tali nodi (anziché prenderla a priori, come avevamo fatto per Vandermonde).
@@ -351,6 +410,10 @@ cioè il prodotto dei fattori che si annullano in $x_j$ per tutti gli $j \neq i$
 Spesso poi decidiamo di normalizzare i polinomi di base, indicandoli come:
 $$
 l_i(x) = \frac{(x - x_0) ... (x - x_{i - 1}) (x - x_{i + 1}) ... (x - x_k)}{(x_i - x_0) ... (x_i - x_{i - 1}) (x_i - x_{i + 1}) ... (x_i - x_k)} = \prod_{j \neq i}^n \frac{x - x_j}{x_i - x_j} 
+$$
+Otterremo quindi la base, diversa da quella canonica:
+$$
+B_\text{Lagrange} = \left\{ l_0(x), l_1(x), ..., l_k(x) \right\}
 $$
 Proviamo quindi ad imporre le condizione, con:
 $$
@@ -387,6 +450,30 @@ V_l =
 $$
 da cui abbiamo quindi che si ricava direttamente l'identità e quindi $Va = y$ diventa $I a = y \implies a = y$.
 
+Ad esempio, vediamo la seguente interpolazione di Lagrange, coi nodi nella tabella a sinistra:
+
+\noindent
+\begin{minipage}{0.2\textwidth}
+\begin{table}[H]
+	\center 
+	\begin{tabular} { c | c }
+		$\mathbf{x}$ & $\mathbf{y}$ \\ 
+		\hline 
+		-2 & 1 \\
+		-2 & -2 \\
+		6 & 3 \\
+		8 & 4 \\
+		9 & 3 \\
+	\end{tabular}
+\end{table}
+\end{minipage}
+\hfill
+\begin{minipage}{0.8\textwidth}
+	\begin{center}
+	\includegraphics[scale=0.2]{../figures/lagrange_interpol.png}
+	\end{center}
+\end{minipage}
+
 \subsubsection{Base di Newton}
 Vediamo quindi la base di Newton, che costruiamo come:
 \[
@@ -403,13 +490,17 @@ Questo rende più facile l'aggiornamento se si aggiunge un nuovo nodo in $x_{k +
 $$
 n_{k + 1}(x) = (x - x_0) ... (x - x_k) = n_k(x) (x - x_k)
 $$
-La matrice di Vandermonde sarà quindi:
+Otterremo quindi la base:
+$$
+B_\text{Newton} = \left\{ n_0(x) = 1, n_1(x), ..., n_k(x) \right\}
+$$
+e la matrice di Vandermonde:
 $$
 V_n =
 \begin{pmatrix}
 	n_0(x_0) & n_1(x_0) & ... & n_k(x_0) \\ 
 	\vdots & & & \vdots \\
-	n_0(x_k) & n_1(x_l) & ... & n_k(x_k)
+	n_0(x_k) & n_1(x_k) & ... & n_k(x_k)
 \end{pmatrix}
 $$
 con:
@@ -420,7 +511,7 @@ e nel nodo:
 $$
 p(x_i) = y_i \ \Leftrightarrow \ Va = y
 $$
-dallo svolgimento della matrice di Vandermonde si ha chel la prima colonna è tutta di 1, e il resto della matrice è triangolare inferiore:
+dallo svolgimento della matrice di Vandermonde si ha che la prima colonna è tutta di 1, e il resto della matrice è triangolare inferiore:
 $$
 V_n =
 \begin{pmatrix}
@@ -431,7 +522,7 @@ V_n =
 \end{pmatrix}
 $$
 e quindi ogni $a_i$ dipende solo dagli $\{ y_0, ... y_i \}$.
-Infime, notiamo di poter scrivere ogni $a_i$ come le \textbf{differenze divise}:
+Infine, notiamo di poter scrivere ogni $a_i$ come le \textbf{differenze divise}:
 $$
 a_i = f[x_0, ..., x_i]
 $$
