@@ -736,6 +736,10 @@ $$
 $$
 il costo $O(mn^2)$ a questo punto è immediato dal fatto che abbiamo semplicemente una dimensione $n$ in più dalla matrice $A$.
 
+Osserviamo quindi la versione della fattorizzazione QR, implementata in MATLAB, che effettua queste ottimizzazioni:
+\lstinputlisting{../code/matlab/opt_qr_decomp.m}
+dove la matrice di Householder viene mantenuta in due vettori, e si sono definite le funzioni \lstinline|rank_one_l()| e \lstinline|rank_one_r()| per l'aggiornamento di rango uno, rispettivamente a sinistra e a destra (che nient'altro sarebbe se non la moltiplicazione per la matrice di Householder).
+
 Osserviamo poi che nel caso $m = n$ si può sfruttare la fattorizzazione QR per risolvere sistemi lineari, con costo $O(\frac{4}{3}n^3)$ per la fattorizzazione, il doppio rispetto a Gauss, ma solitamente più stabile.
 
 Osserviamo infine che se $A \in \mathbb{R}^{m \times n}$ si può restare nei reali ed avere $Q \in \mathbb{R}^{m \times m}$, $Q^T Q = I$, ecc...
