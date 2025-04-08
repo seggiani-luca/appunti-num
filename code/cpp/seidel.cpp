@@ -1,6 +1,7 @@
 #include <iostream>
 #include "mat.h"
-double* jacobi(unsigned n, unsigned k, double** A, double* b) {
+
+double* seidel(unsigned n, unsigned k, double** A, double* b) {
 	// inizializza vettori
 	double* v1;
 	v1 = new double[n];
@@ -40,7 +41,7 @@ int main() {
 	unsigned n, k; double** A; double* b;
 	init_env(n, k, A, b);
 
-	double* x = jacobi(n, k, A, b);
+	double* x = seidel(n, k, A, b);
 
 	std::cout << "Il risultato finale e':" << std::endl;
 	print_vector(x, n);

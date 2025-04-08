@@ -718,12 +718,12 @@ dove il prodotto delle unitarie rappresenterà la matrice $Q$.
 \subsubsection{Ottimizzazioni della fattorizzazione QR}
 Osserviamo che per avere costo $O(mn^2)$ (ed anche costo $O(mn)$ per $Q^H b$) si sfrutta il fatto che $H_j$ è del tipo \textit{identità + rango 1}, cioè:
 $$
-H_j = I + a b^T
+H_j = I - b b^T
 $$
 dove gli $a$ e $b$ vengono presi qui a scopo di esempio, risulterebbero dalla forma della matrice di Householder cha abbiamo visto alla 12.2.2.
 La parte importante è che il prodotto per una matrice generica $B$ assume la forma:
 $$
-H_j \cdot B = B - a \cdot b^T \cdot B
+H_j \cdot B = B - b \cdot b^T \cdot B
 $$
 dove l'ultimo termine è il prodotto di una colonna per il prodotto di una riga per $B$.
 Quindi, nel caso $B$ sia un vettore $b$, si hanno solo prodotti scalari di costo $m$, ergo:

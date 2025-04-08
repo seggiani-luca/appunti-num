@@ -1,5 +1,6 @@
 #include <iostream>
 #include "mat.h"
+
 double* jacobi(unsigned n, unsigned k, double** A, double* b) {
 	// inizializza vettori
 	double* v1, *v2;
