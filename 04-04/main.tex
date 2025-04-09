@@ -736,17 +736,119 @@ $$
 $$
 il costo $O(mn^2)$ a questo punto è immediato dal fatto che abbiamo semplicemente una dimensione $n$ in più dalla matrice $A$.
 
-Osserviamo quindi la versione della fattorizzazione QR, implementata in MATLAB, che effettua queste ottimizzazioni:
-\lstinputlisting{../code/matlab/opt_qr_decomp.m}
-dove la matrice di Householder viene mantenuta in due vettori, e si sono definite le funzioni \lstinline|rank_one_l()| e \lstinline|rank_one_r()| per l'aggiornamento di rango uno, rispettivamente a sinistra e a destra (che nient'altro sarebbe se non la moltiplicazione per la matrice di Householder).
-
+\subsubsection{Osservazioni ulteriori sulla fattorizzazione QR}
 Osserviamo poi che nel caso $m = n$ si può sfruttare la fattorizzazione QR per risolvere sistemi lineari, con costo $O(\frac{4}{3}n^3)$ per la fattorizzazione, il doppio rispetto a Gauss, ma solitamente più stabile.
 
 Osserviamo infine che se $A \in \mathbb{R}^{m \times n}$ si può restare nei reali ed avere $Q \in \mathbb{R}^{m \times m}$, $Q^T Q = I$, ecc...
 
 \subsubsection{Implementazione MATLAB della decomposizione QR}
-Concludiamo quindi con l'implementazione MATLAB di questo algoritmo:
+Riportiamo l'implementazione MATLAB di questo algoritmo:
 \lstinputlisting{../code/matlab/qr_decomp.m}
 Dove la funzione \lstinline|blkdiag| ci permette di realizzare la forma a blocchi diagonale, con l'identità in testa, che la $H_j$ assume ad ogni passaggio dell'algoritmo.
+
+\subsubsection{Implementazione MATLAB ottimizzata della decomposizione QR}
+Osserviamo quindi la versione della fattorizzazione QR, implementata in MATLAB, che effettua le ottimizzazioni riportate nella sezione 12.2.4:
+\lstinputlisting{../code/matlab/opt_qr_decomp.m}
+dove la matrice di Householder viene mantenuta in due vettori, e si sono definite le funzioni \lstinline|rank_one_l()| e \lstinline|rank_one_r()| per l'aggiornamento di rango uno, rispettivamente a sinistra e a destra (che nient'altro sarebbe se non la moltiplicazione per la matrice di Householder).
+
+\subsubsection{Implementazione C++ della decomposizione QR}
+L'ultima versione ottimizzata della decomposizione QR si presta particolarmente bene all'implementazione in linguaggi di livello più basso. 
+
+Potremmo infatti avere la funzione, del tutto analoga alla scorsa implementazione MATLAB:
+\begin{lstlisting}[language=C++, style=codestyle]	
+void qr_decomp(double** A, double** Q, unsigned n) {
+	// inizializza vettori a, b
+	double* a, *b;
+	a = new double[n];
+	b = new double[n];
+
+	for(unsigned i = 0; i < n; i++) {
+		std::cout << "Passaggio " << i << std::endl;
+
+		householder_vec(A, i, n, a, b);
+
+		std::cout << "I vettori di Householder sono:" << std::endl;
+		std::cout << "a:" << std::endl;
+		print_vector(a, n - i);
+		std::cout << "b:" << std::endl;
+		print_vector(b, n - i);
+
+		rank_one_l(A, i, n, a, b);
+		rank_one_r(Q, i, n, a, b);
+
+		std::cout << std::endl;
+	}
+
+	// ripulisci
+	delete[] a;
+	delete[] b;
+}
+\end{lstlisting}
+dove la \lstinline|householder_vec()| è anch'essa simile alla versione MATLAB:
+\begin{lstlisting}[language=C++, style=codestyle]	
+void householder_vec(double** A, unsigned i, unsigned n, double* a, double* b) {
+	double sqr_norm = 0;
+
+	// prendi la i-esima colonna di A
+	for(unsigned j = i; j < n; j++) {
+		a[j - i] = A[j][i];
+		sqr_norm += a[j - i] * a[j - i];
+	}
+
+	double norm = std::sqrt(sqr_norm);
+	sqr_norm -= a[0] * a[0];
+
+	if(a[0] < 0) {
+		a[0] -= norm;
+	} else {
+		a[0] += norm;
+	}
+
+	sqr_norm += a[0] * a[0];
+
+	for(unsigned j = 0; j < n - i; j++) {
+		b[j] = 2 * a[j] / sqr_norm;
+	}
+}
+\end{lstlisting}
+se non per una probabile ottimizzazione che si potrebbe fare riguardo alle radici, che però ignoriamo.
+
+A questo punto si implementano le \lstinline|rank_one_l()| e \lstinline|rank_one_r()| srotolando le moltiplicazioni, ed evidenziando quindi il costo delle applicazioni delle matrici di rango uno, che è effettivamente $O(mn^2)$:
+\begin{lstlisting}[language=C++, style=codestyle]	
+// applicazione a sinistra
+void rank_one_l(double** A, unsigned i, unsigned n, double* a, double* b) {
+	// A(i:end, :) = A(i:end, :) - a * b' * A(i:end, :);
+	for(unsigned c = 0; c < n; c++) {
+		double sum = 0;
+
+		for(unsigned r = i; r < n; r++) {
+			sum += b[r - i] * A[r][c]; 
+		}
+
+		for(unsigned r = i; r < n; r++) {
+			A[r][c] -= a[r - i] * sum;
+		}
+	}
+}
+
+// applicazione a destra
+void rank_one_r(double** A, unsigned i, unsigned n, double* a, double* b) {
+	// A(i:end, :) = A(i:end, :) - (A(i:end, :) * a) * b';
+	for(unsigned r = 0; r < n; r++) {
+		double sum = 0;
+
+		for(unsigned c = i; c < n; c++) {
+			sum += A[r][c] * a[c - i]; 
+		}
+
+		for(unsigned c = i; c < n; c++) {
+			A[r][c] -= sum * b[c - i];
+		}
+	}
+}
+\end{lstlisting}
+
+L'algoritmo è dunque completo, e realizza usando solo semplici cicli di complessità al massimo quadratica/cubica la decomposizione QR.
+Ricordiamo che il codice visto finora è disponibile nella directory \lstinline|/code| degli appunti del corso, e in particolare queste implementazioni di livello più basso in C++ sono disponibili in \lstinline|/code/cpp|.
 
 \end{document}

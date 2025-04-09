@@ -9,17 +9,19 @@ function [Q, A] = opt_qr_decomp(A)
         end
         
         a = vt;
-        b = vt / norm(vt)^2 * 2;
+        b = 2 * vt / norm(vt)^2;
     end
 
+    % applicazione a sinistra
     function A = rank_one_l(A, a, b, i)
         A(i:end, :) = A(i:end, :) ...
                           - a * b' * A(i:end, :);
     end
 
+    % applicazione a destra
     function A = rank_one_r(A, a, b, i)
         A(:, i:end) = A(:, i:end) ...
-                          - A(:, i:end) * a * b';
+                          - (A(:, i:end) * a) * b';
     end
 
     n = height(A);
