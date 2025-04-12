@@ -247,7 +247,7 @@ $$
 \underbrace{
 \begin{pmatrix}
 	1 & x_0 & ... & x_0^k \\
-	\vdots  & & & \vdots\\
+	\vdots  & & & \vdots \\
 	1 & x_k & ... & x_k^k \\
 \end{pmatrix}
 }_V
@@ -276,10 +276,76 @@ Possiamo allora enunciare il teorema:
 	\det(V) = \prod_{0 \leq i < j \leq k} (x_j - x_i)
 	$$
 \end{theorem}
+Possiamo dare una dimostrazione immediata di questo risultato ricordando che si può aggiungere un multiplo scalare di una colonna ad un altra colonna senza cambiare il determinante.
+Prendiamo allora la matrice nella forma più completa:
 
-Da questo deriva che se $x_i \neq x_j$ $\forall i \neq j$, allora $\det(V) \neq 0$, cioè $V$ non è singolare.
+$$
+V = 
+\begin{pmatrix}
+	1 & x_0 & x_0^2 & ... & x_0^k \\
+	1 & x_1 & x_1^2 & ... & x_1^k \\
+	1 & x_2 & x_2^2 & ... & x_2^k \\
+	\vdots & & & & \vdots \\
+	1 & x_k & x_k^2 & ... & x_k^k \\
+\end{pmatrix}
+$$
 
-Per trovare $p(x)$ risolviamo quindi:
+Sottraiamo quindi ad ogni colonna dopo la prima il prodotto della colonna precedente per $x_0$, cancellando effettivamente la prima riga:
+
+$$
+\rightarrow
+\begin{pmatrix}
+	1 & 0 & 0 & ... & 0 \\
+	1 & x_1 - x_0 & x_1^2 - x_1x_0 & ... & x_1^k - x_1^{k - 1} x_0 \\
+	1 & x_2 - x_0 & x_2^2 - x_2x_0 & ... & x_2^k - x_1^{k - 1} x_0 \\
+	\vdots & & & & \vdots \\
+	1 & x_k - x_0 & x_k^2 - x_k x_0 & ... & x_k^k - x_1^{k - 1} x_0 \\
+\end{pmatrix}
+$$
+$$
+=
+\begin{pmatrix}
+	1 & 0 & 0 & ... & 0 \\
+	1 & x_1 - x_0 & x_1(x_1 - x_0) & ... & x_1^{k - 1} (x_1 - x_0) \\
+	1 & x_2 - x_0 & x_2(x_2 - x_0) & ... & x_2^{k - 1} (x_2 - x_0) \\
+	\vdots & & & & \vdots \\
+	1 & x_k - x_0 & x_k(x_k - x_0) & ... & x_k^{k - 1} (x_k - x_0) \\
+\end{pmatrix}
+$$
+
+Continuiamo questo procedimento sottraendo stavolta dalla colonna 2 in poi, e moltiplicando per $x_1$:
+$$
+\rightarrow
+\begin{pmatrix}
+	1 & 0 & 0 & ... & 0 \\
+	1 & x_1 - x_0 & 0  & ... & 0 \\
+	1 & x_2 - x_0 & x_2(x_2 - x_0) - x_1(x_2 - x_0) & ... & x_2^{k - 1} (x_2 - x_0) - x_1 (x_2 - x_0) \\
+	\vdots & & & & \vdots \\
+	1 & x_k - x_0 & x_k(x_k - x_0) - x_1 (x_k - x_0) & ... & x_k^{k - 1} (x_k - x_0) - x_1 (x_k - x_0) \\
+\end{pmatrix}
+$$
+$$
+=
+\begin{pmatrix}
+	1 & 0 & 0 & ... & 0 \\
+	1 & x_1 - x_0 & 0 & ... & 0 \\
+	1 & x_2 - x_0 & (x_2 - x_1)(x_2 - x_0) & ... & (x_2^{k - 1} - x_1) (x_2 - x_0) \\
+	\vdots & & & & \vdots \\
+	1 & x_k - x_0 & (x_k - x_1) (x_k - x_0) & ... & (x_k^{k - 1} - x_1) (x_k - x_0) \\
+\end{pmatrix}
+$$
+
+Dovrebbe quindi risultare chiaro che ripetendo questa operazione $k$ volte si ottiene una matrice triangolare inferiore, di cui ricordiamo il determinante si calcola moltiplicando gli elementi sulla diagonale, cioè si ottiene:
+$$
+\det(V) = 1 \cdot (x_1 - x_0) \cdot (x_2 - x_1) (x_2 - x_0) \cdot ... = \prod_{0 \leq i < j \leq k} (x_j - x_i)
+$$
+che è (gesticolando un pò) la tesi. \qed
+
+Da questo deriva il \textbf{corollario} immediato che se $x_i \neq x_j$ $\forall i \neq j$, allora $\det(V) \neq 0$, cioè $V$ non è singolare.
+
+\par\smallskip
+
+Per trovare $p(x)$ basterà quindi risolvere il sistmea:
 $$
 Va = y
 $$
@@ -444,35 +510,43 @@ V_l =
 \begin{pmatrix}
 	1 & 0 & ... & 0 \\
 	0 & 1 & ... & 0 \\
-	... & ... & .. & ... \\
+	... & ... & ... & ... \\
 	0 & ... & 0 & 1
 \end{pmatrix}
 $$
-da cui abbiamo quindi che si ricava direttamente l'identità e quindi $Va = y$ diventa $I a = y \implies a = y$.
+da cui abbiamo la conferma: si ricava direttamente l'identità e quindi $Va = y$ diventa $I a = y \implies a = y$.
 
-Ad esempio, vediamo la seguente interpolazione di Lagrange, coi nodi nella tabella a sinistra:
+\subsubsection{Esempio: inteprolazione di Lagrange}
+A scopo di esempio, vediamo l'interpolazione di Lagrange della funzione:
+$$
+f\left(x\right)=\cos\left(\frac{x}{3}\right)\sin\left(2x\right)\ 
+$$
+con nodi equispaziati presi da $-6$ a $6$, con intervallo $1$.
 
-\noindent
-\begin{minipage}{0.2\textwidth}
+Calcolando la funzione attraverso un software al computer, si otterrà la tabella di nodi:
 \begin{table}[H]
-	\center 
-	\begin{tabular} { c | c }
-		$\mathbf{x}$ & $\mathbf{y}$ \\ 
-		\hline 
-		-2 & 1 \\
-		-2 & -2 \\
-		6 & 3 \\
-		8 & 4 \\
-		9 & 3 \\
+	\center
+	\begin{tabular} { c | p{.65cm} p{.65cm} p{.65cm} p{.65cm} p{.65cm} p{.65cm} p{.65cm} p{.65cm} p{.65cm} p{.65cm} p{.65cm} p{.65cm} p{.65cm} p{.65cm} }
+		$x_j$ & $-6$ & $-5$ & $-4$ & $-3$ & $-2$ & $-1$ & $0$ & $1$ & $2$ & $3$ & $4$ & $5$ & $6$ \\
+		$y_j$ & $-0.22$ & $-0.05$ & $-0.23$ & $0.15$ & $0.59$ & $-0.86$ & $0$ & $0.86$ & $-0.59$ & $-0.15$ & $0.23$ & $0.05$ & $0.22$
 	\end{tabular}
 \end{table}
-\end{minipage}
-\hfill
-\begin{minipage}{0.8\textwidth}
-	\begin{center}
-	\includegraphics[scale=0.2]{../figures/lagrange_interpol.png}
-	\end{center}
-\end{minipage}
+
+Da cui il polinomio:
+$$
+p_k(x) = -0.22 l_0(x) -0.05 l_1(x) -0.23 l_2(x) +0.15 l_3(x) +0.59 l_4(x) -0.86 l_5(x) +0.86 l_6(x)
+$$
+$$
+-0.59 l_7(x) -0.15 l_8(x) + 0.23 l_9(x) + 0.05 l_{10}(x) 0.22 l_{11}(x)
+$$
+
+Vediamo quindi un grafico che mostra tale polinomio, sovraimposto alla funzione originale e ai nodi campionati:
+
+\begin{center}
+	\includegraphics[scale=0.3]{../figures/lagrange_interpol.png}
+\end{center}
+
+Come vediamo, almeno nei punti intermedi l'interpolazione è piuttosto vicina, mentre ai punti estremi si notano degli artefatti non indifferente (principalmente dati dal comportamento oscillatorio della $f(x)$). 
 
 \subsubsection{Base di Newton}
 Vediamo quindi la base di Newton, che costruiamo come:
@@ -517,27 +591,12 @@ V_n =
 \begin{pmatrix}
 	1 & 0 & ... & 0 \\
 	1 & ? & ... & 0 \\
-	\vdots & & & \vdots \\
+	\vdots & \vdots & \ddots & \vdots \\
 	1 & ? & ... & ?
 \end{pmatrix}
 $$
 e quindi ogni $a_i$ dipende solo dagli $\{ y_0, ... y_i \}$.
-Infine, notiamo di poter scrivere ogni $a_i$ come le \textbf{differenze divise}:
-$$
-a_i = f[x_0, ..., x_i]
-$$
-indicate con le parentesi quadre, che definiamo come:
-$$
-f[x_0, ..., x_n, x] =
-\begin{cases}
-	f(x) \quad n = - 1 \\
-	\frac{f(x) - f(x_0)}{x - x_0} \quad n = 0 \\
-	\frac{ f[x_0, ..., x_{n - 2}, x] - f[x_0, ..., x_{n-1}, x] }{x - x_{n - 1}}, \quad \text{altrimenti}
-\end{cases}
-$$
-cioè la serie:
-$$
-f[x] = f(x), \quad f[x_0, x] = \frac{f(x) - f(x_0)}{x - x_0}, \quad ...
-$$
+
+Vedremo la struttura specifica degli $a_i$ che formano il polinomio inerpolante alla prossima lezione.
 
 \end{document}
