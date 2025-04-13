@@ -541,7 +541,10 @@ $$
 
 Osserviamo quindi che conoscendo una stima di $|f^{k + 1}|$ e  di $|\Pi(x)|$ si può provare a stimare l'errore del polinomio di interpolazione quando si valuta $p_k(x)$ fuori dai nodi $\{ x_j \}_{j=0}^k$.
 
-\subsection{Riassunto fra base di Newton e base di Lagrange}
+\subsection{Considerazioni ulteriori sull'approssimazione polinomiale}
+Vediamo quindi alcune nozioni che riguardano sia l'approssimazione di Newton che quella di Lagrange, che abbiamo visto rispettivamente in 13.1.4 e 14.1, e 13.1.2 (e che riguardano in verità anche il metodo di approssimazione di Vandermonde visto in 13.1.1).
+
+\subsubsection{Riassunto fra base di Newton e base di Lagrange}
 Facciamo quindi un riassunto confrontando la base di Newton e la base di Lagrange.
 \begin{table}[h!]
 	\center 
@@ -555,6 +558,65 @@ Facciamo quindi un riassunto confrontando la base di Newton e la base di Lagrang
 		& Il grado del polinomio si nota facilmente & Per trovare il grado del polinomio bisogna espandere nella base dei monomi
 	\end{tabular}
 \end{table}
+
+Viene da sé che i metodi di Vandermonde, Lagrange e Newton restituiscono tutti lo stesso polinomio (se non in forma algebricamente diversa), in quanto il polinomio interpolante di grado minimo è l'unico che passa per i punti $(x_j, y_j)$ forniti.
+
+\subsubsection{Fenomeno di Runge}
+Vediamo un fenomeno che accumuna tutti i tipi di approssimazione polinomiale: presa una certa approssimazione di grado $k$ di una funzione $f(x)$, quindi un polinomio $p(x)$ passante per $k + 1$ punti campionati da $f(x)$, si potrebbe pensare che aumentando il valore di $k$ si otterrebbero approssimazioni via via più accurate.
+Questo è giusto per quanto riguarda i punti interni, ma riguardo agli estremi dell'intervallo di approssimazione notiamo che la funzione di errore $r(x) = p(x) - f(x)$ ha un errore costante se non addirittura crescente al crescere di $k$.
+
+Prendiamo ad esempio la funzione:
+$$
+f(x) = \frac{1}{1 + x^2} \quad \text{(versiera di Agnesi)}
+$$
+interpolata fra $-2$ e $2$ ad intervalli regolari, quindi preso $k$ interpolata sui nodi:
+$$
+x_k = -2 + \frac{4}{k}i, \quad i = 0, 1, ..., k
+$$
+
+Con $k = 4$, si ottiene il seguente polinomio interpolante:
+\begin{center}
+	\includegraphics[scale=0.28]{../figures/runge_k4.png}
+\end{center}
+
+\newpage
+
+Aumentando il grado a $k = 40$, quindi moltiplicando per 10, si ottiene invece il polinomio interpolante:
+\begin{center}
+	\includegraphics[scale=0.28]{../figures/runge_k40.png}
+\end{center}
+che è sì più accurato nei punti interni, ma ha comunque un certo errore in corrispondenza degli estremi $x = -2$ e $x = 2$.
+
+Si può dimostrare che questo fenomeno permane al crescere di $k$, ergo aumentare il grado non corrisponde sempre a migliorare l'accuratezza dell'approssimazione.
+
+\subsubsection{Nodi di Chebysev}
+Un modo per migliorare l'accuratezza delle approssimazioni polinomiali, e sopratutto per evitare il fenomeno di Runge in prossimità degli estremi, può essere quello di cambiare i nodi presi, usando i cosiddetti \textbf{nodi di Chebyshev}.
+
+\begin{definition}{Nodi di Chebyshev}
+	Si chiamano nodi di Chebysev unitari gli $n$ punti $x_k$:
+	$$
+	x_k = \cos\left(\frac{\left(K+\frac{1}{2}\right)\pi}{n_{p}}\right), \quad k = 0, ..., n - 1
+	$$
+\end{definition}
+
+\par\bigskip
+
+\noindent
+\begin{minipage}{\textwidth}
+I nodi di Chebyshev corrispondono alle proiezioni sull'asse $x$ di punti equispaziati sulla parte superiore di una circonfenferenza unitaria, cioè sul grafico:
+\begin{center}
+	\includegraphics[scale=0.28]{../figures/chebyshev_nodes.png}
+\end{center}
+\end{minipage}
+
+\par\bigskip
+
+Utilizzando i nodi di Chebyshev nel calcolo del polinomio interpolante, si usano risultati molto più accurati.
+Ad esempio, per l'approssimazione della stessa curva del paragrafo scorso, si ottiene che già con $k = 10$ il grafico ha la aspetto:
+\begin{center}
+	\includegraphics[scale=0.28]{../figures/runge_better.png}
+\end{center}
+da dove notiamo quindi che l'errore, sopratutto vicino agli estremi, è significativamente ridotto.
 
 \subsection{Interpolazione osculatoria di Hermite}
 Vediamo un altro metodo per interpolare polinomi.
@@ -770,8 +832,6 @@ Vediamo un esempio grafico:
 \begin{center}
 	\includegraphics[scale=0.28]{../figures/tracks.png}
 \end{center}
-
-\newpage
 
 \subsubsection{Errore nell'approssimazione di Hermite}
 Valutiamo quindi l'errore:
