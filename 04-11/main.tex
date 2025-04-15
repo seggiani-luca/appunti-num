@@ -756,7 +756,7 @@ Imponiamo quindi le proprietà (3) per ricavare $A, B, C, D$ di ogni $h_{0j}$ e 
 		$$
 		sostituendo in $Ax_j + B$ si trova allora:
 		$$
-		B = 1-2 e_j'(x_j) x_j
+		B = 1 + 2 e_j'(x_j) x_j
 		$$
 		da cui la funzione finale:
 		$$
@@ -787,12 +787,12 @@ Imponiamo quindi le proprietà (3) per ricavare $A, B, C, D$ di ogni $h_{0j}$ e 
 \end{itemize}
 
 Abbiamo quindi ottenuto le due funzioni $h_{0j}$ e $h_{1j}$:
-\[
+$$
 	\begin{cases}
 		h_{0j}(x) = \left( 1 - 2 e_j'(x_j) (x - x_j) \right) e_j^2(x) \\
 		h_{1j}(x) = (x - x_j) e^2_j(x)
 	\end{cases}
-\]
+$$
 ossia il polinomio interpolante di Hermite avrà la forma:
 $$
 H_{2k + 1}(x) = \sum_{j = 0}^k f(x_j) \left( 1 - 2 e_j'(x_j)(x - x_j) \right) e_j^2(x) + \sum_{j = 0}^k f'(x_j) (x - x_j) e_j^2(x)
