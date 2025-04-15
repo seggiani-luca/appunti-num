@@ -397,10 +397,10 @@ Le formule per il calcolo degli altri due casi saranno in qualche modo ricavate 
 		$$
 		questo procedimento porta alla formazione di spline del tipo:
 		$$
-		p_i(x) = \left[ f(x_{i - 1}) + \left( m_{i - 1} + \frac{2 f(x_{i  1})}{h} \right) (x - x_{i - 1})  \right] \left( \frac{x - x_i}{h} \right)^2
+		p_i(x) = \left[ f(x_{i - 1}) + \left( m_{i - 1} + \frac{2 f(x_{i - 1})}{h} \right) (x - x_{i - 1})  \right] \left( \frac{x - x_i}{h} \right)^2
 		$$
 		$$
-		+ \left[ f(x_{i}) + \left( m_{i} + \frac{2 f(x_{i  1})}{h} \right) (x - x_{i})  \right] \left( \frac{x - x_i - 1}{h} \right)^2
+		+ \left[ f(x_{i}) + \left( m_{i} - \frac{2 f(x_{i })}{h} \right) (x - x_{i})  \right] \left( \frac{x - x_{i - 1}}{h} \right)^2
 		$$
 		direttamente dall'interpolazione di Hermite, con gli $m_i$ soluzioni del seguente sistema lineare:
 		$$
@@ -415,16 +415,78 @@ Le formule per il calcolo degli altri due casi saranno in qualche modo ricavate 
 			m_0 \\ m_1 \\ m_2 \\ \vdots \\ m_k
 		\end{pmatrix}
 		=
+		\frac{3}{h}
 		\begin{pmatrix}
 			f(x_1) - f(x_0) \\
 			f(x_2) - f(x_0) \\
 			f(x_3) - f(x_1) \\
 			\vdots \\
 			f(x_{k-1}) - f(x_{k-2}) \\
-			f(x_k) - f(x_{k-2})
+			f(x_k) - f(x_{k-1})
 		\end{pmatrix}
 		$$
-		da dove si nota la matrice $A$ a \textit{˝striscia"}, data (presumibilmente, non me la sono ancora # ricavata) dall'interdipendenza fra i tratti della spline.
+		da dove si nota la matrice $A$ a \textit{˝striscia"}, data dall'interdipendenza fra i tratti della spline.
+
+	In particolare, procediamo con la dimostrazione.
+	Vorremo interpolare ogni tratto $x_{i - 1}$, $x_i$ con un polinomio $p_i(x)$ di terzo grado che rispetti:
+	\[
+		\begin{cases}
+			p_i(x_{i - 1}) = f(x_{i - 1}) \\
+			p_i(x_i) = f(x_i) \\
+			p_i(x_{i - 1}) = m_{i - 1} \\
+			p_i(x_i) = m_1
+		\end{cases}
+	\]
+	dove i $k + 1$ valori $m_0, m_1, ..., m_k$ sono le derivate prime che ancora non conosciamo.
+	Avremo quindi da Hermite che vorremmo prendere le basi di Lagrange:
+	$$
+	e_{i-1}(x) = \frac{x - x_i}{x_{i-1} - x_i}, \quad e_i(x) = \frac{x - x_{i-1}}{x_i - x_{i-1}}
+	$$
+	e quindi le basi di Hermite:
+	\[
+		\begin{cases}
+			h_{00}\left(x\right) = (1 - 2e_{i - 1}'(x_{i - 1})(x - x_{i-1}))e_{i-1}^2(x) = \left(1+\frac{2}{x_{i}-x_{i-1}}\left(x-x_{i-1}\right)\right)\left(\frac{x-x_{i}}{x_{i}-x_{i-1}}\right)^{2}	\\
+
+			h_{01}\left(x\right) = (1 - 2e_{i}'(x_i)(x - x_i))e_i^2(x) =\left(1-\frac{2}{x_{i}-x_{i-1}}\left(x-x_{i}\right)\right)\left(\frac{x-x_{i-1}}{x_{i}-x_{i-1}}\right)^{2} \\
+
+			h_{10}\left(x\right) = (x - x_{i - 1})e_{i-1}^2(x) = \left(x-x_{i-1}\right)\left(\frac{x-x_{i}}{x_{i}-x_{i-1}}\right)^{2} \\
+
+			h_{11}\left(x\right) = (x - x_{i})e_{i}^2(x) = \left(x-x_{i}\right)\left(\frac{x-x_{i-1}}{x_{i}-x_{i-1}}\right)^{2}
+		\end{cases}
+	\]
+	da cui il polinomio interpolante finale è:
+	$$
+	p_i\left(x\right)=h_{00}\left(x\right)y_{0}+h_{01}\left(x\right)y_{1}+h_{10}\left(x\right)m_{0}+h_{11}\left(x\right)m_{1}
+	$$
+	$$
+	=\left(y_{0}+\left(m_{0}+\frac{2y_{0}}{x_{i}-x_{i-1}}\right)\left(x-x_{i-1}\right)\right)\left(\frac{x-x_{i}}{x_{i}-x_{i-1}}\right)^{2}
+	$$
+	$$
+	+\left(y_{1}+\left(m_{1}-\frac{2y_{1}}{x_{i}-x_{i-1}}\right)\left(x-x_{i}\right)\right)\left(\frac{x-x_{i-1}}{x_{i}-x_{i-1}}\right)^{2}
+	$$
+	che posto $x_i - x_{i - 1} = h$, e $y_i = f(x_i)$, è esattamente quanto dato prima.
+	
+	A questo punto resta da ricavare il sistema lineare.
+	Per fare ciò calcoliamo la derivata seconda del polinomio interpolante nei punti $x_{i - 1}$ e $x_i$:
+	$$
+	p_i''(x_{i - 1}) = \frac{6\left(y_{1}-y_{0}\right)}{\left(x_{i}-x_{i-1}\right)^{2}}-\frac{4m_{0}+2m_{1}}{x_{i}-x_{i-1}}
+	$$
+	$$
+	p_i''(x_i) = \frac{2m_{0}+4m_{1}}{x_{i}-x_{i-1}}-\frac{6\left(y_{1}-y_{0}\right)}{\left(x_{i}-x_{i-1}\right)^{2}}
+	$$
+
+	Avremo allora le condizioni della spline cubica naturale, cioè derivata seconda nulla agli estremi:
+	\[
+		\begin{cases}	
+			p_1''(x_0) = 0 \implies 2m_0 + m_1 = \frac{3}{h} \left( f(x_1) - f(x_0) \right) \\
+			p_k''(x_k) = 0 \implies 2m_k + m_{k - 1} = \frac{3}{h} \left( f(x_k) - f(x_{k - 1}) \right) \\
+		\end{cases}
+	\]
+	e derivate seconde continue nei punti intermedi:
+	$$
+		p_i''(x_i) = p_{i+1}''(x_{i}) \implies m_{i - 1} + 4 m_i + m_{i + 1} = \frac{3}{h} f(x_{i + 1}) - f(x_{i - 1})
+	$$
+	da cui il sistema lineare che corredava la forma del polinomio di Hermite, e quindi la tesi. \qed
 
 	\item Se si vuole imporre il vincolo "a sinistra" della derivata prima e seconda, si può procedere in maniera analoga a quanto fatto nel caso quadratico, cioe prendere i tratti polinomiali:
 		$$
@@ -501,6 +563,8 @@ $$
 c_{i}\left(x\right)=b\left(x,x_{i-1},x_{i}\right)y_{i-1}+b\left(x,x_{i-1},x_{i}\right)y_{i}+b\left(x,x_{i-1},x_{i}\right)d_{i-1}+b\left(x,x_{i-1},x_{i}\right)s_{i-1}\
 $$
 dove gli $d_{i-1}$ e $s_{i-1}$ sono rispettivamente la derivata prima e seconda in ogni punto, data per il punto $x_0$ e ricavata dal tratto precedente per ogni tratto successivo.
+
+\newpage
 
 Un interpolazione di questo tipo per l'esempio considerato nelle scorse sezioni ha l'aspetto, prese $d_{0} = 1$ e $s_{0} = -1$ e tracciate derivata prima e seconda:
 \begin{center}
