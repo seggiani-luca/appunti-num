@@ -24,9 +24,10 @@ function [Q, A] = opt_qr_decomp(A)
                           - (A(:, i:end) * a) * b';
     end
 
-    n = height(A);
+    n = width(A);
+    m = height(A);
 
-    Q = eye(n);
+    Q = eye(m);
 
     for i = 1:n
         [a, b] = householder_vec(A(i:end, i));
