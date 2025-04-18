@@ -415,8 +415,6 @@ $$
 Osserviamo infine che data una tabella di valori $(x_0, y_0), ..., (x_k, y_k)$ da interpolare, possiamo riordinarli come vogliamo nel quadro delle differenze divise.
 Questo può essere utile a semplificare i calcoli.
 
-\newpage
-
 \subsubsection{Esempio: riordinamento dei valori}
 Poniamo di avere i seguenti dati:
 \begin{table}[H]
@@ -479,8 +477,6 @@ $$
 f\left(x\right)=\frac{x^{3}}{30}-\cos\left(\frac{3}{2}x\right)\ 
 $$
 
-\newpage
-
 Approssimata secondo la tabella di nodi:
 \begin{table}[H]
 	\center
@@ -512,16 +508,21 @@ $$
 p_k(x) = -4.51 n_0(x) + 1.42 n_1(x) + 0.13 n_2(x) - 0.16 n_3(x) + 0.05 n_4(x) - 0.01 n_5(x)
 $$
 
+\par\medskip
+\noindent
+
+\begin{minipage}{\textwidth}
 Vediamo quindi un grafico che mostra tale polinomio, sovraimposto alla funzione originale e ai nodi campionati:
 
 \begin{center}
 	\includegraphics[scale=0.3]{../figures/newton_interpol.png}
 \end{center}
+\end{minipage}
+
+\par\bigskip
 
 Il grafico è stato realizzato con Desmos (\url{https://www.desmos.com/calculator/tavjyzgpd0}), assieme allo scorso esempio sull'interpolazione di Lagrange (\url{https://www.desmos.com/calculator/w2tx5n7jtp}, esempio 13.1.3).
 Il calcolo al computer ci permette chiaramente di ottenere risultati più precisi, as esempio in questo caso a valutare il coefficiente della base di sesto grado (che svanisce approssimando alle prime 2 cifre decimali). 
-
-\newpage
 
 \subsection{Errore nell'approssimazione polinomiale}
 Veniamo quindi alla valutazione dell'errore.
@@ -582,8 +583,6 @@ Con $k = 4$, si ottiene il seguente polinomio interpolante:
 \begin{center}
 	\includegraphics[scale=0.28]{../figures/runge_k4.png}
 \end{center}
-
-\newpage
 
 Aumentando il grado a $k = 40$, quindi moltiplicando per 10, si ottiene invece il polinomio interpolante:
 \begin{center}
@@ -832,10 +831,17 @@ $$
 H_3(x) = 0 \cdot h_{00}(x) + L \cdot h_{01}(x) + 0 \cdot h_{10}(x) + S \cdot h_{11}(x) = L \left( 1 - 2 \frac{x - d}{d} \right) \frac{x^2}{d^2} + S (x - d) \frac{x^2}{d^2}
 $$
 
+\par\medskip
+\noindent
+
+\begin{minipage}{\textwidth}
 Vediamo un esempio grafico:
 \begin{center}
 	\includegraphics[scale=0.28]{../figures/tracks.png}
 \end{center}
+\end{minipage}
+
+\par\medskip
 
 \subsubsection{Errore nell'approssimazione di Hermite}
 Valutiamo quindi l'errore:

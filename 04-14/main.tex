@@ -237,8 +237,6 @@ $$
 p_i(x) : [x_{i - 1}, x_i] \rightarrow \mathbb{R}, \quad p_i(x_{i - 1}) = y_{i - 1}, \quad p_i(x_i) = y_i
 $$
 
-\newpage
-
 Vediamo quindi alcuni casi particolari di questo tipo di interpolazione al variare di $s$, presa la tabella di punti: 
 \begin{table}[h!]
 	\center 
@@ -268,10 +266,19 @@ In particolare, per i 4 punti che abbiamo preso vorremo definire:
 \]
 direttamente prendendo i fasci di rette in ogni punto $x_0$, $x_1$, $x_2$ (tutti tranne l'ultimo) e imponendo i coefficienti angolari.
 
+\par\medskip
+\noindent
+
+\begin{minipage}{\textwidth}
+
 Sul grafico, questo tipo di interpolazione (assieme alla derivata prima) avrà l'aspetto:
 \begin{center}
 	\includegraphics[scale=0.3]{../figures/multipoly_1.png}
 \end{center}
+\end{minipage}
+
+\par\medskip
+
 da dove si nota chiaramente che con questo approccio la continuità non è assicurata nemmeno al primo grado.
 
 \subsubsection{$\mathbf{s = 2}$: spline quadratiche}
@@ -313,7 +320,6 @@ A questo punto basterà trovare $a_i$, $b_i$ e $c_i$ in funzione di $x_{i - 1}$,
 
 Calcolando tali valori per ognuno dei $k$ tratti dell'interpolazione si trovano i parametri di ogni quadratica interpolante.
 
-\newpage
 
 Facendo ciò sull'esempio di prima, preso $d_0 = -2$ e tracciando il grafico, si ha (assieme alla derivata prima e seconda):
 \begin{center}
@@ -640,8 +646,6 @@ Le formule per il calcolo degli altri due casi saranno in qualche modo ricavate 
 		$$
 		dove gli $d_{i-1}$ e $s_{i-1}$ sono rispettivamente la derivata prima e seconda in ogni punto, data per il punto $x_0$ e ricavata dal tratto precedente per ogni tratto successivo.
 
-		\newpage
-
 		Un interpolazione di questo tipo per l'esempio considerato nelle scorse sezioni ha l'aspetto, prese $d_{0} = 1$ e $s_{0} = -1$ e tracciate derivata prima e seconda:
 		\begin{center}
 			\includegraphics[scale=0.3]{../figures/multipoly_3.png}
@@ -649,10 +653,16 @@ Le formule per il calcolo degli altri due casi saranno in qualche modo ricavate 
 		da dove notiamo che la derivata fino al secondo grado resta continua, da cui la condizione 3 è rispettata.
 
 		Vediamo che in verità si può risolvere in qualche modo anche lo scorso tipo di problema con questo metodo, semplicemente imponendo $s_0 = 0$ e cercando $d_0$ perché risulti $s_k = 0$.
+
+		\par\medskip
+		\noindent
+
+		\begin{minipage}{\textwidth}
 		Nell'esempio, questo si ottiene per $d_0 \approx -1.574$, con relativo grafico:
 		\begin{center}
 			\includegraphics[scale=0.3]{../figures/multipoly_nat.png}
 		\end{center}
+		\end{minipage}
 \end{itemize}
 
 Esempi di questi tipi di interpolazione si possono trovare sempre su Desmos, al link \url{https://www.desmos.com/calculator/gm1idqauiy} (da qui sono state generate le figure).
@@ -769,7 +779,13 @@ Vediamo quindi come implementare questo approccio in MATLAB.
 \lstset{language=matlab, style=codestyle}
 
 Abbiamo già a disposizione una funzione, \lstinline|least_squares()|, definita in 12.2.9 per la risoluzione di sistemi sovradeterminati usando la decomposizione QR.
-Ci mancherà quindi da scrivere una funzione che calcola il valore della matrice $A$, valutando le funzioni in base $G_i$, e che campiona una certa funzione $f(x)$ in determinati punti $x_i$ per generare un vettore di $y_i$, magari usando la \lstinline|linspace()|.
+Ci mancherà quindi da scrivere una funzione che calcola il valore della matrice $A$, valutando le funzioni in base $G_i$, e che campiona una certa funzione $f(x)$ in determinati punti $x_i$ per generare un vettore di $y_i$, magari usando la \lstinline|linspace()|, così da avere un insieme di nodi equispaziati del tipo:
+$$
+x_i = l + ih, \quad i = 0, ..., k - 1
+$$
+$$
+h = \frac{u - l}{k - 1}
+$$
 
 Per il problema di come rappresentare le $G_i$ usiamo dei \textit{function handle}, dichiarati come segue:
 \begin{lstlisting}[language=matlab, style=codestyle]	
@@ -784,8 +800,19 @@ $$
 G_0(x) = e^x, \quad G_1(x) = \frac{1}{x}, \quad G_2(x) = \sin(x)
 $$
 
+\par\medskip
+\noindent
+
+\begin{minipage}{\textwidth}
 Avremo allora una funzione del tipo:
 \lstinputlisting{../code/matlab/approx_trasc.m}
+\end{minipage}
+
+\par\medskip
+
+Attraverso questa funzione potremo calcolare i coefficienti $c$ che minimizzano lo scarto quadratico sugli \lstinline|n| punti fra \lstinline|l| e \lstinline|u|.
+
+\par\smallskip
 
 Prendiamo l'esempio della funzione:
 $$
@@ -810,11 +837,53 @@ ans =
    21.2591
     1.8092
 \end{lstlisting}
+
+\par\medskip
+\noindent
+
+\begin{minipage}{\textwidth}
 cioè $c_0 = 0.0596$, $c_1 = 21.2591$, $c_2 = 1.8092$, che sul grafico dà:
 \begin{center}
 	\includegraphics[scale = 0.28]{../figures/trasc_approx.png}
 \end{center}
+\end{minipage}
+
+\par\medskip
+
+Per un errore medio di:
+$$
+\varepsilon = \sqrt{\sum_{i = i}^{100} \left( f(x_i) - a(x_i) \right)^2} \approx 163.141
+$$
 
 Notiamo quindi che la funzione non passa necessariamente per nessuno dei punti campianati, ma riduce l'errore medio lungo tutta la regione campionata.
+
+Potremmo renderci conto che la maggior parte dell'errore è data dal fatto che cerchiamo di approssimare la funzione nella regione $0.1 \sim 0.7$, che ci porta ad avere un errore più grande nella zona vicino all'asse $x$.
+Se fossimo interessati ad ottenere un'approssimazione più accurata in questa regione, potremmo richiamare la funzione aumentando il bound $l$:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+>> approx_trasc(f, 0.7, 6, 100)
+
+ans =
+    0.0825
+    7.4361
+    5.0514
+\end{lstlisting}
+
+\par\medskip
+\noindent
+
+\begin{minipage}{\textwidth}
+cioè $c_0 = 0.0825$, $c_1 = 7.4361$, $c_2 = 5.0514$, che sul grafico dà:
+\begin{center}
+	\includegraphics[scale = 0.28]{../figures/trasc_approx_better.png}
+\end{center}
+\end{minipage}
+
+\par\medskip
+
+Per un errore medio di:
+$$
+\varepsilon \approx 106.392
+$$
+sul nuovo intervallo, che è già più accurato.
 
 \end{document}
