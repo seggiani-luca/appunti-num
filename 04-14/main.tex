@@ -105,37 +105,37 @@
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 
 \lstdefinestyle{codestyle}{
-		backgroundcolor=\color{black!5}, 
-		commentstyle=\color{codegreen},
-		keywordstyle=\bfseries\color{magenta},
-		numberstyle=\sffamily\tiny\color{black!60},
-		stringstyle=\color{green!50!black},
-		basicstyle=\ttfamily\footnotesize,
-		breakatwhitespace=false,         
-		breaklines=true,                 
-		captionpos=b,                    
-		keepspaces=true,                 
-		numbers=left,                    
-		numbersep=5pt,                  
-		showspaces=false,                
-		showstringspaces=false,
-		showtabs=false,                  
-		tabsize=2
+	backgroundcolor=\color{black!5}, 
+	commentstyle=\color{codegreen},
+	keywordstyle=\bfseries\color{magenta},
+	numberstyle=\sffamily\tiny\color{black!60},
+	stringstyle=\color{green!50!black},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=true,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=2
 }
 
 \lstdefinestyle{shellstyle}{
-		backgroundcolor=\color{black!5}, 
-		basicstyle=\ttfamily\footnotesize\color{black}, 
-		commentstyle=\color{black}, 
-		keywordstyle=\color{black},
-		numberstyle=\color{black!5},
-		stringstyle=\color{black}, 
-		showspaces=false,
-		showstringspaces=false, 
-		showtabs=false, 
-		tabsize=2, 
-		numbers=none, 
-		breaklines=true
+	backgroundcolor=\color{black!5}, 
+	basicstyle=\ttfamily\footnotesize\color{black}, 
+	commentstyle=\color{black}, 
+	keywordstyle=\color{black},
+	numberstyle=\color{black!5},
+	stringstyle=\color{black}, 
+	showspaces=false,
+	showstringspaces=false, 
+	showtabs=false, 
+	tabsize=2, 
+	numbers=none, 
+	breaklines=true
 }
 
 \lstdefinelanguage{javascript}{
@@ -157,14 +157,14 @@
 \usepackage{titlesec}
 
 \titleformat{\section}
-	{\sffamily\Large\bfseries} 
-	{\thesection}{1em}{} 
+{\sffamily\Large\bfseries} 
+{\thesection}{1em}{} 
 \titleformat{\subsection}
-	{\sffamily\large\bfseries}   
-	{\thesubsection}{1em}{} 
+{\sffamily\large\bfseries}   
+{\thesubsection}{1em}{} 
 \titleformat{\subsubsection}
-	{\sffamily\normalsize\bfseries} 
-	{\thesubsubsection}{1em}{}
+{\sffamily\normalsize\bfseries} 
+{\thesubsubsection}{1em}{}
 
 % disponi alberi
 \usepackage{forest}
@@ -237,8 +237,6 @@ $$
 p_i(x) : [x_{i - 1}, x_i] \rightarrow \mathbb{R}, \quad p_i(x_{i - 1}) = y_{i - 1}, \quad p_i(x_i) = y_i
 $$
 
-\newpage
-
 Vediamo quindi alcuni casi particolari di questo tipo di interpolazione al variare di $s$, presa la tabella di punti: 
 \begin{table}[h!]
 	\center 
@@ -268,10 +266,19 @@ In particolare, per i 4 punti che abbiamo preso vorremo definire:
 \]
 direttamente prendendo i fasci di rette in ogni punto $x_0$, $x_1$, $x_2$ (tutti tranne l'ultimo) e imponendo i coefficienti angolari.
 
+\par\medskip
+\noindent
+
+\begin{minipage}{\textwidth}
+
 Sul grafico, questo tipo di interpolazione (assieme alla derivata prima) avrà l'aspetto:
 \begin{center}
 	\includegraphics[scale=0.3]{../figures/multipoly_1.png}
 \end{center}
+\end{minipage}
+
+\par\medskip
+
 da dove si nota chiaramente che con questo approccio la continuità non è assicurata nemmeno al primo grado.
 
 \subsubsection{$\mathbf{s = 2}$: spline quadratiche}
@@ -313,9 +320,8 @@ A questo punto basterà trovare $a_i$, $b_i$ e $c_i$ in funzione di $x_{i - 1}$,
 
 Calcolando tali valori per ognuno dei $k$ tratti dell'interpolazione si trovano i parametri di ogni quadratica interpolante.
 
-\newpage
 
-Facendo ciò sull'esempio di prima e tracciando il grafico, si ha (assieme alla derivata prima e seconda):
+Facendo ciò sull'esempio di prima, preso $d_0 = -2$ e tracciando il grafico, si ha (assieme alla derivata prima e seconda):
 \begin{center}
 	\includegraphics[scale=0.3]{../figures/multipoly_2.png}
 \end{center}
@@ -367,7 +373,7 @@ Come nel caso quadratico, visto che $4k$ parametri per $4k - 2$ condizioni sono 
 		$$
 		p_1'(x_0) = f'(x_0), \quad p_k'(x_k) = f'(x_k)
 		$$
-		
+
 		Un altro tipo di spline vincolata potrebbe essere quello da usare nel caso in cui si conoscono derivata prima e seconda nel primo estremo di interpolazione $x_0 = a$.
 		In questo caso si impongono le condizioni:
 		$$
@@ -385,22 +391,22 @@ In ogni caso, per punti equispaziati i può dimostrare il seguente teorema:
 	e le valutazioni $y_0, ..., y_k$ di una certa funzione $f(x)$ nei nodi $x_i$, esiste unica la spline naturale $S_3(x)$ passante per i punti $(x_i, y_i)$, $i = 0, ..., k$.
 \end{theorem}
 
-Vediamo quindi due procedimenti di calcolo per due dei casi appena definiti, cioè il primo (spline naturale )e l'ultimo (spline vincolata in $x_0$).
+Vediamo quindi due procedimenti di calcolo per due dei casi appena definiti, cioè il primo (spline naturale) e l'ultimo (spline vincolata in $x_0$).
 Le formule per il calcolo degli altri due casi saranno in qualche modo ricavate in modo equivalente a quelle del primo caso.
 \begin{itemize}
 	\item Un primo approccio può essere quello di risolvere ognuno dei $k$ sottoproblemi di interpolazione fra $x_{i - 1}$ e $x_i$ applicando l'interpolazione di Hermite, e portandosi dietro le derivate prime $m_i$ (che ancora non conosciamo), interpretate come $f'(x_i)$.
 		Si determinano quindi gli $m_i$ imponendo le condizioni sulla derivata seconda agli estremi (abbiamo detto la \textit{condizione naturale}).
-	
+
 		Presi quindi punti equispaziati come sopra, cioè:
 		$$
 		x_i = a + ih, \quad h = \frac{b - a}{k}, \quad i = 0, ..., k
 		$$
 		questo procedimento porta alla formazione di spline del tipo:
 		$$
-		p_i(x) = \left[ f(x_{i - 1}) + \left( m_{i - 1} + \frac{2 f(x_{i  1})}{h} \right) (x - x_{i - 1})  \right] \left( \frac{x - x_i}{h} \right)^2
+		p_i(x) = \left[ f(x_{i - 1}) + \left( m_{i - 1} + \frac{2 f(x_{i - 1})}{h} \right) (x - x_{i - 1})  \right] \left( \frac{x - x_i}{h} \right)^2
 		$$
 		$$
-		+ \left[ f(x_{i}) + \left( m_{i} + \frac{2 f(x_{i  1})}{h} \right) (x - x_{i})  \right] \left( \frac{x - x_i - 1}{h} \right)^2
+		+ \left[ f(x_{i}) + \left( m_{i} - \frac{2 f(x_{i })}{h} \right) (x - x_{i})  \right] \left( \frac{x - x_{i - 1}}{h} \right)^2
 		$$
 		direttamente dall'interpolazione di Hermite, con gli $m_i$ soluzioni del seguente sistema lineare:
 		$$
@@ -415,56 +421,194 @@ Le formule per il calcolo degli altri due casi saranno in qualche modo ricavate 
 			m_0 \\ m_1 \\ m_2 \\ \vdots \\ m_k
 		\end{pmatrix}
 		=
+		\frac{3}{h}
 		\begin{pmatrix}
 			f(x_1) - f(x_0) \\
 			f(x_2) - f(x_0) \\
 			f(x_3) - f(x_1) \\
 			\vdots \\
 			f(x_{k-1}) - f(x_{k-2}) \\
-			f(x_k) - f(x_{k-2})
+			f(x_k) - f(x_{k-1})
 		\end{pmatrix}
 		$$
-		da dove si nota la matrice $A$ a \textit{˝striscia"}, data (presumibilmente, non me la sono ancora # ricavata) dall'interdipendenza fra i tratti della spline.
+		da dove si nota la matrice $A$ a \textit{˝striscia"}, data dall'interdipendenza fra i tratti della spline.
+
+		Per la dimostrazione seguiremo i passaggi in quest'ordine:
+		\begin{enumerate}
+			\item Prima troviamo una forma per il polinomio interpolante di Hermite $p_i(x)$ nei nodi $x_{i - 1}$ e $x_{i}$, noti i valori $y_{i - 1}$, $y_i$ e le derivate prime $m_{i - 1}$, $m_i$;
+			\item Poi calcoliamo la forma delle derivate seconde del polinomio interpolante agli estremi, in modo da preparare il prossimo passaggio;
+			\item Imponiamo le condizioni della spline cubica naturale, cioè derivate seconde agli estremi nulle e continuità $C^2$ nei punti intermedi.
+		\end{enumerate}
+
+		Procediamo quindi con la dimostrazione.
+
+		\begin{enumerate}
+			\item 
+				Vorremo interpolare ogni tratto $x_{i - 1}$, $x_i$ con un polinomio $p_i(x)$ di terzo grado che rispetti:
+				\[
+					\begin{cases}
+						p_i(x_{i - 1}) = f(x_{i - 1}) \\
+						p_i(x_i) = f(x_i) \\
+						p_i(x_{i - 1}) = m_{i - 1} \\
+						p_i(x_i) = m_1
+					\end{cases}
+				\]
+				dove i $k + 1$ valori $m_0, m_1, ..., m_k$ sono le derivate prime che ancora non conosciamo.
+				Avremo quindi da Hermite che vorremmo prendere le basi di Lagrange, che posto $x_i - x_{i - 1} = h$ (come si ha da nodi equispaziati) sono:
+				$$
+				e_{i-1}(x) = \frac{x - x_i}{x_{i-1} - x_i} = -\frac{x - x_i}{h}, \quad e_i(x) = \frac{x - x_{i-1}}{x_i - x_{i-1}} = \frac{x - x_{i - 1}}{h}
+				$$
+				di cui calcoliamo subito le derivate, in quanto ci serviranno in seguito:
+				$$
+				e_{i-1}'(x) = -\frac{1}{h}, \quad e_{i}'(x) = \frac{1}{h}, \quad e_{i - 1}''(x) = e_{i}''(x) = 0
+				$$
+
+				Avremo quindi le basi di Hermite:
+				$$
+				h_{0,i-1}\left(x\right) = (1 - 2e_{i - 1}'(x_{i - 1})(x - x_{i-1}))e_{i-1}^2(x) 
+				= \left(1+2\frac{x - x_{i-1}}{h}\right)\left(\frac{x-x_{i}}{h}\right)^{2}
+				$$
+				$$
+				h_{0,i}\left(x\right) = (1 - 2e_{i}'(x_i)(x - x_i))e_i^2(x) 
+				= \left(1-2\frac{x - x_i}{h}\right)\left(\frac{x-x_{i-1}}{h}\right)^{2}
+				$$
+				$$
+				h_{1,i-1}\left(x\right) = (x - x_{i - 1})e_{i-1}^2(x) = \left(x-x_{i-1}\right)\left(\frac{x-x_{i}}{h}\right)^{2}
+				$$
+				$$
+				h_{1,i}\left(x\right) = (x - x_{i})e_{i}^2(x) = \left(x-x_{i}\right)\left(\frac{x-x_{i-1}}{h}\right)^{2}
+				$$
+				da cui il polinomio interpolante finale, raccogliendo le basi quadrate comuni e qualche altro termine, è:
+				$$
+				p_i\left(x\right)=h_{0,i-1}\left(x\right)y_{i-1}+h_{0,i}\left(x\right)y_{i}+h_{1,i-1}\left(x\right)m_{i-1}+h_{1,i}\left(x\right)m_{i}
+				$$
+				$$
+				= \left(1+2\frac{x - x_{i-1}}{h}\right)\left(\frac{x-x_{i}}{h}\right)^{2} y_{i - 1}
+				+ \left(1-2\frac{x - x_i}{h}\right)\left(\frac{x-x_{i-1}}{h}\right)^{2} y_i
+				$$
+				$$
+				+ \left(x-x_{i-1}\right)\left(\frac{x-x_{i}}{h}\right)^{2} m_{i - 1}
+				+ \left(x-x_{i}\right)\left(\frac{x-x_{i-1}}{h}\right)^{2} m_i
+				$$
+				$$
+				=\left(y_{i-1}+\left(m_{i-1}+\frac{2y_{i-1}}{x_{i}-x_{i-1}}\right)\left(x-x_{i-1}\right)\right)\left(\frac{x-x_{i}}{x_{i}-x_{i-1}}\right)^{2}
+				$$
+				$$
+				+\left(y_{i}+\left(m_{i}-\frac{2y_{i}}{x_{i}-x_{i-1}}\right)\left(x-x_{i}\right)\right)\left(\frac{x-x_{i-1}}{x_{i}-x_{i-1}}\right)^{2}
+				$$
+				che posto $y_i = f(x_i)$ è esattamente quanto dato prima:
+				$$
+				p_i(x) = \left[ f(x_{i - 1}) + \left( m_{i - 1} + \frac{2 f(x_{i - 1})}{h} \right) (x - x_{i - 1})  \right] \left( \frac{x - x_i}{h} \right)^2
+				$$
+				$$
+				+ \left[ f(x_{i}) + \left( m_{i} - \frac{2 f(x_{i })}{h} \right) (x - x_{i})  \right] \left( \frac{x - x_{i - 1}}{h} \right)^2
+				$$
+
+			\item
+				A questo punto resta da ricavare il sistema lineare, che è ciò che ci darà i valori degli $m_i$.
+				Per fare ciò calcoliamo la derivata seconda del polinomio interpolante, partendo dal calcolare le derivate secondo delle singole basi di Hermite:
+				$$
+				h_{0,i-1}''(x) = \frac{2}{h^{3}}\left(h+6x-2x_{i - 1}-4x_{i}\right)
+				$$
+				$$
+				h_{0,i}''(x) = \frac{2}{h^{3}}\left(h-6x+2x_{i}+4x_{i - 1}\right)
+				$$
+				$$
+				h_{1,i-1}''(x) = \frac{1}{h^{2}}\left(6x-2x_{i-1}-4x_{i}\right)
+				$$
+				$$
+				h_{1, i}''(x) = \frac{1}{h^{2}}\left(6x-2x_{i}-4x_{i-1}\right)
+				$$
+				da cui:
+				$$
+				p_i''(x) = \frac{2}{h^{3}}\left(h+6x-2x_{i-1}-4x_{i}\right)y_{i-1}+\frac{2}{h^{3}}\left(h-6x+2x_{i}+4x_{i-1}\right)y_{i}
+				$$
+				$$
+				+\frac{1}{h^{2}}\left(6x-2x_{i-1}-4x_{i}\right)m_{i-1}+\frac{1}{h^{2}}\left(6x-2x_{i}-4x_{i-1}\right)m_{i}
+				$$
+
+				Ottenuta la derivata seconda del polinomio interpolante, calcoliamola nei punti $x_{i - 1}$ e $x_i$.
+				Per $x_{i - 1}$, ad esempio, si avrà:
+				$$
+				p_i''(x_{i-1}) = \frac{2}{h^{3}}\left(h+6x_{i-1}-2x_{i-1}-4x_{i}\right)y_{i-1}+\frac{2}{h^{3}}\left(h-6x_{i-1}+2x_{i}+4x_{i-1}\right)y_{i}
+				$$
+				$$
+				+\frac{1}{h^{2}}\left(6x_{i-1}-2x_{i-1}-4x_{i}\right)m_{i-1}+\frac{1}{h^{2}}\left(6x_{i-1}-2x_{i}-4x_{i-1}\right)m_{i}
+				$$
+				$$
+				= \frac{2}{h^3} \left( h + 4x_{i-1} - 4x_i \right) y_{i-1} + \frac{2}{h^3} \left(  h - 2x_{i - 1} + 2 x_i \right) y_i
+				$$
+				$$
+				+ \frac{1}{h^2} \left( 4 x_{i - 1} - 4x_i \right) m_{i - 1} + \frac{1}{h^2} \left( 2x_{i - 1} - 2x_i \right) m_i
+				$$
+				$$
+				=  \frac{2}{h^3} (h - 4h) y_{i - 1} + \frac{2}{h^3} (h + 2h) y_i + \frac{1}{h^2} (-4h) m_{i - 1} + \frac{1}{h^2} (-2h) m_i
+				$$
+				$$
+				= -\frac{6}{h^2} y_{i-1} + \frac{6}{h^2} y_i - \frac{4}{h} m_{i - 1} - \frac{2}{h} m_i = \frac{6\left(y_{i}-y_{i-1}\right)}{h^{2}}-\frac{4m_{i-1}+2m_{i}}{h}
+				$$
+				e con passaggi simili si calcola in $x_i$, per cui:
+				$$
+				p_i''(x_{i - 1}) = \frac{6\left(y_{i}-y_{i-1}\right)}{h^{2}}-\frac{4m_{i-1}+2m_{i}}{h}
+				$$
+				$$
+				p_i''(x_i) = \frac{2m_{i-1}+4m_{i}}{h}-\frac{6\left(y_{i}-y_{i-1}\right)}{h^{2}}
+				$$
+
+			\item
+				Avremo a questo punto da applicare le condizioni della spline cubica naturale, cioè derivata seconda nulla agli estremi:
+				\[
+					\begin{cases}	
+						p_1''(x_0) = 0 \implies 2m_0 + m_1 = \frac{3}{h} \left( f(x_1) - f(x_0) \right) \\
+						p_k''(x_k) = 0 \implies 2m_k + m_{k - 1} = \frac{3}{h} \left( f(x_k) - f(x_{k - 1}) \right) \\
+					\end{cases}
+				\]
+				e derivate seconde continue nei punti intermedi:
+				$$
+				p_i''(x_i) = p_{i+1}''(x_{i}) \implies m_{i - 1} + 4 m_i + m_{i + 1} = \frac{3}{h} f(x_{i + 1}) - f(x_{i - 1})
+				$$
+				da cui il sistema lineare che corredava la forma del polinomio di Hermite, e quindi la tesi. \qed
+		\end{enumerate}
 
 	\item Se si vuole imporre il vincolo "a sinistra" della derivata prima e seconda, si può procedere in maniera analoga a quanto fatto nel caso quadratico, cioe prendere i tratti polinomiali:
 		$$
 		c_i(x) = a_i x^3 + b_i x^2 + c_i x + d_i, \quad i = 1, ..., k
 		$$
 		e trovare gli $a_i$, $b_i$, $c_i$ e $d_i$ in funzione di $x_{i - 1}$, $x_i$ e le due derivate consecutive in $x_{i - 1}$ (che chiamiamo $d_{i - 1}$ e $s_{i- 1}$, rispettivamente primo e secondo grado).
-		
+
 		Visto che trovare direttamente i quattro problemi può essere difficile, decidiamo invece di trovare le 4 basi ortogonali $b_1$, $b_2$, $b_3$ e $b_4$ (di cui le prime 3 equivalenti a quelle di Hermite, e l'ultima corrispondente alla condizione derivata seconda in $x_{i - 1}$), che rispettano quindi le condizioni:
 		$$
 		b_1 : 
-			\begin{cases}
-				b_1(x_{i - 1}) = 1 \\
-				b_1(x_i) = 0 \\
-				b_1'(x_{i - 1}) = 0 \\
-				b_1''(x_{i - 1}) = 0 \\
-			\end{cases}, \quad
+		\begin{cases}
+			b_1(x_{i - 1}) = 1 \\
+			b_1(x_i) = 0 \\
+			b_1'(x_{i - 1}) = 0 \\
+			b_1''(x_{i - 1}) = 0 \\
+		\end{cases}, \quad
 		b_2 : 
-			\begin{cases}
-				b_2(x_{i - 1}) = 0 \\
-				b_2(x_i) = 1 \\
-				b_2'(x_{i - 1}) = 0 \\
-				b_2''(x_{i - 1}) = 0 \\
-			\end{cases}
+		\begin{cases}
+			b_2(x_{i - 1}) = 0 \\
+			b_2(x_i) = 1 \\
+			b_2'(x_{i - 1}) = 0 \\
+			b_2''(x_{i - 1}) = 0 \\
+		\end{cases}
 		$$
 
 		$$
 		b_3 : 
-			\begin{cases}
-				b_3(x_{i - 1}) = 0 \\
-				b_3(x_i) = 0 \\
-				b_3'(x_{i - 1}) = 1 \\
-				b_3''(x_{i - 1}) = 0 \\
-			\end{cases}, \quad
+		\begin{cases}
+			b_3(x_{i - 1}) = 0 \\
+			b_3(x_i) = 0 \\
+			b_3'(x_{i - 1}) = 1 \\
+			b_3''(x_{i - 1}) = 0 \\
+		\end{cases}, \quad
 		b_4 : 
-			\begin{cases}
-				b_3(x_{i - 1}) = 0 \\
-				b_3(x_i) = 0 \\
-				b_3'(x_{i - 1}) = 0 \\
-				b_3''(x_{i - 1}) = 1 \\
-			\end{cases}
+		\begin{cases}
+			b_3(x_{i - 1}) = 0 \\
+			b_3(x_i) = 0 \\
+			b_3'(x_{i - 1}) = 0 \\
+			b_3''(x_{i - 1}) = 1 \\
+		\end{cases}
 		$$
 
 		Queste si potranno ricavare, direttamente dall'imposizione delle condizioni, come:
@@ -497,22 +641,28 @@ Le formule per il calcolo degli altri due casi saranno in qualche modo ricavate 
 		\end{enumerate}
 
 		A questo punto basterà definire ogni tratto polinomiale $c_i$ come:
-$$
-c_{i}\left(x\right)=b\left(x,x_{i-1},x_{i}\right)y_{i-1}+b\left(x,x_{i-1},x_{i}\right)y_{i}+b\left(x,x_{i-1},x_{i}\right)d_{i-1}+b\left(x,x_{i-1},x_{i}\right)s_{i-1}\
-$$
-dove gli $d_{i-1}$ e $s_{i-1}$ sono rispettivamente la derivata prima e seconda in ogni punto, data per il punto $x_0$ e ricavata dal tratto precedente per ogni tratto successivo.
+		$$
+		c_{i}\left(x\right)=b\left(x,x_{i-1},x_{i}\right)y_{i-1}+b\left(x,x_{i-1},x_{i}\right)y_{i}+b\left(x,x_{i-1},x_{i}\right)d_{i-1}+b\left(x,x_{i-1},x_{i}\right)s_{i-1}\
+		$$
+		dove gli $d_{i-1}$ e $s_{i-1}$ sono rispettivamente la derivata prima e seconda in ogni punto, data per il punto $x_0$ e ricavata dal tratto precedente per ogni tratto successivo.
 
-Un interpolazione di questo tipo per l'esempio considerato nelle scorse sezioni ha l'aspetto, prese $d_{0} = 1$ e $s_{0} = -1$ e tracciate derivata prima e seconda:
-\begin{center}
-	\includegraphics[scale=0.3]{../figures/multipoly_3.png}
-\end{center}
-da dove notiamo che la derivata fino al secondo grado resta continua, da cui la condizione 3 è rispettata.
+		Un interpolazione di questo tipo per l'esempio considerato nelle scorse sezioni ha l'aspetto, prese $d_{0} = 1$ e $s_{0} = -1$ e tracciate derivata prima e seconda:
+		\begin{center}
+			\includegraphics[scale=0.3]{../figures/multipoly_3.png}
+		\end{center}
+		da dove notiamo che la derivata fino al secondo grado resta continua, da cui la condizione 3 è rispettata.
 
-Vediamo che in verità si può risolvere in qualche modo anche lo scorso tipo di problema con questo metodo, semplicemente imponendo $s_0 = 0$ e cercando $d_0$ perché risulti $s_k = 0$.
-Nell'esempio, questo si ottiene per $d_0 \approx -1.574$, con relativo grafico:
-\begin{center}
-	\includegraphics[scale=0.3]{../figures/multipoly_nat.png}
-\end{center}
+		Vediamo che in verità si può risolvere in qualche modo anche lo scorso tipo di problema con questo metodo, semplicemente imponendo $s_0 = 0$ e cercando $d_0$ perché risulti $s_k = 0$.
+
+		\par\medskip
+		\noindent
+
+		\begin{minipage}{\textwidth}
+		Nell'esempio, questo si ottiene per $d_0 \approx -1.574$, con relativo grafico:
+		\begin{center}
+			\includegraphics[scale=0.3]{../figures/multipoly_nat.png}
+		\end{center}
+		\end{minipage}
 \end{itemize}
 
 Esempi di questi tipi di interpolazione si possono trovare sempre su Desmos, al link \url{https://www.desmos.com/calculator/gm1idqauiy} (da qui sono state generate le figure).
@@ -537,20 +687,20 @@ con $c_i$ da trovare, cioè la combinazione lineare ottima (definiremo cosa sign
 
 \begin{itemize}
 	\item 
-Ad esempio, la regressione lineare quella data dalle funzioni modello:
-$$
-G_0(x) = 1, \quad G_1(x) = x
-$$
-approssimante $k + 1 = \#$ punti nel grafico;
-\item Potremmo avere altri tipi di funzioni modello.
-Ad esempio potremmo avere:
-	$$
-G_0(x) = e^{2x}, \quad G_1(x) = \sin\left( \frac{x}{2} \right), \quad G_2(x) = \frac{1}{3x^2 + 4}
-$$
-In questo caso l'approssimante avrebbe una forma del tipo:
-$$
-\Phi(x) = c_0 e^{2x} + c_1 \sin \left( \frac{x}{2} \right) + \frac{c_2}{3x^2 + 4}
-$$
+		Ad esempio, la regressione lineare quella data dalle funzioni modello:
+		$$
+		G_0(x) = 1, \quad G_1(x) = x
+		$$
+		approssimante $k + 1 = \#$ punti nel grafico;
+	\item Potremmo avere altri tipi di funzioni modello.
+		Ad esempio potremmo avere:
+		$$
+		G_0(x) = e^{2x}, \quad G_1(x) = \sin\left( \frac{x}{2} \right), \quad G_2(x) = \frac{1}{3x^2 + 4}
+		$$
+		In questo caso l'approssimante avrebbe una forma del tipo:
+		$$
+		\Phi(x) = c_0 e^{2x} + c_1 \sin \left( \frac{x}{2} \right) + \frac{c_2}{3x^2 + 4}
+		$$
 \end{itemize}
 
 \par\smallskip
@@ -591,7 +741,7 @@ c = \min_{c \in \mathbb{R}^{m + 1}} \psi(c)
 $$
 cioè $c$ è punto di minimo di $\psi(c)$.
 
-Dovremo qunidi minimizzare:
+Dovremo quindi minimizzare:
 $$
 \psi(c) = \sum_{i = 0}^k \left( \Phi(x_i) - y_i \right)^2 = \sum_{i = 0}^k \left( \sum_{j = 0}^m c_j \cdot G_j(x_i) - y_i \right)^2
 $$
@@ -622,5 +772,118 @@ $$
 c^* = \min_{c \in \mathbb{R}^{m + 1}} |Ac - b|_2
 $$
 Possiamo quindi risolvere interpretando il sistema come uno di quelli visti in 11.1, quindi sfruttando le \textbf{equazioni normali} o la \textbf{decomposizione QR}.
+
+\subsubsection{Implementazione MATLAB di un approssimatore ai quadrati minimi}
+Vediamo quindi come implementare questo approccio in MATLAB.
+
+\lstset{language=matlab, style=codestyle}
+
+Abbiamo già a disposizione una funzione, \lstinline|least_squares()|, definita in 12.2.9 per la risoluzione di sistemi sovradeterminati usando la decomposizione QR.
+Ci mancherà quindi da scrivere una funzione che calcola il valore della matrice $A$, valutando le funzioni in base $G_i$, e che campiona una certa funzione $f(x)$ in determinati punti $x_i$ per generare un vettore di $y_i$, magari usando la \lstinline|linspace()|, così da avere un insieme di nodi equispaziati del tipo:
+$$
+x_i = l + ih, \quad i = 0, ..., k - 1
+$$
+$$
+h = \frac{u - l}{k - 1}
+$$
+
+Per il problema di come rappresentare le $G_i$ usiamo dei \textit{function handle}, dichiarati come segue:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+% un function handle alla funzione f(x) = x^2
+f = @(x) x.^2
+% si usa come: f(2) -> 4
+\end{lstlisting}
+Una base potrà quindi essere costruita racchiudendo più handle di questo tipo in un \textit{array di celle}.
+
+Prendiamo per adesso la base:
+$$
+G_0(x) = e^x, \quad G_1(x) = \frac{1}{x}, \quad G_2(x) = \sin(x)
+$$
+
+\par\medskip
+\noindent
+
+\begin{minipage}{\textwidth}
+Avremo allora una funzione del tipo:
+\lstinputlisting{../code/matlab/approx_trasc.m}
+\end{minipage}
+
+\par\medskip
+
+Attraverso questa funzione potremo calcolare i coefficienti $c$ che minimizzano lo scarto quadratico sugli \lstinline|n| punti fra \lstinline|l| e \lstinline|u|.
+
+\par\smallskip
+
+Prendiamo l'esempio della funzione:
+$$
+f\left(x\right)=\left(2x-3\right)\left(x-3\right)\left(x-4\right)\left(x-5\right)
+$$
+
+Definiremo questa, in MATLAB, come segue:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+f = @(x) (2.*x - 3).*(x - 3).*(x - 4).*(x - 5);
+\end{lstlisting}
+
+Potremo allora trovare i coefficienti $c$ di un approssimazione in forma:
+$$
+a(x) = c_{0}\cdot e^{x}+c_{1}\cdot\frac{1}{x}+c_{2}\cdot\sin\left(x\right)
+$$
+usando la funzione MATLAB appena implementata:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+>> approx_trasc(f, 0.1, 6, 100)
+
+ans =
+    0.0596
+   21.2591
+    1.8092
+\end{lstlisting}
+
+\par\medskip
+\noindent
+
+\begin{minipage}{\textwidth}
+cioè $c_0 = 0.0596$, $c_1 = 21.2591$, $c_2 = 1.8092$, che sul grafico dà:
+\begin{center}
+	\includegraphics[scale = 0.28]{../figures/trasc_approx.png}
+\end{center}
+\end{minipage}
+
+\par\medskip
+
+Per un errore medio di:
+$$
+\varepsilon = \sqrt{\sum_{i = i}^{100} \left( f(x_i) - a(x_i) \right)^2} \approx 163.141
+$$
+
+Notiamo quindi che la funzione non passa necessariamente per nessuno dei punti campianati, ma riduce l'errore medio lungo tutta la regione campionata.
+
+Potremmo renderci conto che la maggior parte dell'errore è data dal fatto che cerchiamo di approssimare la funzione nella regione $0.1 \sim 0.7$, che ci porta ad avere un errore più grande nella zona vicino all'asse $x$.
+Se fossimo interessati ad ottenere un'approssimazione più accurata in questa regione, potremmo richiamare la funzione aumentando il bound $l$:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+>> approx_trasc(f, 0.7, 6, 100)
+
+ans =
+    0.0825
+    7.4361
+    5.0514
+\end{lstlisting}
+
+\par\medskip
+\noindent
+
+\begin{minipage}{\textwidth}
+cioè $c_0 = 0.0825$, $c_1 = 7.4361$, $c_2 = 5.0514$, che sul grafico dà:
+\begin{center}
+	\includegraphics[scale = 0.28]{../figures/trasc_approx_better.png}
+\end{center}
+\end{minipage}
+
+\par\medskip
+
+Per un errore medio di:
+$$
+\varepsilon \approx 106.392
+$$
+sul nuovo intervallo, che è già più accurato.
 
 \end{document}

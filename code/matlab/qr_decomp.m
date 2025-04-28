@@ -1,6 +1,7 @@
 function [Q, A] = qr_decomp(A)
-    n = height(A);
-    Q = eye(n); % accumulatore
+    n = width(A);
+    m = height(A);
+    Q = eye(m); % accumulatore
 
     for i = 1:n
         Hi = householder(A(i:end, i));

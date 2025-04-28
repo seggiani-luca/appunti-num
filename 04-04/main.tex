@@ -584,9 +584,9 @@ Nei problemi ai minimi quadrati, la fattorizzazione QR è utile in quanto se $A 
 $$
 \min_{x \in \mathbb{C}^n} | b - Ax |_2 = \min_{x \in \mathbb{C}^n} |b - QR x|_2 = \min_{x \in \mathbb{C}} |Q^H b - Rx|_2
 $$
-moltiplicando per $Q^H$ all'ultimo passaggio.
+moltiplicando per $Q^H$ all'ultimo passaggio (che preserva la norma, come abbiamo appena dimostrato).
 
-Chiamato $Q^H b = c$, osserviamo quindi poter prendere:
+Chiamato $Q^H b = c$, osserviamo quindi di poter prendere:
 $$
 \psi(x) = |cx - Rx|_2^2
 $$
@@ -754,7 +754,7 @@ dove la matrice di Householder viene mantenuta in due vettori, e si sono definit
 \subsubsection{Implementazione C++ della decomposizione QR}
 L'ultima versione ottimizzata della decomposizione QR si presta particolarmente bene all'implementazione in linguaggi di livello più basso. 
 
-Potremmo infatti avere la funzione, del tutto analoga alla scorsa implementazione MATLAB:
+Potremmo infatti avere la funzione, del tutto analoga alla scorsa implementazione MATLAB (se non per il fatto che si assume la matrice $A$ sia quadrata):
 \begin{lstlisting}[language=C++, style=codestyle]	
 void qr_decomp(double** A, double** Q, unsigned n) {
 	// inizializza vettori a, b
@@ -850,5 +850,19 @@ void rank_one_r(double** A, unsigned i, unsigned n, double* a, double* b) {
 
 L'algoritmo è dunque completo, e realizza usando solo semplici cicli di complessità al massimo quadratica/cubica la decomposizione QR.
 Ricordiamo che il codice visto finora è disponibile nella directory \lstinline|/code| degli appunti del corso, e in particolare queste implementazioni di livello più basso in C++ sono disponibili in \lstinline|/code/cpp|.
+
+\subsubsection{Implementazione MATLAB di un risolutore ai minimi quadrati}
+Abbiamo quindi tutti gli elementi necessari per realizzare un semplice risolutore che implementi ciò che MATLAB fa già naturalmente quando gli si pone l'istruzione \lstinline|A \ b| con il numero di righe di $A$ maggiore del numero di colonne, cioè risolvere un sistema sovradeterminato usando i minimi quadrati.
+
+Prendiamo quindi la serie di passaggi descritta in 12.2.1 ed implementiamo un algoritmo che li effettui:
+\lstinputlisting{../code/matlab/least_squares.m}
+dove notiamo che dobbiamo troncare sia la matrice $R$ che il vettore $c$ ai soli elementi non nulli (cosa fatta controllando gli elementi non nulli della diagonale), in quanto la \lstinline|bck_subst()| non si comporta bene altrimenti.
+
+Potremo quindi usare l'algoritmo per risolvere problemi ai minimi quadrati come segue:
+\begin{lstlisting}[language=matlab, style=codestyle]	
+% dati A, b noti
+x = least_squares(A, b);
+% x minimizza lo scarto quadratico
+\end{lstlisting}
 
 \end{document}

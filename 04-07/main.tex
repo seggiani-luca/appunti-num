@@ -206,15 +206,17 @@
 
 % testo
 \subsection{Interpolazione di funzioni}
-Poniamo di avere una qualche funzione $f(x) : \mathbb{C} \rightarrow \mathbb{C}$ che non conosciamo esplicitamente ma di cui possiamo solo calcolare il valore $y_0, ..., y_k$ in determinati punti $x_0, ..., x_k$ non necessariamente equspaziati fra di loro.
+Poniamo di avere una qualche funzione $f(x) : \mathbb{C} \rightarrow \mathbb{C}$ (in realtà spesso prenderemo senza ledere alla generalità della trattazione $f(x) : \mathbb{R} \rightarrow \mathbb{R}$) che non conosciamo esplicitamente ma di cui possiamo solo calcolare il valore $y_0, ..., y_k$ in determinati punti $x_0, ..., x_k$ non necessariamente equspaziati fra di loro.
 Chiamiamo questi punti \textbf{nodi}.
 Il problema sarà allora trovare un'\textit{approssimazione} di $f(x)$ \textbf{interpolando} i punti dati.
 \begin{itemize}
 	\item 
 Un approccio valido quando si hanno pochi punti ($k$) è considerare un polinomio di grado $k$ che passi per tutti questi, sperando che si raggiunga un'approssimazione sufficientemente precisa nei punti esterni ai nodi.
+Questo è l'approccio che vedremo della sezione 13.1.1 in poi;
 	\item
-Un'altro approccio, quando si hanno molti punti, è trovare una funzione particolarmente semplice (solitamente una retta) che minimizzi la distanza da questi.
+Un altro approccio, quando si hanno molti punti, è trovare una funzione particolarmente semplice (solitamente una retta) che minimizzi la distanza da questi.
 E' questo ad esempio il caso della \textit{regressione lineare}.
+Questo è l'approccio dell'\textit{approssimazione ai minimi quadrati} che vedremo in 15.2.
 \end{itemize}
 
 \subsubsection{Interpolazione polinomiale}
@@ -540,11 +542,18 @@ $$
 -0.59 l_7(x) -0.15 l_8(x) + 0.23 l_9(x) + 0.05 l_{10}(x) 0.22 l_{11}(x)
 $$
 
+\par\bigskip
+\noindent
+
+\begin{minipage}{\textwidth}
 Vediamo quindi un grafico che mostra tale polinomio, sovraimposto alla funzione originale e ai nodi campionati:
 
 \begin{center}
 	\includegraphics[scale=0.3]{../figures/lagrange_interpol.png}
 \end{center}
+\end{minipage}
+
+\par\bigskip
 
 Come vediamo, almeno nei punti intermedi l'interpolazione è piuttosto vicina, mentre ai punti estremi si notano degli artefatti non indifferente (principalmente dati dal comportamento oscillatorio della $f(x)$). 
 
