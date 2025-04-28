@@ -270,7 +270,9 @@ Definiamo quindi formalmente:
 	\end{itemize}
 \end{definition}
 
-Possiamo quindi definire l'errore:
+\noindent
+\begin{minipage}{\textwidth}
+Data la definizione di formula di quadratura, possiamo quindi definire l'errore:
 \begin{definition}{Errore della formula di quadratura}
 	L'errore della formula di quadratura $J_n(\circ)$ si definisce come:
 	$$
@@ -285,6 +287,7 @@ Possiamo quindi definire l'errore:
 	f \rightarrow E_n(f)
 	$$
 \end{definition}
+\end{minipage}
 
 Ossserviamo che sia $J_n$ che $E_n$ sono funzioni lineari, in quanto date $f_1, f_2 \in C\left([a, b]\right)$ e $c_1, c_2 \in \mathbb{R}$:
 $$
@@ -356,11 +359,73 @@ $$
 per cui $m$ è esattamente 1.
 
 Graficamente, questo non significherà altro che approssimare l'integrale fra $-1$ e $1$ attraverso l'area sottesa alla retta passante per i punti $(-1, f(-1))$, $(1, f(1))$, cosa che chiaramente risulta inadeguata quando $f$ è di grado maggiore a 1 (come ad esempio una parabola).
+Vediamo infatti su un grafico che dato $a$ e $b$ consideriamo l'area evidenziata in viola:
+\begin{center}
+	\includegraphics[scale=0.28]{../figures/trapezoidal_approx.png}
+\end{center}
 
 Quest'area è effettivamente un trapezio, motivo per cui la formula $J_1$ sul generico intervallo $[a, b]$ viene detta \textbf{formula dei trapezi}:
 $$
 \left(f(a) + f(b)\right) \frac{b - a}{2}
 $$
+Possiamo dimostrare questa in 2 modi:
+\begin{itemize}
+	\item Applicando direttamente l'area del trapezio, cioè:
+		$$
+		(b + B) \frac{h}{2} = \left(f(a) + f(b)\right) \frac{b - a}{2}
+		$$ \qed
+	\item Alternativamente possiamo ricorrere all'imposizione di un sistema simile a quello visto prima all'intervallo generico $[a, b]$:
+\[
+	\begin{cases}
+		E_n(1) = 0 \\ 
+		E_n(x) = 0
+	\end{cases}
+	\rightarrow
+	\begin{cases}
+		\int_a^b 1 \, dx - a_0 - a_1 = 0 \\ 
+		\int_a^b x \, dx - a \cdot a_0 - b \cdot a_1 = 0
+	\end{cases}
+\]
+\[
+	\rightarrow
+	\begin{cases}
+		b - a = a_0 + a_1 \\ 
+		\frac{x^2}{2} \Big|^b_a = a \cdot a_0 + b \cdot a_1 
+	\end{cases}
+	\rightarrow
+	\begin{cases}
+		b - a = a_0 + a_1 \\ 
+		\frac{b^2}{2} - \frac{a^2}{2} = a \cdot a_0 + b \cdot a_1 
+	\end{cases}
+\]
+da cui si ottiene il sistema:
+\[
+	\begin{cases}
+		a_0 + a_1 = b - a \\ 
+		a \cdot a_0 + b \cdot a_1 = \frac{b^2 - a^2}{2}
+	\end{cases}
+\]
+Prendiamo ad esempio $a_0$ dalla prima equazione:
+$$
+a_0 = b - a - a_1
+$$
+che sostituendo nella seconda equazione dà:
+$$
+a(b - a - a_1) + b a_1 = \frac{b^2 - a^2}{2} \, \Rightarrow \, ab - a^2 - aa_1 + ba_1 = \frac{b^2 - a^2}{2}
+$$
+$$
+\implies (b - a) a_1 = \frac{b^2 - a^2}{2} - ab + a^2 = \frac{a^2 - 2ab + b^2}{2} = \frac{(b - a)^2}{2}
+$$
+dove guardando gli estremi si ha:
+$$
+a_1 = \frac{b - a}{2}
+$$
+Dalla prima equazione, poi, è immediato che anche:
+$$
+a_0 = \frac{b - a}{2}
+$$
+da cui la formula dei trapezi. \qed
+\end{itemize}
 
 \subsubsection{Formula di Simpson}
 
@@ -405,14 +470,124 @@ E_2 (x^4) = \int_{-1}^1 x^4 \, dx - \frac{1}{3} \left( 1 + 4 \cdot 0 + 1 \right)
 $$
 per cui abbiamo che il grado di precisione della formula di Simpson è esattamente $m = 3$.
 
+\par\smallskip
+
 Infine generalizziamo la formula di Simspon all'intervallo $[a, b]$:
 $$
 \frac{b - a}{6} \left( f(a) + 4 f\left( \frac{a + b}{2} \right) + f(b) \right)
 $$
-
-Abbiamo quindi che anche Simspon si basa sul trovare implicitamente il polinomio interpolante e poi integrare quello, con la caratteristica aggiunta che anche al grado 3 l'integrale risulta esatto (anche se non lo è l'interpolante).
+Questa si dimostra per calcolo diretto, imponendo le condizioni sul generico intervallo $[a, b]$:
+\[
+	\begin{cases}
+		E_n(1) = 0 \\ 
+		E_n(x) = 0 \\ 
+		E_n(x^2) = 0
+	\end{cases}
+	\rightarrow
+	\begin{cases}
+		\int_a^b 1 \, dx - a_0 - a_1 - a_2 = 0 \\ 
+		\int_a^b x \, dx - a \cdot a_0 - \frac{a + b}{2} a_1 - b \cdot a_2 = 0 \\ 
+		\int_a^b x^2 \, dx - a^2 \cdot a_0 - \frac{(a+b)^2}{4} a_1 - b^2 \cdot a_2 = 0
+	\end{cases}
+\]
+\[
+	\rightarrow 
+	\begin{cases}
+		b - a = a_0 + a_1 + a_2 \\ 
+		\frac{b^2}{2} - \frac{a^2}{2} = a \cdot a_0 + \frac{a + b}{2} a_1 + b \cdot a_2 \\ 
+		\frac{b^3}{3} - \frac{a^3}{3} = a^2 \cdot a_0 + \frac{(a + b)^2}{4} a_1 + b^2 \cdot a_2
+	\end{cases}
+\]
+Abbiamo che dalla prima equazione si ricava:
+$$
+a_0 = b - a - a_1 - a_2
+$$
+mentre dalla seconda si ha, sostituendo:
+$$
+\frac{b^2 - a^2}{2} = a(b - a - a_1 - a_2) + \frac{a + b}{2} a_1 + b a_2 =
+$$
+$$
+= ab - a^2 - a \cdot a_1 - a \cdot a_2 + \frac{a + b}{2} a_1 + b a_2
+$$
+$$
+\implies \frac{b^2 - a^2}{2} - ab + a^2 = -a \cdot a_1 - a \cdot a_2 + \frac{a + b}{2} a_1 + b \cdot a_2
+$$
+$$
+\Rightarrow \, \frac{b^2 - a^2 - 2ab + 2a^2}{2} = a_1 \left( -a + \frac{a + b}{2} \right) + a_2 (b - a) \, \Rightarrow \frac{(b-a)^2}{2} = a_1 \left( \frac{b - a}{2} \right) + a_2 (b - a)
+$$
+da cui:
+$$
+a_1 = b - a - 2 a_2
+$$
+Sostituendo questo nella formula trovata prima per $a_0$ si trova quindi:
+$$
+a_0 = b - a - b + a + 2 a_2 - a_2 = a_2
+$$
+cioè valgono le condizioni:
+\[
+	\begin{cases}
+		a_0 = a_2 \\ 
+		a_1 = b - a - 2 a_0 = b - a - 2 a_2
+	\end{cases}
+\]
+Usiamo queste per trovare $a_0$ (o equivalentemente $a_2$) dalla terza equazione.
+Avremo in questo caso:
+$$
+\frac{b^3}{3} - \frac{a^3}{3} = a^2 \cdot a_0 + \frac{(a + b)^2}{4} a_1 + b^2 \cdot a_0
+= a^2 \cdot a_0 + \frac{(a + b)^2}{4} (b - a - 2a_0) + b^2 \cdot a_0
+$$
+$$
+= a^2 \cdot a_0 + b^2 \cdot a_0 + \frac{(a + b)^2}{4} (b - a) - \frac{(a + b)^2}{2} a_0
+$$
+dove vorremo dividere i termini fra parte sinistra e destra come:
+$$
+\frac{b^3 - a^3}{3} - \frac{(a + b)^2}{4} (b - a) = a^2 \cdot a_0 + b^2 \cdot a_0 - \frac{(a + b)^2}{2} a_0 
+$$
+Valutiamo queste separatamente.
+\begin{itemize}
+	\item \textbf{Parte sinistra}:
+		$$
+		\frac{b^3 - a^3}{3} - \frac{(a + b)^2}{4} (b - a) = \frac{b^3 - a^3}{3} - \frac{a^2 + 2ab + b^2}{4} (b - a)
+		$$
+		$$
+		= \frac{b^3 - a^3}{3} - \frac{a^2 b - a^3 + 2ab^2 - 2 a^2 b + b^3 - ab^2}{4} = \frac{b^3 - a^3}{3} + \frac{-b^3 + a^3 + a^2 b - a b^2}{4}
+		$$
+		$$
+		= \frac{1}{12}b^3 - \frac{1}{12}a^3 + \frac{1}{4}a^2 b - \frac{1}{4} a b^2 = \frac{1}{12} (b - a)^3
+		$$
+		
+	\item \textbf{Parte destra}:
+		$$
+		a^2 \cdot a_0 + b^2 \cdot a_0 - \frac{(a + b)^2}{2} a_0 = a^2 \cdot a_0 + b^2 \cdot a_0 - \left( \frac{a^2}{2} + ab + \frac{b^2}{2} \right) a_0
+		$$
+		$$
+		= \frac{a^2}{2} a_0 + \frac{b^2}{2} a_0 - ab \cdot a_0 = \frac{(b - a)^2}{2} a_0
+		$$
+\end{itemize}
+da cui avremo quindi complessivamente:
+$$
+\frac{1}{12} (b - a)^3 = \frac{(b - a)^2}{2} a_0 \implies a_0 = \frac{b - a}{6}
+$$
+da cui si ha immediatamente che:
+$$
+a_0 = a_2 = \frac{2}{3} (b - a)
+$$
+che dà esattamente la formula di Simpson. \qed
 
 \par\smallskip
+
+Abbiamo quindi che anche Simspon si basa sul trovare implicitamente il polinomio interpolante e poi integrare quello, con la caratteristica aggiunta che anche al grado 3 l'integrale risulta esatto (anche se non lo è l'interpolante).
+In particolare, vediamo sul grafico che l'interpolante per una quadratica da il risultato esatto:
+\begin{center}
+	\includegraphics[scale=0.28]{../figures/simpson_quadratic.png}
+\end{center}
+e che per una cubica, anche se l'interpolante non coincide con la funzione, si ha comunque risultato esatto.
+Questo è dato dal fatto che si creano due regioni discordi che si compensano fra di loro:
+\begin{center}
+	\includegraphics[scale=0.28]{../figures/simpson_cubic.png}
+\end{center}
+
+\subsubsection{Formula Gaussiana}
 
 Rivediamo quindi il problema di massimizzare il grado di precisione dati i nodi $x_0, ..., x_n$.
 Questo significherà imporre:
@@ -537,11 +712,50 @@ Imponiamo quindi:
 		a_0 x_0^3 + a_1 x_1^3 = 0
 	\end{cases}
 \]
-da cui si ottiene # risolvendo: 
+per risolvere il sistema ricaviamo prima $a_0$ e $a_1$ in funzione di $x_0$ e $x_1$ dalle prime 2 equazioni:
+\begin{itemize}
+	\item $a_0$ si ha direttamente dalla prima equazione:
+		$$
+			a_0 = 2 - a_1
+		$$
+	\item $a_1$ si ha dalla seconda equazione,, sostituendo la formula per $a_0$ appena trovata:
+		$$
+		(2 - a_1) x_0 + a_1 x_1 = 2x_0 - a_1 x_0 + a_1 x_1 = 0 \implies a_1 (x_1 - x_0) = \frac{-2 x_0}{x_1 - x_0}
+		$$
+\end{itemize}
+da cui abbiamo che vale:
 $$
-a_0, a_1 = 1, \quad x_0, x_1 = \pm \frac{\sqrt{3}}{3}
+a_0 = \frac{2 x_1}{x_1 - x_0}, \quad a_1 = -\frac{2 x_0}{x_1 - x_0}
 $$
-cioè la formula Gaussiana:
+Prendiamo quindi il sistema ridotto alle ultime 2 equazioni:
+\[
+	\begin{cases}
+		\frac{2 x_1 x_0^2}{x_1 - x_0} - \frac{2 x_0 x_1^2}{x_1 - x_0} = \frac{2}{3} \\ 
+		\frac{2 x_1 x_0^3}{x_1 - x_0} - \frac{2 x_0 x_1^3}{x_1 - x_0} = 0
+	\end{cases}
+	\rightarrow 
+	\begin{cases}
+		2 x_1 x_0^2 - 2 x_0 x_1^2 = \frac{2}{3} (x_1 - x_0) \\ 
+		2 x_1 x_0^3 - 2 x_0 x_1^3 = 0
+	\end{cases}
+\]
+dall'ultima di queste si ricava:
+$$
+2 x_1 x_0^3 - 2 x_0 x_1^3 = 0 \, \Rightarrow \, 2 x_1 x_0^3 = 2 x_0 x_1^3 \, \Rightarrow \, x_0^2 = x_1^2 \, \Rightarrow \, x_0 = \pm x_1
+$$
+Ci interesserà prendere $x_0 = - x_1$, da cui dalla prima equazione:
+$$
+2 x_1^3 + 2 x_1^4 = \frac{4}{3} x_1 \implies x_1^2 = \frac{1}{3}
+$$
+cioè:
+$$
+x_0, x_1 = \pm \frac{\sqrt{3}}{3}
+$$
+sostituendo nelle formule per $a_0$ e $a_1$ trovate prima, si ha poi immediatamente:
+$$
+a_0, a_1 = 1, \quad 
+$$
+cioè la formula Gaussiana è:
 $$
 J_1(f) = f\left(-\frac{\sqrt{3}}{3}\right) + f\left(\frac{\sqrt{3}}{3}\right)
 $$
@@ -549,7 +763,7 @@ che vale fino al grado 3, in quanto al grado 4 si ha:
 $$
 E_1(x^4) = \frac{2}{5} - \frac{2}{9} \neq 0
 $$
-da cui il grado di precisione è esattamente 3.
+da cui il grado di precisione è esattamente 3. \qed
 
 \subsubsection{Errore nelle formule di quadratura}
 Riguardo all'errore già definito nella definizione 16.2, vale il seguente teorema:
@@ -574,7 +788,7 @@ Riguardo all'errore già definito nella definizione 16.2, vale il seguente teore
 \end{theorem}
 Vale la definizione:
 \begin{definition}{Nucleo di Peano}
-	La funzione $G(t)$ del terema 16.2 è detta \textbf{nucleo di Peano}. 
+	La funzione $G(t)$ del teorema 16.2 è detta \textbf{nucleo di Peano}. 
 \end{definition}
 
 \end{document}
