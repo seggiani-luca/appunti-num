@@ -206,11 +206,12 @@
 
 % testo
 Avevamo dato la definizione del teorema di Peano (teorema 16.2), per l'errore della generica formula di quadratura $J_n$.
-Per ora quest'espressione ci risulta poco maneggevole in quanto richiede il calcolo dell'errore sulla funzione $s_m(t)$, detta nucleo di Peano (definizione 16.5).
+Per ora quest'espressione ci risulta poco maneggevole in quanto richiede il calcolo dell'errore $G(t)$ sulla funzione $s_m(t)$, detto \textit{nucleo di Peano} (definizione 16.5).
 
-Riprendiamo quindi la definizione dell'erroe:
+Riprendiamo quindi la definizione dell'errore dal teorema di Peano:
+
 $$
-E_n(f) = \frac{1}{m!} \int_a^b f^{(m + 1)}(t) G(t) \, dt
+E_n(f) = \frac{1}{m!} \int_a^b f^{(m + 1)}(t) \cdot G(t) \, dt
 $$
 e accorgiamoci che se $G(t)$ non cambia segno in $[a, b]$ possiamo sfruttare il teorema della media integrale per dire che esiste un certo punto $\varepsilon \in [a, b]$ tale che:
 $$
@@ -220,7 +221,7 @@ $$
 Cerchiamo adesso di trovare una forma più maneggevole per l'integrale del nucleo di Peano $G(t)$.
 Abbiamo che questa non dipende da $f$, e se valutiamo l'errore per $f(x) = x^{m + 1}$ si ottiene:
 $$
-E_n(x^{m + 1}) = \frac{1}{m!} (m + 1)! \int_a^b G(t) \, dt \implies \int_a^b G(t) \, dt = \frac{E_n(x^{m + 1})}{m + 1}
+E_n(x^{m + 1}) = \frac{1}{m!} \int_a^b \frac{d^{m + 1}}{dt^{m + 1}} t^{m + 1} G(t) \, dt = \frac{1}{m!} (m + 1)! \int_a^b G(t) \, dt \implies \int_a^b G(t) \, dt = \frac{E_n(x^{m + 1})}{m + 1}
 $$
 
 Prendiamo quindi questo come un \textbf{corollario} del teorema di Peano.
@@ -233,22 +234,24 @@ si può prendere:
 $$
 M = \max_{x \in [a, b]} \left| f^{(m + 1)}(x) \right| \cdot \frac{E_n(x^{m + 1})}{m + 1}
 $$
-dove il primo termine può essere stimato con studi di funzione o maggiorazioni esplicite, mentre il secondo termine si può calcolare esplicitamente.
+dove il primo termine può essere stimato con studi di funzione o maggiorazioni esplicite, mentre il secondo termine si può calcolare esplicitamente (lo facevamo per valutare manualmente il grado di una formula di integrazione).
 
 \subsubsection{Esempio: errore di Peano nella formula dei trapezi}
 Vediamo quindi cosa si ottiene quando $n = m = 1$, cioè nel caso della formula dei trapezi.
-In questo caso il nucleo avrebbe $s_m(t)$:
+In questo caso il nucleo è calcolato su $s_1(t)$:
 $$
 s_1(x - t) =
 \begin{cases}
-	0 \quad x < t
-	x - t \quad x \geq t
+	0, \quad x < t \\
+	x - t, \quad x \geq t
 \end{cases}
 $$
-e quindi sarebbe:
+e quindi sarà:
 $$
-G(t) = \int_a^b s_1(x - t) \, dx - J_1 (s_1 (x - t))
+G(t) = E_n(s_m(x - t)) = \int_a^b s_1(x - t) \, dx - J_1 (s_1 (x - t))
 $$
+
+\par\smallskip
 
 Prendiamo l'intervallo $[a, b] = [-1, 1]$ e svolgiamo i conti.
 Si ha:
@@ -264,19 +267,48 @@ $$
 $$
 cioè il segno di $G(t)$ non cambia.
 
-Questo in realtà era chiaro osservando che:
-# esempio grafico
+\par\smallskip
+
+Questo si generalizza facilmente ad intervalli $[a, b]$ generici, in quanto con passaggi simili:
+$$
+G(t) = \int_a^b s_1(x - t) \, dx - J_1 ( s_1(x - t) ) = \int_t^b (x - t) \, dx - \frac{b - a}{2} s_m (a - t) - \frac{b - a}{2} s_m(b - t)
+$$
+da cui si ha quindi, per la definizione di $s_1(x - t)$ appena data:
+$$
+G(t) = \int_t^b (x - t) \, dx - \frac{b - a}{2} s_m(a - t) - \frac{b - a}{2} s_m(b - t) = \int_t^b (x - t) \, dx - \frac{b - a}{2}(b - t) 
+$$
+$$
+= \frac{(x - t)^2}{2} \Big|^b_t - \frac{b^2 - bt - ab + at}{2} = \frac{(b - t)^2}{2} - \frac{b^2 - bt - ab + at}{2} 
+$$
+$$
+= \frac{b^2 - 2bt + t^2 - b^2 + bt + ab - at}{2} = \frac{t^2 - bt - at}{2} = \frac{(t - a)(t - b)}{2} \leq 0, \quad \forall t \in [a, b]
+$$
+
+\noindent
+\begin{minipage}{\textwidth}
+
+Questo in realtà era chiaro osservando che il nucleo di Peano in questo caso valuta la differenza fra l'area in azzuro e la somma dell'area in azzurro e e dell'area in rosso nel seguente grafico:
+\begin{center}
+	\includegraphics[scale=0.28]{../figures/peano_kernel.png}
+\end{center}
+che sarà chiaramente sempre $\leq 0$.
+
+\end{minipage}
 
 \par\smallskip
 
 Per la formula dei trapezi vale quindi, in generale:
 $$
-E_1 (f) = \frac{f''(\varepsilon)}{2} E_1(x^2)
+E_1 (f) = \frac{1}{m!} f^{(m + 1)}(\varepsilon) \int_a^b G(t) \, dt = \frac{1}{m!} f^{(m + 1)}(\varepsilon) \frac{E_n(x^{m + 1})}{m + 1} = \frac{f''(\varepsilon)}{2} E_1(x^2)
 $$
-Prendiamo $m = 2$ e vediamo che per $f = x^2$:
+Preso $m = 1$.
+Vediamo quindi che per $f = x^2$:
 $$
-E_1(x^2) = \int_a^b x^2 \, dx - \frac{b - a}{2} (a^2 + b^2) = [...] = - \frac{(b - a)^3}{6}
-$$ # fai conti
+E_1(x^2) = \int_a^b x^2 \, dx - \frac{b - a}{2} (a^2 + b^2) = \frac{x^3}{3} \Big|^b_a - \frac{ba^2 + b^3 - a^3 - ab^2}{2}
+$$
+$$
+= \frac{b^3 - a^3}{3} -  \frac{ba^2 + b^3 - a^3 - ab^2}{2} = \frac{2b^3 - 2a^3 - 3ba^2 - 3b^3 + 3a^2 + 3ab^2}{6} = - \frac{(b - a)^3}{6}
+$$ 
 da cui:
 $$
 E_1(f) = - \frac{(b - a)^3}{12} \cdot f''(\varepsilon), \quad \varepsilon \in [a, b]
@@ -285,7 +317,7 @@ $$
 \subsubsection{Esempio: errore di Peano nella formula di Simpson}
 Si dimostra che anche la formula di Simpson è tale per cui $G(t)$ non cambia segno, quindi vale:
 $$
-E_2(f) = \frac{f^(4) (\varepsilon)}{4!} \cdot E_2(x^4) 
+E_2(f) = \frac{f^{(4)} (\varepsilon)}{4!} \cdot E_2(x^4) 
 $$
 Vediamo quindi che per l'intervallo $[-1, 1]$ vale:
 $$
@@ -296,7 +328,24 @@ $$
 E_2(f) = \frac{f^{(4)}(\varepsilon)}{24} \cdot \left( - \frac{4}{15} \right) = -\frac{1}{90} \cdot f^{(4)} (\varepsilon), \quad \epsilon \in [-1, 1] 
 $$
 
-Lo stesso ragionamento si può chiaramente fare per $[a, b]$ generico. # fallo
+Lo stesso ragionamento si può chiaramente fare per $[a, b]$ generico, cioè:
+$$
+E_2(x^4) = \int_{a}^{b}x^{4}dx-\frac{b-a}{6}\left(a^{4}+4\frac{\left(a+b\right)^{4}}{16}+b^{4}\right) = \frac{b^{5}-a^{5}}{5}-\frac{b-a}{24}\left(5a^{4}+4a^{3}b+6a^{2}b^{2}+4ab^{3}+5b^{4}\right)
+$$
+$$
+= \frac{24b^{5}-24a^{5}-5\left(5a^{4}b+4a^{3}b^{2}+6a^{2}b^{3}+4ab^{4}+5b^{5}-5a^{5}-4a^{4}b-6a^{3}b^{2}-4a^{2}b^{3}-5ab^{4}\right)}{120}
+$$
+$$
+= \frac{24b^{5}-24a^{5}-25a^{4}b-20a^{3}b^{2}-30a^{2}b^{3}-20ab^{4}-25b^{5}+25a^{5}+20a^{4}b+30a^{3}b^{2}+20a^{2}b^{3}+25ab^{4}}{120}
+$$
+$$
+= -\frac{\left(b-a\right)^{5}}{120}
+$$
+da cui:
+$$
+E_2(f) = \frac{f^{(4)}(\varepsilon)}{24} \cdot \left( -\frac{\left(b-a\right)^{5}}{120} \right) = -\frac{(b - a)^5}{2880} \cdot f^{(4)} (\varepsilon), \quad \epsilon \in [a, b] 
+$$
+
 
 \subsection{Formule di quadratura interpolatorie}
 Vediamo l'approccio all'approssimazione integrale che prevede scegliere $n + 1$ nodi $x_0, ..., x_n$.
@@ -310,7 +359,7 @@ P_n(x_i) = f(x_i), \quad \forall i = 0, ..., n
 $$
 cioè $P_n(x)$ polinomio interpolante.
 
-Se $f()$ è sufficientemente regolare sappiamo che:
+Se $f$ è sufficientemente regolare sappiamo che:
 $$
 f(x) = P_n(x) + R_n(x), \quad R_n(x) = \frac{\Pi (x)}{(n + 1)!} f^{(n + 1)} (\varepsilon), \quad \varepsilon \in [a, b]
 $$
@@ -362,7 +411,7 @@ $$
 a_i = \int_a^b l_i(x) \, dx
 $$
 
-Le formule di Newton-Cotes equivalgono, per il grado 1 alle formule dei trapezi e per il grado 2 alle formule di Simspon. # verifica
+Le formule di Newton-Cotes equivalgono, per il grado 1 alle formule dei trapezi e per il grado 2 alle formule di Simosib.
 
 Una proprietà importante delle formule di Newton-Cotes è che per ogni scelta di $n$ vale che $G(t)$ nucleo di Peano non cambia segno su $[a ,b]$, ergo si può usare la formula semplificata per l'errore di Peano:
 $$
@@ -388,9 +437,9 @@ Vediamo ad esempio:
 		$$
 		- \frac{(b - a)^3}{12} \cdot f''(\varepsilon) = -\frac{h^3}{12} \cdot f''(\varepsilon)
 		$$
-	\item \textbf{Formula di Simspon:} in questo caso si ha $n = 2$, $h = \frac{b - a}{2}$, da cui l'errore è esprimibile come:
+	\item \textbf{Formula di Simpson} in questo caso si ha $n = 2$, $h = \frac{b - a}{2}$, da cui l'errore è esprimibile come:
 		$$
-		- \frac{(b - a)^5}{2880} \cdot f^{(4)}(\varepsilon) = -\frac{h^5}{90} \cdot f^{(i4)}(\varepsilon)
+		- \frac{(b - a)^5}{2880} \cdot f^{(4)}(\varepsilon) = -\frac{h^5}{90} \cdot f^{(4)}(\varepsilon)
 		$$
 \end{itemize}
 
