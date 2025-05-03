@@ -421,7 +421,9 @@ $$
 Sul grado $n$ vale un fenomeno analogo al fenomeno di Runge (sezione 14.3.2).
 Per $n > 7$ (cioè se si hanno più di $8$ nodi) le formule di Newton-Cotes iniziano ad avere pesi di segno alternato (mentre per $n \leq 7$ sono sempre positivi), cioè si inizia ad avere cancellazione numerica e valutare le formule diventa instabile numericamente.
 
-Per esprimere l'errore delle formule di Newton-Cotes abbiamo quindi bisogno di trovarne l'errore $E_n(x^{m + 1})$.
+\par\smallskip
+
+Per esprimere l'errore delle formule di Newton-Cotes abbiamo quindi bisogno di trovarne l'errore $E_n(x^{m + 1})$, cioè l'errore per il monomio di grado $m + 1$ con $m$ grado di precisione.
 In questo caso si assume un'espressione del tipo:
 $$
 E_n(f) =
@@ -445,6 +447,76 @@ Vediamo ad esempio:
 
 Un'altra osservazione da fare è che il grado di precisione e l'ordine della potenza di $h$ è lo stesso per una formula con grado $n$ pari e quella con grado dispari $n + 1$.
 In genere, a parte il caso dei trapezi, si considerano più spesso le formule di Newton-Cotes con $n$ pari.
+
+\par\smallskip
+
+Vediamo nel dettaglio l'andamento del grado degli errori per qualche grado dopo lo 0.
+Innanzitutto, bisogna fare una precisazione per cosa significa prendere la formula di Newton-Cotes di grado 0.
+Avevamo che per formula \textit{chiusa} si intende quella che prende $n + 1$ punti estremi inclusi, mentre la formula \textit{aperta} è quella che prende $n + 1$ punti esclusi gli estremi.
+Tali punti si ottengono ad esempio come:
+\begin{itemize}
+	\item \textbf{Formula chiusa:}
+		$$
+			x_i = a + i h, \quad h = \frac{b - a}{n}, \quad i = 0, 1, ..., n
+		$$
+	\item \textbf{Formula aperta:}
+		$$
+			x_i = a + (i + 1) h, \quad h = \frac{b - a}{n + 2}, \quad i = 0, 1, ..., n
+		$$
+\end{itemize}
+
+Da questo risulta chiaro che sarà impossibile prendere una formula chiusa che include entrambi gli estremi quando si hanno a disposizione $n + 1 = 1$ punti per il grado $n = 0$.
+Divideremo quindi fra:
+\begin{itemize}
+	\item \textbf{Somma di Riemann sinistra:}
+		$$
+			J_0^l (f) = (b - a) \cdot f(a)
+		$$
+	\item \textbf{Somma di Riemann destra:}
+		$$
+			J_0^r (f) = (b - a) \cdot f(b)
+		$$
+\end{itemize}
+
+Per queste il grado è $m = 0$ e l'errore per $f = x$ risulta proporzionale al grado $2$, e non al $3$ come ci si aspetterebbe (per il punto in meno di cui non possiamo sfruttare la simmetria).
+Ad esempio rispetto alla somma di Riemann sinistra si ha:
+$$
+E_0^l (x) = \int_a^b x \, dx - (b - a) \cdot a = \frac{b^2 - a^2}{2} - ab + a^2 = \frac{b^2 - a^2 - 2ab + 2a^2}{2} = \frac{(b - a)^2}{2}
+$$
+
+Potremo quindi considerare la formula aperta, che equivarrà alla cosiddetta \textbf{formula del punto medio}:
+$$
+J_0^m(f) = (b - a) \cdot f \left( \frac{a + b}{2} \right)
+$$
+Vediamo la particolarità che questa ha effettivamente grado $m = 1$, in quanto:
+$$
+E_0^m (x) = \int_a^b x \, dx - (b - a) \cdot \frac{a + b}{2} = \frac{b^2 - a^2}{2} - \frac{b^2 - a^2}{2} = 0
+$$
+Valutiamo quindi l'errore in $x^2$ come:
+$$
+E_0^m (x^2) = \frac{b^3 - a^3}{3} - (b - a) \left( \frac{a + b}{2} \right)^2 = \frac{b^3 - a^3}{3} - (b - a) \frac{a^2 + 2ab + b^2}{4}
+$$
+$$
+= \frac{b^3 - a^3}{3} - \frac{a^2 b + 2 a b^2 b^3 - a^3 - 2 a^2 b - ab^2}{4} = \frac{b^3 - a^3}{3} + \frac{a^2 b - ab^2 - b^3 + a^3}{4}
+$$
+$$
+= \frac{b^3 - 4a^3 + 3 a^2 b - 4 a b^2 - 3 b^3 + 3 a^3}{12} = \frac{b^3 - 3 a b^2 + 3 a^2 b - a^3}{12} = \frac{(b - a)^3}{12}
+$$
+cioè otteniamo un errore proporzionale a $h^3$ (lo stesso grado del metodo dei trapezi), e almeno per $x^2$ opposto a quello dato dal metodo dei trapezi.
+
+Possiamo quindi compilare una tabella che associa i gradi di approssimazione ai gradi dell'errore per le formule di Newton-Cotes chiuse e aperte:
+\begin{table}[h!]
+	\center \rowcolors{2}{white}{black!10}
+	\begin{tabular} { c | c | c | c | c }
+		\bfseries Grado & \multicolumn{2}{c|}{\bfseries Formula} & \multicolumn{2}{c}{\bfseries Errore} \\
+																		& \bfseries Aperta & \bfseries Chiusa & \bfseries Aperta & \bfseries Chiusa \\
+		\hline
+		0 & $(b - a) \cdot f(\frac{a + b}{2})$ & $(b - a) \cdot f(a)$ o $(b - a) \cdot f(b)$ & 3 & 2 \\ 
+		1 & $ \frac{(b - a)}{2} \cdot f\left(\frac{1}{3} (2a + b) \right) + \frac{(b - a)}{2} \cdot f \left( \frac{1}{3} (a + 2b) \right)$ & $\frac{(b - a)}{2} \cdot f(a) + \frac{(b - a)}{2} \cdot f(b)$ & 3 & 3 \\
+		2 & // & // & 5 & 5 \\
+		3 & // & // & 5 & 5 \\
+	\end{tabular}
+\end{table}
 
 \subsubsection{Esempio: formule Gaussiane}
 Riprendiamo quindi anche le formule Gaussiane espresse come formule di quadratura interpolatorie.
