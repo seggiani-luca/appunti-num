@@ -511,10 +511,10 @@ Possiamo quindi compilare una tabella che associa i gradi di approssimazione ai 
 		\bfseries Grado & \multicolumn{2}{c|}{\bfseries Formula} & \multicolumn{2}{c}{\bfseries Errore} \\
 																		& \bfseries Aperta & \bfseries Chiusa & \bfseries Aperta & \bfseries Chiusa \\
 		\hline
-		0 & $(b - a) \cdot f(\frac{a + b}{2})$ & $(b - a) \cdot f(a)$ o $(b - a) \cdot f(b)$ & 3 & 2 \\ 
-		1 & $ \frac{(b - a)}{2} \cdot f\left(\frac{1}{3} (2a + b) \right) + \frac{(b - a)}{2} \cdot f \left( \frac{1}{3} (a + 2b) \right)$ & $\frac{(b - a)}{2} \cdot f(a) + \frac{(b - a)}{2} \cdot f(b)$ & 3 & 3 \\
-		2 & // & // & 5 & 5 \\
-		3 & // & // & 5 & 5 \\
+		0 & $2 h f_0$ & $2 h f_0$ & 3 & 2 \\ 
+		1 & $\frac{3}{2} h (f_0 + f_1)$ & $\frac{1}{2} h (f_0 + f_1)$ & 3 & 3 \\
+		2 & $\frac{4}{3} h (2 f_0 - f_1 + 2 f_2)$ & $\frac{1}{3} h (f_0 + 4 f_1 + f_2)$ & 5 & 5 \\
+		3 & $\frac{1}{12} h (11 f_0 + f_1 + f_2 + 11 f_3)$ & $\frac{3}{8} h (f_0 + 3f_1 + 3 f_2 + f_3)$ & 5 & 5 \\
 	\end{tabular}
 \end{table}
 
