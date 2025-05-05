@@ -363,4 +363,71 @@ E_3(x^4) = \int_0^1 x^4 \, dx - \left( \frac{1}{2} \cdot 0 + \frac{1}{4} \cdot 4
 $$
 da cui il grado di precisione è esattamente 3.
 
+\subsection{Implementazione MATLAB dei metodi di approssimazione di integrali}
+Possiamo quindi implementare quanto abbiamo studiato finora in funzioni MATLAB che ci permettano di approssimare gli integrali di certi function handle su dati intervalli.
+
+Definiamo in particolare una funzione di approssimazione composita di grado 1 (metodo dei trapezi) e 2 (metodo di Cavalieri-Simpson).
+
+\subsubsection{Implementazione MATLAB del metodo dei trapezi}
+Potremo implementare direttamente la funzione descritta in 18.0.2, con un pò di logica aggiuntiva per tracciare un grafico delle rette approssimazione, come:
+
+\lstset{language=MATLAB,style=codestyle}
+\lstinputlisting{../code/matlab/trapez_int.m}
+
+\subsubsection{Implementazione MATLAB del metodo di Cavalieri-Simpson}
+Anche qui otremo implementare direttamente la funzione descritta in 18.0.3, con un pò di logica aggiuntiva per tracciare un grafico delle parabole di approssimazione, come:
+
+\lstset{language=MATLAB,style=codestyle}
+\lstinputlisting{../code/matlab/simpson_int.m}
+dove notiamo che manteniamo esplicitamente i punti intermedi separati dai punti estremi degli intervalli di integrazione, ergo $L$ determina il numero di intervalli di integrazione.
+
+\par\medskip
+
+Potremo quindi provare gli algoritmi, ad esempio sulla funzione:
+$$
+f(x) = \sin\left(x\right)+\tan\left(\frac{x}{15}\right)+e^{-x} 
+$$
+sull'intervallo $[a, b]] = [0, 15]$.
+
+Iniziamo col definire le variabili e un valore di \textit{ground truth}, usando la \lstinline|integral()| fornita da MATLAB:
+\begin{lstlisting}[language=MATLAB, style=codestyle]	
+>> f = @(x) sin(x) .* tan(x / 15) + exp(-x); % definiamo f
+>> a = 0; b = 15;
+>> i = integral(f, a, b)
+
+i =
+
+    2.2912
+\end{lstlisting}
+
+Potremo quindi provare il metodo dei trapezi come:
+\begin{lstlisting}[language=MATLAB, style=codestyle]	
+>> jt = trapez_int(f, a, b, 10)
+
+jt =
+
+    2.2734
+\end{lstlisting}
+
+Da cui otteniamo un valore di $i - j_t \approx 0.0178$, e il grafico:
+\begin{center}
+	\includegraphics{../figures/matlab_trapez_int.png}
+\end{center}
+
+Vediamo quindi se l'approssimazione col metodo di Cavalieri-Simpson è più accurata:
+\begin{lstlisting}[language=MATLAB, style=codestyle]	
+>> js = simpson_int(f, a, b, 10)
+
+js =
+
+    2.2940
+\end{lstlisting}
+
+\newpage
+In questo caso otteniamo il valore $i - j_s \approx -0.0028$, e il grafico:
+\begin{center}
+	\includegraphics{../figures/matlab_trapez_int.png}
+\end{center}
+cioè notiamo che sia il grafico che l'appossimazione integrale sono molto pià vicini alla funzione originale.
+
 \end{document}
