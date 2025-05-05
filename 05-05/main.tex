@@ -257,7 +257,7 @@ $$
 \int_a^b f(x) \, dx \approx \sum_{i = 1}^L \frac{b - a}{6L} \left( f(x_{i - 1}) + 4 f \left( \frac{x_{i - 1} + x_i}{2} \right) + f(x_i) \right)
 $$
 $$
-= \frac{b - a}{6L} \left( f(x_0) + 2 \sum_{i = 1}^{L} f(x_i) + 4 \sum_{i = 1}^{L - 1} f\left( \frac{x_{i - 1} + x_i}{2} \right) + f(x_L) \right) = J_2^{(G)} (f)
+= \frac{b - a}{6L} \left( f(x_0) + 2 \sum_{i = 1}^{L-1} f(x_i) + 4 \sum_{i = 1}^{L} f\left( \frac{x_{i - 1} + x_i}{2} \right) + f(x_L) \right) = J_2^{(G)} (f)
 $$
 
 \subsubsection{Errore nelle formule generalizzate}
