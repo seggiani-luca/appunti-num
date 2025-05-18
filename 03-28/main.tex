@@ -408,7 +408,7 @@ Facciamo alcuni esempi:
 \begin{enumerate}
 	\item Si sceglie una matrice $G \in \mathbb{C}^{n \times n}$ invertibile e si considera:
 		$$
-		x = x \cdot G(Ax - b) = (I - GA) x + Gb
+		x = x - G(Ax - b) = (I - GA) x + Gb
 		$$
 		cioè:
 		$$
@@ -479,7 +479,7 @@ qualsiasi sia l'errore iniziale $e^{(0)}$ (e quindi la scelta di soluzione inizi
 In particolare, possiamo ricordare che se $|H| < 1 \implies \rho(H) < 1$, quindi può risultare verificare questa condizione, che è sì più stretta ma anche più facile da verificare.
 Ricordiamo che non vale assolutamente il contrario, cioè $|H| > 1 \;\not\!\!\!\implies \rho(H) > 1$. 
 
-Di contro, vale anche la condizione $|\det(H)| \geq 1 \implies \rho(H) > 1$, che come prima non si inverte in $|\det(H)| < 1 \;\not\!\!\!\implies \rho(H) < 1$.
+Di contro, vale anche la condizione $|\det(H)| \geq 1 \implies \rho(H) \geq 1$, che come prima non si inverte in $|\det(H)| < 1 \;\not\!\!\!\implies \rho(H) < 1$.
 
 \subsubsection{Velocità di convergenza}
 Guardando alla dimostrazione del teorema 10.2, possiamo osservare che il raggio spettrale $\rho(H)$ ci dà un informazione anche riguardo alla \textbf{velocità di convergenza} del metodo di punto fisso.

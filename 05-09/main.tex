@@ -212,7 +212,7 @@ f(x) = 0, \quad f : \mathbb{R} \rightarrow \mathbb{R}
 $$
 con $f$ non lineare ($f(x) \neq ax + b$).
 
-Osserviamo che in generale non c'è un'espressione analitica, quindi una formula chiusa, per tutti i punti $\alpha \in \mathbb{R}$ tali che $f(\alpha) = 0$, quindi quei punti che risolvono l'equazione.
+Osserviamo che in generale non c'è un'espressione analitica, quindi una formula chiusa, per tutti i punti $\alpha \in \mathbb{R}$ tali che $f(\alpha) = 0$, quindi che risolvono l'equazione.
 
 Diamo quindi la definizione elementare:
 \begin{definition}{Radice}
@@ -254,7 +254,7 @@ Possiamo generalizzare l'idea di convergenza a convergenza \textit{di un certo o
 \end{definition}
 
 Osserviamo quindi che la definizione dice che, asintoticamente, si ha $|e_{n + 1}| \approx |e_n|^p$.
-Da questo è chiaro che se $e_{n}$ è un numero piccolo ($|e_n| \in (0, 1)$), per $p \geq 2$ (o $p = 1$ con $0 < c < 1$, come richiesto dalla definizione) $e_{n + 1}$ sarà ancora pià piccolo.
+Da questo è chiaro che se $e_{n}$ è un numero piccolo ($|e_n| \in (0, 1)$), per $p \geq 2$ (o $p = 1$ con $0 < c < 1$, come richiesto dalla definizione) $e_{n + 1}$ sarà ancora più piccolo.
 
 In particolare si ha quindi che:
 \begin{itemize}
@@ -268,7 +268,7 @@ Possiamo parlare di \textbf{convergenza locale}:
 \end{definition}
 
 \subsubsection{Metodi grafici}
-Riassumendo, si ha quindi che è impoortante saper localizzare/stimare dove sono le radici di una certa $f$ di cui ci interessa $f(x) = 0$.
+Riassumendo, si ha quindi che è importante saper localizzare/stimare dove sono le radici di una certa $f$ di cui ci interessa $f(x) = 0$.
 Per questo scopo si possono usare strumenti di analisi del grafico di una funzione (almeno nel caso scalare):
 \begin{enumerate}
 	\item Se $f$ continua e $f(a) \cdot f(b) < 0 \implies \exists$ almeno una radice in $[a ,b]$ (che potrebbe essere più di una).
@@ -352,7 +352,7 @@ Per questo scopo si possono usare strumenti di analisi del grafico di una funzio
 		\]
 		per cui chiaramente avremo tre radici:
 		$$
-			\alpha_1 \in (-\infty, 0), \quad \alpha_2 \in (0, 2), \quad \alpha_3 \in (3, +\infty)
+			\alpha_1 \in (-\infty, 0), \quad \alpha_2 \in (0, 2), \quad \alpha_3 \in (2, +\infty)
 		$$
 
 \end{enumerate}
@@ -378,9 +378,9 @@ $$
 x_{n + 1} = \frac{x_{n - 1} + x_n}{2} 
 $$
 
-Per quanto riguarda l'errore (al caso pessimo), abbiamo che questo si dimezza ad ogni passaggio:
+Per quanto riguarda l'errore (al caso \textit{idealmente} pessimo), abbiamo che questo si dimezza ad ogni passaggio:
 $$
-| x_{n + 1} - \alpha| \leq \frac{b - a}{2^n} \implies \lim_{n \rightarrow +\infty} |x_n - \alpha| = 0
+| x_{n + 1} - \alpha| < \frac{b - a}{2^n} \implies \lim_{n \rightarrow +\infty} |x_n - \alpha| = 0
 $$
 
 Questa stima è la migliore che possiamo dare, in quanto la funzione di errore $x_{n + 1} - \alpha$ non è monotona.
@@ -392,7 +392,7 @@ $$
 $$
 dobbiamo usare $n$ iterazioni, con $n$ che verifica:
 $$
-\frac{b - a}{2^n} \leq t_{ol} \implies n \geq \log_2 \left( \frac{b - a}{t_{ol}} \right) \implies n = \log_2 \left( \frac{b - a}{t_{ol}} \right)
+\frac{b - a}{2^n} < t_{ol} \implies n > \log_2 \left( \frac{b - a}{t_{ol}} \right) \implies n = \left\lceil \log_2 \left( \frac{b - a}{t_{ol}} \right) \right\rceil
 $$
 approssimato al primo naturale superiore.
 
@@ -415,7 +415,7 @@ Vale riguardo all'errore il seguente teorema:
 \begin{theorem}{Errore del metodo delle secanti}
 	Se $f \in C^2([a, b])$ ammette radice, allora il metodo converge  localmente con ordine:
 	$$
-		p = = \frac{1 + \sqrt{5}}{2} > 1
+		p = \frac{1 + \sqrt{5}}{2} > 1
 	$$
 \end{theorem}
 
@@ -577,7 +577,7 @@ Dimostriamo quindi le due coimplicazioni.
 		$$
 
 		Prendiamo quindi per vero che $0 = \phi'(\alpha) = \phi''(\alpha) = ... = \phi^{(r - 1)} (\varepsilon)$, e dimostriamo che vale anche per $r$.
-		Per fare questo prenderemo lo sviluppo di Taylor in $\alpha$ troncato all'ordine 2:
+		Per fare questo prenderemo lo sviluppo di Taylor in $\alpha$ troncato all'ordine $r$:
 		$$
 		\phi(x_n) - \phi(\alpha) = (x_n - \alpha) \phi'(\alpha) + \frac{(x_n - \alpha)^2}{2} \phi''(\alpha) + ... + \frac{(x_n - \alpha)^{r - 1}}{(r - 1)!} \phi^{(r - 1)} (\alpha) + \frac{(x_n - \alpha)^r}{r!} \phi^{(r)} (\varepsilon)
 		$$
@@ -586,7 +586,7 @@ Dimostriamo quindi le due coimplicazioni.
 		$$
 		da cui:
 		$$
-		\frac{x_{n + 1} - \alpha}{(x_n - \alpha)^r} = \frac{\phi^{(r)} (\varepsilon)}{r!} \implies \lim_{n \rightarrow +\infty} \frac{|x_{n + 1} - \alpha|}{|x_n - \alpha|^2} = \lim_{n \rightarrow +\infty} \frac{\phi^{(r)} (\varepsilon)}{r!} = \frac{\phi^{(r)}(\alpha)}{r!} \implies \phi^{(r)}(\alpha) = 0
+		\frac{x_{n + 1} - \alpha}{(x_n - \alpha)^r} = \frac{\phi^{(r)} (\varepsilon)}{r!} \implies \lim_{n \rightarrow +\infty} \frac{|x_{n + 1} - \alpha|}{|x_n - \alpha|^r} = \lim_{n \rightarrow +\infty} \frac{\phi^{(r)} (\varepsilon)}{r!} = \frac{\phi^{(r)}(\alpha)}{r!} \implies \phi^{(r)}(\alpha) = 0
 		$$
 		\qed
 \end{itemize}
