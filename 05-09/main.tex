@@ -404,7 +404,7 @@ Di questa si trova quindi l'intersezione con l'asse delle ascisse, che chiamiamo
 $$
 x_1 = x_b - f(x_b) \cdot \frac{x_b - x_a}{f(b) - f(x_{a})}
 $$
-A questo punto basterà valutare il segno di $f(x_1)$ e prendere uno dei punti precedenti come per il metodo di bisezione, ed iterare finche il punto di intersezione non è abbastanza vicino ad $\alpha$.
+A questo punto basterà iterare finche il punto di intersezione non è abbastanza vicino ad $\alpha$.
 
 La formula che si ottiene è la seguente:
 $$
@@ -531,7 +531,7 @@ Possiamo poi dare il seguente teorema:
 	Sia $\phi(x) \in C^p (I)$ e $\alpha$ punto fissso di $\phi$ (cioè $\alpha = \phi(\alpha)$) con $\alpha \in I$.
 	Allora $\exists \rho > 0$ tale per cui $\forall x_0 \in [\alpha - \rho, \alpha + \rho]$ la successione $\{x_n\}$ converge con ordine $p \geq 1$ ad $\alpha$ se e solo se vale:
 	$$
-	\phi'(\alpha) = \phi''(\alpha) = ... = \phi^{(p + 1)}(\alpha) = 0, \quad \phi^{(p)}(\alpha) \neq 0
+	\phi'(\alpha) = \phi''(\alpha) = ... = \phi^{(p - 1)}(\alpha) = 0, \quad \phi^{(p)}(\alpha) \neq 0
 	$$
 \end{theorem}
 

@@ -421,7 +421,7 @@ per cui la convergenza è almeno quadratica.
 
 Continuando si ha:
 $$
-\phi''(x) = \frac{( f'(x) f''(x) + f(x) f''(x) ) (f'(x))^2 - f(x) f''(x) ( 2f'(x) f''(x) ) }{(f'(x))^4}
+\phi''(x) = \frac{( f'(x) f''(x) + f(x) f'''(x) ) (f'(x))^2 - f(x) f''(x) ( 2f'(x) f''(x) ) }{(f'(x))^4}
 $$
 che sostituendo $\alpha$ diventa:
 $$
@@ -437,9 +437,16 @@ da cui:
 
 In particolare, si può prendere:
 $$
-\frac{|x_{n + 1} - \alpha|}{|x_n - \alpha|^2} = \frac{|\phi(x_n) - \phi(\alpha)|}{|x_n - \alpha|} = \frac{ | \phi'(\alpha) (x_n - \alpha) + \phi''(\varepsilon) (x_n - \alpha)^2 | }{ |x_n - \alpha|^2 }
+\frac{|x_{n + 1} - \alpha|}{|x_n - \alpha|^2} = \frac{|\phi(x_n) - \phi(\alpha)|}{|x_n - \alpha|^2} 
+= \frac{ | \phi(\alpha) + \phi'(\alpha) (x_n - \alpha) + \frac{1}{2} \phi''(\varepsilon) (x_n - \alpha)^2 - \phi(\alpha) | }{ |x_n - \alpha|^2 }
 $$
+sfruttando lo sviluppo di Taylor di $\phi(x_n)$ attorno a $\alpha$ con errore di Laplace:
 $$
+\phi(x_n) = \pphi(\alpha) + \phi'(\alpha) (x_n - \alpha) + \frac{1}{2} \phi''(\alpha) (x_n - \alpha)^2
+$$
+da cui:
+$$
+= \frac{ | \phi'(\alpha) (x_n - \alpha) + \frac{1}{2} \phi''(\varepsilon) (x_n - \alpha)^2 | }{ |x_n - \alpha|^2 }
 = \frac{1}{2} \phi''(\varepsilon) \xrightarrow{n \rightarrow +\infty} \frac{1}{2} \phi''(\alpha) = \frac{1}{2} \frac{f''(\alpha)}{f'(\alpha)}
 $$
 con $n \rightarrow +\infty$, noto $\varepsilon \in [x_n, \alpha]$, per cui si ha l'ultima tesi del teorema. \qed
@@ -469,25 +476,36 @@ Ricordiamo che:
 $$
 \phi'(x) = 1 - \frac{(f'(x))^2 - f(x) f''(x)}{(f'(x))^2} = \frac{f(x) f''(x)}{(f'(x))^2}
 $$
-dove $f'(x)$ compare al denominatore, quindi non si puà valutare in $\alpha$.
+dove $f'(x)$ compare al denominatore, quindi non si può valutare in $\alpha$.
 
 Prendiamo allora le derivate successive di $f(x)$:
-$$
+\begin{enumerate}
+	\item 
+$
 f(x) = g(x) (x - \alpha)^r
+$
+	\item 
+$
+f'(x) = g'(x) (x - \alpha)^r + r g(x) (x - \alpha)^{r - 1} = (x - \alpha)^{r - 1} ( g'(x)(x - \alpha) + r g(x) )
+$
+	\item
+$
+f''(x) = g''(x) (x - \alpha)^r + 2 r g'(x)(x - \alpha)^{r - 1} + r (r - 1) g(x) (x - \alpha)^{r - 1}
+$ \\ 
 $$
+= (x - \alpha)^{r - 2} ( g''(x) (x - \alpha)^2 + 2 r g'(x) (x - \alpha) + r (r - 1) g(x) )
 $$
-f'(x) = g'(x) (x - \alpha)^r + r g(x) (x - \alpha)^{r - 1}
-$$
-$$
-f''(x) = g''(x) (x - \alpha)^r + r g'(x)(x - \alpha)^{r - 1} + r g'(x)(x - \alpha)^{r - 1} + r (r - 1) g(x) (x - \alpha)^{r - 1}
-$$
+\end{enumerate}
 e sostituiamo in $\phi'(x)$:
 $$
-\phi'(x) = 1 - \frac{(g'(x) (x - \alpha) + g(x)) (r g(x) + g'(x)(x- \alpha)) - g(x)(x - \alpha) (rg'(x) + g''(x) ( x- \alpha) + g'(x)) }{(rg(x) + g'(x) ( x- \alpha))^2}
+\phi'(x) = \frac{ g(x) (x - \alpha)^r \cdot (x - \alpha)^{r - 2} ( g''(x) (x - \alpha^2) + r g'(x) (x - \alpha) + r (r - 1) g(x) ) }{ ( (x - \alpha)^{r - 1} (g'(x) (x - \alpha) + r g(x) ) )^2 }
+$$
+$$
+= \frac{g(x) (g''(x) (x - \alpha^2) + 2 r g'(x) (x - \alpha) + r^2 g^2(x) - r g^2(x) }{(g'(x)(x - \alpha) + r g(x))^2}
 $$
 da cui:
 $$
-\phi'(\alpha) = 1 - \frac{r g(\alpha)^2}{r^2 g(\alpha)^2} = 1 - \frac{1}{r} \neq 0
+\phi'(\alpha) = \frac{r^2 g^2(\alpha) - r g^2(\alpha)}{r^2 g^2(\alpha)} = 1 - \frac{1}{r} \neq 0
 $$
 quando $r > 1$, perciò:
 $$
@@ -495,7 +513,7 @@ $$
 $$
 e la convergenza è lineare, dove più è alto $r$ più è lenta la convergenza.
 
-Una proprietà è che se si conoosce $r$ (l'ordine della radice) si può modificare Newton per ritrovare la convergenza quadratica.
+Una proprietà è che se si conosce $r$ (l'ordine della radice) si può modificare Newton per ritrovare la convergenza quadratica.
 In particolare si può dimostrare che:
 $$
 x_{n + 1} = x_n - r \cdot \frac{f(x_n)}{f'(x_n)} = \phi(x_n)

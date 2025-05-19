@@ -207,7 +207,10 @@
 % testo
 
 \subsection{Intervallo di convergenza}
-\subsubsection{Esempio: metodo di Newton}
+Vorremo estendere la definizione di convergenza data in 19.2 in un certo intervello $[a, b]$.
+
+Iniziamo con un esempio:
+\subsubsection{Esempio: convergenza del metodo di Newton}
 Prendiamo la funzione:
 $$
 f(x) = 3 x^2 e^{-x} - 1
@@ -233,7 +236,7 @@ si avrà la convergenza nei rispettivi punti $\alpha_{1, 2, 3}$.
 Una domanda che potremo farci, in relazione all'ultimo esempio, è quando possiamo assicurare che un metodo converge $\forall x_0 \in [a, b]$.
 
 Esiste il seguente teorema:
-\begin{theorem}{Convergenza in un intervallo}
+\begin{theorem}{Teorema di convergenza in un intervallo}
 	Se $\phi(x) \in C^1 ([a, b])$ e:
 	\begin{enumerate}
 		\item $|\phi'(x)| < 1, \quad \forall x \in [a, b]$;
@@ -241,18 +244,20 @@ Esiste il seguente teorema:
 	\end{enumerate}
 	allora $\phi(x)$ converge su $[a, b]$.
 \end{theorem}
-Dove l'ipotesi in più rispetto al teorema di convergenza locale (teorema 19.2) è il 2.
+Dove l'ipotesi in più rispetto al teorema di convergenza locale (teorema 19.2) è la 2.
 
 \subsubsection{Condizioni di convergenza globale per Newton}
-Nello specifico per Newton, la convergenza in un intervallo si assicura attraverso condizioni su concavità e convessita.
+Nello specifico per Newton, la convergenza in un intervallo si assicura attraverso condizioni su concavità e convessità.
 
 Esiste infatti il seguente teorema:
 \begin{theorem}{Convergenza globale per Newton}
-	Se $\alpha \in [a, b]$ è radice semplice di $f \in C^2([a, b])$, e $f, f''$ sono di segno costante su $[a, b]$, il metodo di Newton converge in maniera superlineare ($\geq 2$) $\forall x_0$ che verifica:
+	Se $\alpha \in [a, b]$ è radice semplice di $f \in C^2([a, b])$, e $f, f''$ sono di segno costante su $[a, b]$, il metodo di Newton converge globalmente in maniera superlineare ($\geq 2$) $\forall x_0$ che verifica:
 	$$
 	f(x_0) \cdot f''(x_0) > 0
 	$$
 \end{theorem}
+Dove si mette enfasi su \textit{globalmente}, in quanto il teorema 20.1 ha valenza solo locale.
+Sostanzialmente, questo teorema ci è utile per fare stime iniziali, probabilmente arbitrariamente distanti dall'origine, che convergano con velocità superlinare.
 
 Osserviamo che:
 \begin{itemize}
@@ -267,6 +272,29 @@ In particolare distinguiamo quindi i 4 casi:
 	\item $f' > 0$, $f'' < 0$ concava crescente, vorremo partire a \textit{sinistra} di $\alpha$;
 	\item $f' < 0$, $f'' < 0$ concava decrescente, vorremo partire a \textit{destra} di $\alpha$;
 \end{enumerate}
+
+\newpage
+
+Cioè riassumendo:
+\begin{table}[h!]
+	\center 
+	\begin{tabular} { c | c c }
+		& $f'(x) > 0$ & $f'(x) < 0$ \\
+		\hline
+		$f''(x) > 0$      
+		&
+		\raisebox{-\totalheight}{\includegraphics[scale=0.2]{../figures/newton_conv/case_1.png}} 
+		& 
+		\raisebox{-\totalheight}{\includegraphics[scale=0.2]{../figures/newton_conv/case_2.png}} 
+		\\
+		$f''(x) < 0$
+		&
+		\raisebox{-\totalheight}{\includegraphics[scale=0.2]{../figures/newton_conv/case_3.png}} 
+		& 
+		\raisebox{-\totalheight}{\includegraphics[scale=0.2]{../figures/newton_conv/case_4.png}} 
+		\\
+	\end{tabular}
+\end{table}
 
 \subsubsection{Esempio: ricerca di un intervallo di convergenza}
 Prendiamo la funzione:
@@ -342,9 +370,9 @@ In particolare, ci può essere utile per trovare i punti stazionari di funzioni 
 $$
 \nabla F(x) = 
 \begin{pmatrix}
-	\frac{\partial F}{\partial x_1} F(x_1, ..., x_m) \\
+	\frac{\partial }{\partial x_1} F(x_1, ..., x_m) \\
 	\vdots \\ 
-	\frac{\partial F}{\partial x_m} F(x_1, ..., x_m) \\
+	\frac{\partial }{\partial x_m} F(x_1, ..., x_m) \\
 \end{pmatrix}
 $$
 
@@ -363,7 +391,7 @@ x = \phi(x), \quad \phi : \mathbb{R}^m \rightarrow \mathbb{R}^m
 $$
 e quindi usare la solita formula di aggiornamento:
 $$
-x_{n + 1} = \phi(x_n)
+x^{(n + 1)} = \phi(x^{(n)})
 $$
 
 Una possibile formula di aggiornamento può essere:
@@ -387,25 +415,25 @@ e si cerca $G(x)$ tale che $G(\alpha)$ è non singolare, ovvero
 $$
 \det(G(\alpha)) \neq 0
 $$
-Quini si consdiera l'iterazione:
+Quindi si considera l'iterazione:
 \[
 	\begin{cases}
-		x^{0} \in \mathbb{R}^m, \quad \text{dato} \\
-		x^{n + 1} = x^{n} - G(x^n) f(x^n) = \phi (x^n)
+		x^{(0)} \in \mathbb{R}^m, \quad \text{dato} \\
+		x^{(n + 1)} = x^{(n)} - G(x^{(n)}) f(x^{(n)}) = \phi (x^{(n)})
 	\end{cases}
 \]
 
 Ridiamo la definizione di convergenza in $\mathbb{R}^n$:
 \begin{definition}{Convergenza multivariabile}
-	La successione $\{x^n\}_{n \in \mathbb{N}}$ converge ad $\alpha \in \mathbb{R}^m$ se:
+	La successione $\{x^{(n)}\}_{n \in \mathbb{N}}$ converge ad $\alpha \in \mathbb{R}^m$ se:
 	$$
-	\lim_{n \rightarrow + \infty} | x^n - \alpha|_2 = 0
+	\lim_{n \rightarrow + \infty} | x^{(n)} - \alpha|_2 = 0
 	$$
 \end{definition}
 
 In particolare, la convergenza ha \textbf{ordine} $p > 0$ se vale:
 $$
-\lim_{n \rightarrow +\infty} \frac{|x^{n + 1} - \alpha|_2}{|x^n - \alpha|_2^p} = c 
+\lim_{n \rightarrow +\infty} \frac{|x^{(n + 1)} - \alpha|_2}{|x^{(n)} - \alpha|_2^p} = c 
 $$
 con $c \neq 0$, $c < +\infty$, e in particolare nel caso $p = 1$ è $C \in (0, 1)$, cioè si ha la stessa situazione della definizione 19.3.
 
@@ -434,11 +462,11 @@ Potremo quindi enunciare il seguente teorema:
 	$$
 	cioè il raggio spettrale del Jacobiano di $\phi$ in $\alpha$ è $< 1$, allora $\exists \delta > 0$ tale che:
 	$$
-	\forall x_0 : |x_0 - \alpha|_2 < \delta
+	\forall x^{(0)} : |x^{(0)} - \alpha|_2 < \delta
 	$$
 	in cui la successione:
 	$$
-	x_{n + 1} = \phi(x_n)
+	x^{(n + 1)} = \phi(x^{(n)})
 	$$
 	converge ad $\alpha$, ed $\alpha$ è l'unico punto fisso di $\phi$ in:
 	$$
@@ -453,7 +481,7 @@ $$
 allora vale la tesi del teorema, ovvero la convergenza locale.
 Viceversa, se si trova che:
 $$
-| J_\phi(\alpha) | > 1
+| J_\phi(\alpha) | \geq 1
 $$
 non si può concludere nulla.
 
@@ -492,7 +520,7 @@ $$
 e 
 prendere l'aggiornamento dal metodo stazionario ad un punto:
 $$
-x_{n + 1} = \phi(x_n)
+x^{(n + 1)} = \phi(x^{(n)})
 $$
 
 \par\smallskip
@@ -509,6 +537,11 @@ Per la seconda, si ha invece semplicemente la retta:
 $$
 y = 2 - x
 $$
+
+Sul grafico, questo ha l'aspetto:
+\begin{center}
+	\includegraphics[scale=0.3]{../figures/nonlin.png}
+\end{center}
 
 Le soluzioni di $f(x) = 0$ saranno quindi i punti di intersezione fra la circonferenza e la retta, che vediamo essere 2, uno sopra l'asse $x$ e l'altro sotto.
 Consideriamone solo il primo, che chiamiamo $(\alpha_1, \alpha_2)$.
@@ -545,14 +578,14 @@ Da questo deriverà che il discriminante:
 $$
 \Delta = \frac{\alpha_1^2}{4} - 2 \alpha_2 < 0
 $$
-e cioè $\lambda_{1, 2}$ sono necessariamente numeri complessi in forma:
+e cioè $\lambda_{1, 2}^\alpha$ sono necessariamente numeri complessi in forma:
 $$
-\lambda_{1, 2} = \frac{\alpha_1}{4} \pm i \sqrt{ \frac{\alpha_2}{2} - \frac{\alpha_1^2}{16} }
+\lambda_{1, 2}^\alpha = \frac{\alpha_1}{4} \pm i \sqrt{ \frac{\alpha_2}{2} - \frac{\alpha_1^2}{16} }
 $$
 
 Il modulo di uno di questi (prendiamo il primo) sarà:
 $$
-|\lambda_1|^2 = \frac{\alpha_1^2}{16} + \frac{\alpha_1}{2} - \frac{\alpha_1^2}{16} = \frac{\alpha_1}{2}
+|\lambda_1^\alpha|^2 = \frac{\alpha_1^2}{16} + \frac{\alpha_1}{2} - \frac{\alpha_1^2}{16} = \frac{\alpha_1}{2}
 $$
 per cui il raggio spettrale sarà $\frac{\alpha_1}{2} < 1$ (dal fatto che $\alpha_1 < 1$), e quindi il metodo convergente.
 
@@ -561,29 +594,29 @@ Vediamo quindi la versione multivariabile del metodo di Newton-Raphson.
 
 Quindi, se abbiamo $f : \mathbb{R}^m \rightarrow \mathbb{R}^m$ il metodo di Newton si generalizza nel seguente modo:
 $$
-x^{n + 1} = x^{n} - J_f (x^{n})^{-1} f(x^n)
+x^{(n + 1)} = x^{(n)} - J_f (x^{(n)})^{-1} f(x^{(n)})
 $$
 
-Osserviamo che ad ogni passo si valuta $J_f(x^n)$ e $f(x^n)$, si risolve il sistema lineare:
+Osserviamo che ad ogni passo si valuta $J_f(x^{(n)})$ e $f(x^{(n)})$, si risolve il sistema lineare:
 $$
-J_f(x^n) y = f(x^n)
+J_f(x^{(n)}) y = f(x^{(n)})
 $$
-ed infine si chiama $x^n - y$.
+ed infine si chiama $x^{(n)} - y$.
 
 L'aggiornamento complessivo sarà quindi:
 \[
 	\begin{cases}
-		x^{0}, \quad \text{dato} \\
-		x^{n + 1} = x^n - J_f(x^n)^{-1} f(x^n)
+		x^{(0)}, \quad \text{dato} \\
+		x^{(n + 1)} = x^{(n)} - J_f(x^{(n)})^{-1} f(x^{(n)})
 	\end{cases}
 \]
 
 Per quanto riguarda la convergenza si ha il seguente risultato:
 \begin{theorem}{Convergenza del metodo di Newton-Rapson}
 	Sia $f \in C^2(\Omega)$, $\Omega \subseteq \mathbb{R}^m$, $\alpha \in \Omega$ tale che $f(\alpha) = 0$.
-	Se $J_f(\alpha)$ è non singolare, allora $\exists s \subseteq \Omega$ intorno di $\alpha$ tale che $\forall x^0 \in S$ la successione generata dal metodo di Newton-Raphson a partire da $x^0$ converge e vale:
+	Se $J_f(\alpha)$ è non singolare, allora $\exists s \subseteq \Omega$ intorno di $\alpha$ tale che $\forall x^{(0)} \in S$ la successione generata dal metodo di Newton-Raphson a partire da $x^{(0)}$ converge e vale:
 	$$
-	 |x^{n + 1} - \alpha|_2 \leq \beta |x^n - \alpha |_2^2
+	|x^{(n + 1)} - \alpha|_2 \leq \beta |x^{(n)} - \alpha |_2^2
 	$$
 	ovvero la convergenza è almeno quadratica (quindi superlineare).
 \end{theorem}
