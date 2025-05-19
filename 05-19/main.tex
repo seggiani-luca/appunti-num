@@ -1,0 +1,524 @@
+
+\documentclass[a4paper,11pt]{article}
+\usepackage[a4paper, margin=8em]{geometry}
+
+% usa i pacchetti per la scrittura in italiano
+\usepackage[french,italian]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\frenchspacing 
+
+% usa i pacchetti per la formattazione matematica
+\usepackage{amsmath, amssymb, amsthm, amsfonts}
+
+% usa altri pacchetti
+\usepackage{gensymb}
+\usepackage{hyperref}
+\usepackage{standalone}
+
+% imposta il titolo
+\title{Appunti Calcolo Numerico}
+\author{Luca Seggiani}
+\date{2025}
+
+% disegni
+\usepackage{pgfplots}
+\pgfplotsset{width=10cm,compat=1.9}
+
+% imposta lo stile
+% usa helvetica
+\usepackage[scaled]{helvet}
+% usa palatino
+\usepackage{palatino}
+% usa un font monospazio guardabile
+\usepackage{lmodern}
+
+% tikz in sans
+\tikzset{every picture/.style={/utils/exec={\sffamily}}}
+
+\renewcommand{\rmdefault}{ppl}
+\renewcommand{\sfdefault}{phv}
+\renewcommand{\ttdefault}{lmtt}
+
+% circuiti
+\usepackage{circuitikz}
+\usetikzlibrary{babel}
+
+% disponi il titolo
+\makeatletter
+\renewcommand{\maketitle} {
+	\begin{center} 
+		\begin{minipage}[t]{.8\textwidth}
+			\textsf{\huge\bfseries \@title} 
+		\end{minipage}%
+		\begin{minipage}[t]{.2\textwidth}
+			\raggedleft \vspace{-1.65em}
+			\textsf{\small \@author} \vfill
+			\textsf{\small \@date}
+		\end{minipage}
+		\par
+	\end{center}
+
+	\thispagestyle{empty}
+	\pagestyle{fancy}
+}
+\makeatother
+
+% disponi teoremi
+\usepackage{tcolorbox}
+\newtcolorbox[auto counter, number within=section]{theorem}[2][]{%
+	colback=blue!10, 
+	colframe=blue!40!black, 
+	sharp corners=northwest,
+	fonttitle=\sffamily\bfseries, 
+	title=Teorema~\thetcbcounter: #2, 
+	#1
+}
+
+% disponi definizioni
+\newtcolorbox[auto counter, number within=section]{definition}[2][]{%
+	colback=red!10,
+	colframe=red!40!black,
+	sharp corners=northwest,
+	fonttitle=\sffamily\bfseries,
+	title=Definizione~\thetcbcounter: #2,
+	#1
+}
+
+% disponi problemi
+\newtcolorbox[auto counter, number within=section]{problem}[2][]{%
+	colback=green!10,
+	colframe=green!40!black,
+	sharp corners=northwest,
+	fonttitle=\sffamily\bfseries,
+	title=Problema~\thetcbcounter: #2,
+	#1
+}
+
+% disponi codice
+\usepackage{listings}
+\usepackage[table]{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{codestyle}{
+		backgroundcolor=\color{black!5}, 
+		commentstyle=\color{codegreen},
+		keywordstyle=\bfseries\color{magenta},
+		numberstyle=\sffamily\tiny\color{black!60},
+		stringstyle=\color{green!50!black},
+		basicstyle=\ttfamily\footnotesize,
+		breakatwhitespace=false,         
+		breaklines=true,                 
+		captionpos=b,                    
+		keepspaces=true,                 
+		numbers=left,                    
+		numbersep=5pt,                  
+		showspaces=false,                
+		showstringspaces=false,
+		showtabs=false,                  
+		tabsize=2
+}
+
+\lstdefinestyle{shellstyle}{
+		backgroundcolor=\color{black!5}, 
+		basicstyle=\ttfamily\footnotesize\color{black}, 
+		commentstyle=\color{black}, 
+		keywordstyle=\color{black},
+		numberstyle=\color{black!5},
+		stringstyle=\color{black}, 
+		showspaces=false,
+		showstringspaces=false, 
+		showtabs=false, 
+		tabsize=2, 
+		numbers=none, 
+		breaklines=true
+}
+
+\lstdefinelanguage{javascript}{
+	keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+	keywordstyle=\color{blue}\bfseries,
+	ndkeywords={class, export, boolean, throw, implements, import, this},
+	ndkeywordstyle=\color{darkgray}\bfseries,
+	identifierstyle=\color{black},
+	sensitive=false,
+	comment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	commentstyle=\color{purple}\ttfamily,
+	stringstyle=\color{red}\ttfamily,
+	morestring=[b]',
+	morestring=[b]"
+}
+
+% disponi sezioni
+\usepackage{titlesec}
+
+\titleformat{\section}
+	{\sffamily\Large\bfseries} 
+	{\thesection}{1em}{} 
+\titleformat{\subsection}
+	{\sffamily\large\bfseries}   
+	{\thesubsection}{1em}{} 
+\titleformat{\subsubsection}
+	{\sffamily\normalsize\bfseries} 
+	{\thesubsubsection}{1em}{}
+
+% disponi alberi
+\usepackage{forest}
+
+\forestset{
+	rectstyle/.style={
+		for tree={rectangle,draw,font=\large\sffamily}
+	},
+	roundstyle/.style={
+		for tree={circle,draw,font=\large}
+	}
+}
+
+% disponi algoritmi
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\makeatletter
+\renewcommand{\ALG@name}{Algoritmo}
+\makeatother
+
+% disponi numeri di pagina
+\usepackage{fancyhdr}
+\fancyhf{} 
+\fancyfoot[L]{\sffamily{\thepage}}
+
+\makeatletter
+\fancyhead[L]{\raisebox{1ex}[0pt][0pt]{\sffamily{\@title \ \@date}}} 
+\fancyhead[R]{\raisebox{1ex}[0pt][0pt]{\sffamily{\@author}}}
+\makeatother
+
+\begin{document}
+
+% sezione (data)
+\section{Lezione del 19-05-25}
+
+% stili pagina
+\thispagestyle{empty}
+\pagestyle{fancy}
+
+% testo
+\subsection{Calcolo di autovalori e autovettori}
+Vediamo quindi il problema di, data una matrice $A \in \mathbb{C}^{n \times n}$, trovare auutocoppie $(\lambda, v)$, con $\lambda \in \mathbb{C}$, $v \in \mathbb{C}^n \setminus \{0\}$ che verificano:
+$$
+A v = \lambda v
+$$
+
+Vedremo 2 metodi iterativi che approcciano 2 versioni di questo problema:
+\begin{enumerate}
+	\item Calcolo di una singola autocoppia $(\lambda, v)$, ad esempio una coppia in cui $\lambda$ è l'autovalore di modulo massimo;
+	\item Calcolo di tutte le autocoppie $(\lambda, v)$, ovvero una autocoppia per ogni autovalore distinto. Non approfondiremo questo metodo per questioni di complessità.
+\end{enumerate}
+
+Osserviamo che gli autovalori sono necessariamente $n$ contate le le loro molteplicità $\mu$, in quanto rappresentano le soluzioni di un polinomio di grado $n$, e altro non possono fare per via del teorema fondamentale dell'algebra.
+
+Osserviamo poi che gli autovettori sono definiti a meno di moltiplicazione per scalare, cioè sono sempre infiniti gli autovettori associati ad un singolo autovalore $\lambda$ (tutti quelli nell'autopazio).
+
+\subsubsection{Metodo delle potenze}
+Vediamo il metodo 1) per ottenere una singola autocoppia, e in particolare quella di modulo (autovalore) massimo.
+Questo può essere utile per:
+\begin{itemize}
+	\item Trovare il raggio spettrale di una matrice;
+	\item Trovare la norma 2 di una matrice come:
+		$$
+			|A|_2 = \sqrt{\rho(A^H A)}
+		$$
+\end{itemize}
+
+Supponiamo che $A$ sia diagonalizzabile.
+Questa è l'ipotesi che ci assicura che ogni autovalore ha un autovettore associato linearmente indipendente.
+Prendiamo quindi gli autovalori $\lambda_1, ..., \lambda_n$ posti che soddisfano:
+$$
+|\lambda_1| > |\lambda_2| \geq |\lambda_3| \geq ... \geq |\lambda_n|
+$$
+dove il primo è in maggiorazione stretta (altrimenti non si distinguerebbe un unico autovalore di modulo massimo).
+
+Dato che $A$ è diagonalizzabile, abbiamo dai fondamenti di algebra lineare che esiste una base di $\mathbb{C}^n$ fatta da autovettori di $A$, ovvero $\exists v^{(1)}, ..., v^{(n)} \in \mathbb{C}^n$ tali che:
+$$
+A v^{(j)} = \lambda_j v^{(j)}, \quad j = 1, ..., n
+$$
+e per ogni $z \in \mathbb{C}^n$ vale che $\exists ! c_1, .., c_n \in \mathbb{C}$ tali che:
+$$
+z = \sum_{j = 1}^n c_j v^{(j)} = c_1 v^{(1)} + ... c_n v^{(n)}
+$$
+
+\par\smallskip
+
+L'idea fondamentale del metodo è che, preso $z \in \mathbb{C}^n$ a caso, abbiamo:
+$$
+A z = A (c_1 v^{(1)} + ... + c_n v^{(n)}) = c_1 A v^{(1)} + ... + c_n A v^{(n)} = c_1 \lambda_1 v^{(1)} + ... + c_n \lambda_n v^{(n)}
+$$
+Continuando ad iterare si ha:
+$$
+A^2 z = A (Az) = A (c_1 \lambda_1 v^{(1)} + ... + c_n \lambda_n v^{(n)})
+$$
+$$
+= c_1 \lambda_1 A v^{(1)} + ... + c_n \lambda_b A v^{(n)} = c_1 \lambda_1^2 v^{(1)} + ... + c_n \lambda_n^2 v^{(n)}
+$$
+e quindi continuando ad iterare si ha che:
+$$
+A^k z = c_1 \lambda_1^k v^{(1)} + ... + c_n \lambda_n^k v^{(n)}
+$$
+
+Il vantaggio è che l'autovalore di modulo massimo compare chiaramente con contribuzioni sempre più grandi, in quanto:
+$$
+= \lambda_1^k \left( c_1 v^{(1)} + c_2 \left( \frac{\lambda_2}{\lambda_1} \right)^k v^{(2)} + ... + c_n \left( \frac{\lambda_n}{\lambda_1} \right)^k v^{(n)} \right) \sim \lambda_1^k, \quad k \rightarrow + \infty
+$$
+
+Più formalmente, abbiamo che vale il teorema:
+\begin{theorem}{Convergenza del metodo delle potenze}
+	Sia considerata la successione:
+	\[
+		\begin{cases}
+			z^{(0)} = z \\
+			z^{(k + 1)} = Az^{(k)} = A^{k + 1} z^{(0)} = A^{k + 1} z
+		\end{cases}
+	\]
+	con $A \in \mathbb{C}^{n \times n}$ hermitiana ($A = A^H$), con autovalori:
+	$$
+	|\lambda_1| > |\lambda_2| \geq |\lambda_3| \geq ... \geq |\lambda_n| > 0
+	$$
+	e sia $h \in \{1, ..., n\}$ tale per cui $v_h^{(1)} \neq 0$.
+	Se $z^{(0)} \in \mathbb{C}^n$ è tale che:
+	$$
+	\left[V^{(1)}\right]^H z^{(0)} \neq 0
+	$$
+	allora la successione è tale che:
+	$$
+	\lim_{k \rightarrow +\infty} \frac{z^{(k)}}{z_h^{(k)}} = \tilde{v}^{(1)}
+	$$
+	multiplo scalare di $v^{(1)}$ (in particolare $\tilde{v}^{(1)} = \frac{v^{(1)}}{v_h^{(1)}}$).
+	Inoltre, per l'autovalore vale:
+	$$
+	\lim_{k \rightarrow +\infty} \frac{\left[ z^{(k)} \right]^H A z^{(k)}}{\left[ z^{(k)} \right]^H z^{(k)}} = \lambda_1
+	$$
+\end{theorem}
+
+Osserviamo che, dato $x \in \mathbb{C}^n$ e considerato il \textit{quoziente di Rayleigh}:
+$$
+R(x) = \frac{x^H A x}{x^H x}
+$$
+Se $x$ verifica $Ax = \lambda x$ (cioè è autovettore) allora:
+$$
+R(x) = \frac{x^H A x}{x^H x} = \frac{x^H \lambda x}{x^H x} = \lambda \frac{x^H x}{x^H x} = \lambda
+$$
+
+Notiamo la motivazione dell'assunto di matrice hermitiana.
+Di base, per il teorema spettrale si ha che:
+$$
+A = A^H \implies A \text{ diagonalizzabile}
+$$
+e in particolare si può scegliere una base ortonormale di autovettori, cioè trovare $v^{(1)}, ..., v^{(n)} \in \mathbb{C}^n$ tali che:
+$$
+A v^{(j)} = \lambda_j v^{(j)}, \quad \left[ v^{(i)} \right]^H v^{(j)} = \, < v^{(i)}, v^{(j)} > \, =
+	\begin{cases}
+		0, \quad i \neq j \\
+		1, \quad i = j
+	\end{cases}
+$$
+cioè equivalentemente:
+$$
+A = V D V^H
+$$
+con $D$ diagonalizzabile e $V$ normale data dagli autovettori in colonna.
+
+\par\smallskip
+
+Dimostriamo quindi il teorema.
+Dato che $A = A^H$ hermitiana si ha che:
+$$
+z^{(0)} = \sum_{j = 1}^n c_j v^{(j)} 
+$$
+ed inoltre abbiamo:
+$$
+0 \neq \left[ v^{(1)} \right]^H z^{(0)} = \sum_{j = 1}^n c_j \left[ v^{(1)} \right]^H v^{(j)} = c_1 \left[ v^{(1)} \right]^H v^{(1)} = c_1
+$$
+e quindi $c_1 \neq 0$.
+
+Dimostriamo allora le due tesi, su autovettore (1) a autovalore massimo (2):
+\begin{enumerate}
+	\item 
+Come fatto in precedenza prendiamo: 
+$$
+z^{(k)} = A^k z^{(0)} = \lambda_1^k \left( c_1 v^{(1)} + c_2 \left( \frac{\lambda_2}{\lambda_1} \right)^k v^{(2)} + ... + c_n \left( \frac{\lambda_n}{\lambda_1} \right)^k v^{(n)} \right)
+$$
+$$
+= \lambda_1^k \left( c_1 v^{(1)} + \sum_{j = 2}^n \left(\frac{\lambda_j}{\lambda_i}\right)^k v^{(j)} c_j \right)
+$$
+dove vorremo dimostrare che il termine a destra scompare per $k \rightarrow +\infty$.
+
+Prendiamo quindi il limite:
+$$
+\lim_{k \rightarrow +\infty} \frac{ \lambda_1^k \left( c_1 v^{(1)} + \sum_{j = 2}^n \left(\frac{\lambda_j}{\lambda_i}\right)^k v^{(j)} c_j \right) }{ \lambda_1^k \left( c_1 v^{(1)}_h + \sum_{j = 2}^n \left(\frac{\lambda_j}{\lambda_i}\right)^k v^{(j)}_h c_j \right) }
+$$
+$$
+\lim_{k \rightarrow +\infty} \frac{ c_1 v^{(1)} + \sum_{j = 2}^n \left(\frac{\lambda_j}{\lambda_i}\right)^k v^{(j)} c_j ) }{ c_1 v^{(1)}_h + \sum_{j = 2}^n \left(\frac{\lambda_j}{\lambda_i}\right)^k v^{(j)}_h c_j }
+= \lim_{n \rightarrow + \infty} \frac{c_1 v^{(1)}}{c_1 v_h^{(1)}} = \frac{v^{(1)}}{v_h^{1}}
+$$
+che è la prima tesi.
+
+	\item
+Prendiamo quindi:
+$$
+\lim_{k \rightarrow + \infty} \frac{\left[ z^{(k)} \right]^H A z^{(k)}}{\left[ z^{(k)} \right]^H z^{(k)}} 
+= \lim_{k \rightarrow + \infty} \frac{ \left[ \frac{z^{(k)}}{z_h^{(k)}} \right]^H A \frac{z^{(k)}}{z_h^{(k)}} }{ \left[ \frac{z^{(k)}}{z^{(k)}_h} \right]^H A \frac{z^{(k)}}{z^{(k)}_h} }
+= \frac{ \left[ \frac{v^{(1)}}{v_h^{(1)}} \right]^H A \frac{v^{(1)}}{v_h^{(1)}} }{ \left[ \frac{v^{(1)}}{v^{(1)}_h} \right]^H A \frac{v^{(1)}}{v^{(1)}_h} } 
+$$
+che moltiplicando sopra e sotto per $\left( v_h^{(1)} \right)^2$ dà:
+$$
+= \frac{ [v^{(1)} ]^H A v^{(1)} }{ [v^{(1)}]^H v^{(1)} } = \lambda_1
+$$
+da cui la seconda tesi. \qed
+\end{enumerate}
+
+Osserviamo che $h$ è stato usato perché dividiamo per $z_h^{(k)}$ che per $k$ abbastnza grandi è $\neq 0$, in quanto vicino a $v_h^{(1)}$.
+
+Osserviamo poi che nell'implementazione pratica il metodo delle potenze $z^{(k)}$ viene diviso per la sua norma, così da ottenere solo vettori di norma $1$ ed evitare problemi di overflow o underflow.
+
+Potremmo infatti avere, ad esempio, dello pseudocodice di esempio:
+\begin{lstlisting}[language=MATLAB, style=codestyle]	
+input z[0]
+
+for k = 1, 2, 3, ...
+	y[k] = A * z[k - 1]
+	z[k] = y[k] / ( |y[k]|_2 )
+end
+\end{lstlisting}
+
+Il costo è quello di una nomrma ($O(n)$) e di un prodotto matrice vettore ($O(n^2)$ )ad ogni iterazione, cioè $O(k \cdot n^2)$.
+
+\subsubsection{Criterio di stop}
+Vediamo la condizione di stop del metodo delle potenze.
+In genere si usa:
+$$
+|R(z^{(k)} - R(z^{(k - 1)}))| < \epsilon
+$$
+con ad esempio $\epsilon = 10^{-8}$.
+
+Testiamo gli autovalori con $R()$ e non gli autovettori con:
+$$
+|z^{(k)} - z^{(k + 1)}|_2 < \epsilon
+$$
+in quanto non sappiamo verso quale multiplo scalare degli autovettori ci stiamo dirigendo, per cui la differenza ad ogni passaggio potrebbe essere molto grande.
+
+\subsubsection{Commenti sull'ipotesi di convergenza}
+Possiamo fare un commento sulle ipotesi del teorema 22.1.
+\begin{itemize}
+	\item Non è strettamente necessario che $A = A^H$ hermitiana, in quanto si può dimostrare che il metodo funziona anche con $A$ solo diagonalizzabile;
+	\item L'assunzione $\left[ v^{(1)} \right]^H z^{(0)} \neq 0$ è virtualmente vera (o meglio vera con probabilità $1$) per qualsiasi $z^{(0)} \in \mathbb{C}^n$ scelto a caso.
+		Inoltre, nel caso di calcolo a macchina si ha che gli errori di arrotondamento stessi aiutano ad uscire dall'ortogonalità, anche se si parte da tale condizione.
+		\item L'assunzione $|\lambda_1| > |\lambda_2|$ non è invece rinunciabile, in quanto si possono costruire esempi di successioni non convergenti nel caso di più autovalori dominanti.
+
+			Prendiamo l'esempio:
+			$$
+				A =
+				\begin{pmatrix}
+					0 & 1 \\ 
+					1 & 0
+				\end{pmatrix}
+			$$
+			con 2 autovalori di modulo 1.
+			Prendiamo:
+			$$
+			z^{(0)} = 
+			\begin{pmatrix}
+				2 \\ 3
+			\end{pmatrix}
+			$$
+			Si trova che l'aggiornamento scambia semplicemente le componenti:
+			$$
+			A z^{(0)} =
+			\begin{pmatrix}
+				3 \\ 2
+			\end{pmatrix}
+			$$
+			e cosi via all'infinito.
+
+			Gli autovettori, calcolati a mano, sono semplicemente:
+			$$
+				v^{(1)} =
+				\begin{pmatrix}
+					1 \\ 1
+				\end{pmatrix}, \quad
+				v^{(2)} =
+				\begin{pmatrix}
+					1 \\ -1
+				\end{pmatrix}
+			$$
+\end{itemize}
+
+Osserviamo quindi che per eseguire il metodo delle potenze, serve soltanto essere in grado di valutare il prodotto matrice vettore $A z$.
+Questo può essere utile nel caso sopra citato, quando si ha una matrice definita come risultato di operazioni aritmetiche, magari costose.
+
+Ad esempio, se si vuole stimare:
+$$
+|A|_2 = \sqrt{\rho(A^H A)}
+$$
+si può pensare di applicare il metodo delle potenze su $A^H A$, senza nemmeno dover calcolare $A^H A$ ma applicando direttamente i prodotti matrici vettore $A^H A z$.
+
+\subsection{Metodi per più autovalori}
+\subsubsection{Autovalori minimi}
+Supponiamo di essere interessati all'autocoppia $(\lambda_n, v^{(n)})$, associata all'autovalore $\lambda_n$ di modulo minimo, e supponiamo:
+$$
+|\lambda_1| \geq ... \geq |\lambda_{n - 2}| \geq |\lambda_{n - 1}| > |\lambda_n|
+$$
+
+L'idea è di applicare il metodo delle potenze ad $A^{-1}$, infatti $A^{-1}$ ha autovalori:
+$$
+\left| \frac{1}{\lambda_n} \right| > \left| \frac{1}{\lambda_{n - 1}} \right| \geq \left| \frac{1}{\lambda_{n - 2}} \right| \geq ... \geq \left| \frac{1}{\lambda_1} \right|
+$$
+ed inoltre ha come autovettori $v^{(1)}, ..., v^{(n)}$.
+Quidi le successioni generate dal metodo delle potenze su $A^{-1}$ convergono all'autocoppia:
+$$
+\left( \frac{1}{\lambda_n}, v^{(n)} \right)
+$$
+
+Chiamiamo questo metodo anche \textbf{metodo delle potenze inverse}, che implementiamo in pseudocodice come:
+\begin{lstlisting}[language=MATLAB, style=codestyle]	
+input z[0]
+
+for k = 1, 2, 3, ...
+	y[k] = inv(A) * z[k - 1]
+	z[k] = y[k] / ( |y[k]|_2 )
+end
+
+% qui manca il quoziente di Rayleigh perche' z e' gia normalizzato 
+l_n = 1 / ( (z[K])^H A z[K] )
+\end{lstlisting}
+
+Dove chiaramente non vale la pena di calcolare l'inversa ma piuttosto conviene risolvere il sistema:
+$$
+A y^{(k)} = z^{(k - 1)}
+$$
+ad esempio sfruttando l'eliminazione di Gauss con pivoting.
+Per rendere tutto più efficiente, conviene anzi precalcolare una fattorizzazione $LU$ di $A$ prima di iniziare il metodo.
+
+In questo caso avremo:
+$$
+A = \Pi LU
+$$
+cioè si fa una fattorizzazione $LU$ con pivoting dato dalla matrice di permutazione $\Pi$, così che ad ogni passaggio il prodotto $A^{-1} z$ diventa equivalente a risolvere un sistema lineare triangolare.
+In questo caso il costo diventa $O(n^3)$ per la fattorizzazione più $O(k \cdot n^2)$ per la risoluzione dei sistemi triangolari.
+
+\subsubsection{Autovalori intermedi}
+Vediamo quindi come modificare il metodo delle potenze per trovare un autovalore intermedio, cioè preso $\sigma \in \mathbb{C}$ scalare arbitrario calcolare l'autocoppia $(\lambda, v)$ con $\lambda$ più vicino a $\sigma$.
+
+In questo caso si applica il metodo delle potenze alla matrice:
+$$
+A \sim (A - \sigma \cdot I)^{-1}
+$$
+che ha gli stessi autovettori di $A$ e come autovalori ha quantità della forma:
+$$
+\lambda_j' = \frac{1}{\lamba_j - \sigma}
+$$
+In questo caso l'autovalore di modulo più grande diventa quello più vicino a $\sigma$, per cui basta applicare il metodo delle potenze.
+
+
+\end{document}
