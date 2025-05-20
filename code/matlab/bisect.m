@@ -1,4 +1,4 @@
-function m = secant_method(f, a, b, k, tol)
+function m = bisect(f, a, b, k, tol)
     if nargin < 5
         tol = 0.01;
     end
@@ -14,9 +14,13 @@ function m = secant_method(f, a, b, k, tol)
         fprintf("\tb: %.4f\n", b);
 
         % update
-        m = a - f(a) * ((b - a) / (f(b) - f(a)));
-        a = b;
-        b = m;
+        m = (a + b) / 2;
+        
+        if f(a) * f(m) > 0
+            a = m;
+        else
+            b = m;
+        end
 
         % tolerance
         if abs(b - a) < tol

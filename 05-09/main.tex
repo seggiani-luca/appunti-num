@@ -398,6 +398,81 @@ approssimato al primo naturale superiore.
 
 Ad esempio, se $b - a = 1$, servono $n = 10$ passi per ottenere $t_{ol} = 10^{-3}$, $n = 20$ per $t_{ol} = 10^{-6}$, e quindi in genere serviranno un numero sempre maggiore di misurazioni per ottenere precisioni migliori.
 
+\subsubsection{Implementazione MATLAB del metodo di bisezione}
+Vediamo l'implementazione MATLAB del metodo di bisezione:
+\lstset{style=codestyle, language=MATLAB}
+\lstinputlisting{../code/matlab/bisect.m}
+
+Dove notiamo di aver adottato il criterio di stop:
+$$
+| x_{k + 1} - x_k | < t_{ol}
+$$
+per una tolleranza $t_{ol}$, di default $0.1$.
+
+Inoltre, notiamo che per la valutazione del segno di $f(m)$, teniamo conto del segno di $f(a)$, in quanto vogliamo mantenere la radice sempre nell'intervallo $[a, b]$.
+
+\par\smallskip
+
+Vediamo ad esempio come applicare questo metodo per trovare una radice della funzione:
+$$
+f(x) = \left(x-3\right)^{4}-2
+$$
+sull'intervallo $[a, b] = [3, 5]$, con una differenza di step fra iterazioni al minimo di $0.01$.
+
+In MATLAB definiremo $f$ come una function handle:
+\begin{lstlisting}[language=MATLAB, style=codestyle]	
+>> f = @(x) (x - 3) .^ 4 - 2
+
+f =
+
+  function_handle with value:
+
+    @(x)(x-3).^4-2
+\end{lstlisting}
+e quindi applicheremo l'algoritmo appena definito:
+\begin{lstlisting}[language=MATLAB, style=codestyle]	
+>> bisect(f, 3, 5)
+
+Iteration 1
+	a: 3.0000
+	b: 5.0000
+
+Iteration 2
+	a: 4.0000
+	b: 5.0000
+
+Iteration 3
+	a: 4.0000
+	b: 4.5000
+
+Iteration 4
+	a: 4.0000
+	b: 4.2500
+
+Iteration 5
+	a: 4.1250
+	b: 4.2500
+
+Iteration 6
+	a: 4.1875
+	b: 4.2500
+
+Iteration 7
+	a: 4.1875
+	b: 4.2188
+
+Iteration 8
+	a: 4.1875
+	b: 4.2031
+
+ans =
+
+    4.1953
+\end{lstlisting}
+
+Si ottiene quindi $4.1953$, che per $f(4.1953) \approx 0.04$ è abbastanza vicino considerata la differenza di step minima imposta.
+Concedendo all'algoritmo più passaggi, si otterrano chiaramente soluzioni via via più accurate.
+
 \subsubsection{Metodo delle secanti}
 Il metodo delle secanti si basa su un idea geometrica, cioè quella di tracciare la \textit{retta} secante di $f$ fra $a$ e $b$, ovvero quella passante per i punti $(a, f(a))$, $(b, f(b))$.
 Di questa si trova quindi l'intersezione con l'asse delle ascisse, che chiamiamo ad esempio $x_1$:
@@ -420,6 +495,63 @@ Vale riguardo all'errore il seguente teorema:
 \end{theorem}
 
 Questo solitamente risulta in un errore migliore del lineare ma peggiore del quadratico.
+
+\subsubsection{Implementazione MATLAB del metodo delle secanti}
+Vediamo quindi un implementazione MATLAB del metodo delle secanti scalare, per function handle:
+\lstinputlisting{../code/matlab/secant_method.m}
+
+Dove si usa lo stesso criterio di stop di prima.
+
+\par\smallskip
+
+Vediamo l'algoritmo in azione per la stessa funzione dell'esmpio 19.1.3:
+\begin{lstlisting}[language=MATLAB, style=codestyle]	
+>> secant_method(f, 3, 5, 100, 0.001) % step piu' piccolo
+
+Iteration 1
+	a: 3.0000
+	b: 5.0000
+
+Iteration 2
+	a: 5.0000
+	b: 3.2500
+
+Iteration 3
+	a: 3.2500
+	b: 3.4684
+
+Iteration 4
+	a: 3.4684
+	b: 13.1076
+
+Iteration 5
+	a: 13.1076
+	b: 3.4702
+
+[...]
+
+Iteration 23
+	a: 4.4099
+	b: 4.1135
+
+Iteration 24
+	a: 4.1135
+	b: 4.1703
+
+Iteration 25
+	a: 4.1703
+	b: 4.1911
+
+Iteration 26
+	a: 4.1911
+	b: 4.1892
+
+ans =
+
+    4.1892
+\end{lstlisting}
+dove si è ridotto lo step per far fronte alle fluttuazioni che il metodo incontra attorno alla radice, per via della derivata particolarmente "piatta" che $f(x)$ ha vicino a 3.
+In particolare, si noti il salto che viene effettuato fra le iterazioni 4 e 5, che porta il valore da $\sim 3$ a $\sim 13$, cosa che chiaramente richiede alcuni passaggi per venire corretta.
 
 \subsection{Metodi stazionari a un punto}
 I \textbf{metodi stazionari a un punto} sono metodi della forma:

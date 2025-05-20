@@ -206,7 +206,7 @@
 
 % testo
 \subsection{Calcolo di autovalori e autovettori}
-Vediamo quindi il problema di, data una matrice $A \in \mathbb{C}^{n \times n}$, trovare auutocoppie $(\lambda, v)$, con $\lambda \in \mathbb{C}$, $v \in \mathbb{C}^n \setminus \{0\}$ che verificano:
+Vediamo quindi il problema di, data una matrice $A \in \mathbb{C}^{n \times n}$, trovare autocoppie $(\lambda, v)$, con $\lambda \in \mathbb{C}$, $v \in \mathbb{C}^n \setminus \{0\}$ che verificano:
 $$
 A v = \lambda v
 $$
@@ -378,21 +378,9 @@ $$
 da cui la seconda tesi. \qed
 \end{enumerate}
 
-Osserviamo che $h$ è stato usato perché dividiamo per $z_h^{(k)}$ che per $k$ abbastnza grandi è $\neq 0$, in quanto vicino a $v_h^{(1)}$.
+Osserviamo che $h$ è stato usato perché dividiamo per $z_h^{(k)}$ che per $k$ abbastanza grandi è $\neq 0$, in quanto vicino a $v_h^{(1)}$.
 
 Osserviamo poi che nell'implementazione pratica il metodo delle potenze $z^{(k)}$ viene diviso per la sua norma, così da ottenere solo vettori di norma $1$ ed evitare problemi di overflow o underflow.
-
-Potremmo infatti avere, ad esempio, dello pseudocodice di esempio:
-\begin{lstlisting}[language=MATLAB, style=codestyle]	
-input z[0]
-
-for k = 1, 2, 3, ...
-	y[k] = A * z[k - 1]
-	z[k] = y[k] / ( |y[k]|_2 )
-end
-\end{lstlisting}
-
-Il costo è quello di una nomrma ($O(n)$) e di un prodotto matrice vettore ($O(n^2)$ )ad ogni iterazione, cioè $O(k \cdot n^2)$.
 
 \subsubsection{Criterio di stop}
 Vediamo la condizione di stop del metodo delle potenze.
@@ -407,6 +395,13 @@ $$
 |z^{(k)} - z^{(k + 1)}|_2 < \epsilon
 $$
 in quanto non sappiamo verso quale multiplo scalare degli autovettori ci stiamo dirigendo, per cui la differenza ad ogni passaggio potrebbe essere molto grande.
+
+\subsubsection{Implementazione MATLAB del metodo delle potenze}
+Vediamo quindi, da quello che abbiamo detto, come si può implementare una funzione per il calcolo dell'autocoppia massima in MATLAB:
+\lstset{style=codestyle, language=MATLAB}
+\lstinputlisting{../code/matlab/max_eigen.m}
+
+Il costo è quello di una norma ($O(n)$) e di un prodotto matrice vettore ($O(n^2)$ )ad ogni iterazione, cioè $O(k \cdot n^2)$.
 
 \subsubsection{Commenti sull'ipotesi di convergenza}
 Possiamo fare un commento sulle ipotesi del teorema 22.1.
@@ -480,18 +475,7 @@ $$
 \left( \frac{1}{\lambda_n}, v^{(n)} \right)
 $$
 
-Chiamiamo questo metodo anche \textbf{metodo delle potenze inverse}, che implementiamo in pseudocodice come:
-\begin{lstlisting}[language=MATLAB, style=codestyle]	
-input z[0]
-
-for k = 1, 2, 3, ...
-	y[k] = inv(A) * z[k - 1]
-	z[k] = y[k] / ( |y[k]|_2 )
-end
-
-% qui manca il quoziente di Rayleigh perche' z e' gia normalizzato 
-l_n = 1 / ( (z[K])^H A z[K] )
-\end{lstlisting}
+Chiamiamo questo metodo anche \textbf{metodo delle potenze inverse}.
 
 Dove chiaramente non vale la pena di calcolare l'inversa ma piuttosto conviene risolvere il sistema:
 $$
@@ -506,6 +490,11 @@ A = \Pi LU
 $$
 cioè si fa una fattorizzazione $LU$ con pivoting dato dalla matrice di permutazione $\Pi$, così che ad ogni passaggio il prodotto $A^{-1} z$ diventa equivalente a risolvere un sistema lineare triangolare.
 In questo caso il costo diventa $O(n^3)$ per la fattorizzazione più $O(k \cdot n^2)$ per la risoluzione dei sistemi triangolari.
+
+\subsubsection{Implementazione MATLAB del metodo delle potenze inverse}
+Vediamo quindi come si può implementare una funzione per il calcolo dell'autocoppia minima in MATLAB:
+\lstset{style=codestyle, language=MATLAB}
+\lstinputlisting{../code/matlab/min_eigen.m}
 
 \subsubsection{Autovalori intermedi}
 Vediamo quindi come modificare il metodo delle potenze per trovare un autovalore intermedio, cioè preso $\sigma \in \mathbb{C}$ scalare arbitrario calcolare l'autocoppia $(\lambda, v)$ con $\lambda$ più vicino a $\sigma$.

@@ -273,10 +273,8 @@ In particolare distinguiamo quindi i 4 casi:
 	\item $f' < 0$, $f'' < 0$ concava decrescente, vorremo partire a \textit{destra} di $\alpha$;
 \end{enumerate}
 
-\newpage
-
 Cioè riassumendo:
-\begin{table}[h!]
+\begin{table}[H]
 	\center 
 	\begin{tabular} { c | c c }
 		& $f'(x) > 0$ & $f'(x) < 0$ \\
@@ -329,6 +327,40 @@ $$
 f\left(\frac{1}{e}\right) = \frac{1}{e} - 1 < 0
 $$
 per cui possiamo scegliere $x_0 = \frac{1}{e}$ ed essere sicuri, per il teorema 21.2, di convergere ad $\alpha$.
+
+\subsubsection{Esempio: miglioramento della convergenza con Newton}
+Avevamo visto nell'esempio 20.1.1 come Newton poteva dare convergenza non ottimale per alcuni valori.
+
+In particolare, avevamo preso la funzione:
+$$
+f\left(x\right)=\left(x-3\right)^{4}-2
+$$
+e stavamo cercando la radice fra $3$ e $5$.
+Notiamo che in questo intervallo $f''(x) > 0$, e qundi vogliamo partire da un punto $x_0$ tale per cui $f(x_0) > 0$. 
+Prendiamo ad esempio $5$, con $f(5) = 14$:
+\begin{lstlisting}[language=MATLAB, style=codestyle]	
+>> newton_method(f, 5)
+
+Iteration 1
+	x: 5.0000
+
+Iteration 2
+	x: 4.5625
+
+Iteration 3
+	x: 4.3029
+
+Iteration 4
+	x: 4.2033
+
+Iteration 5
+	x: 4.1895
+
+ans =
+
+    4.1892
+\end{lstlisting}
+dove notiamo che troviamo una soluzione in sole 5 iterazioni, contro le 25 di cui avevamo avuto bisogno partendo da $x_0 = 3.1$ nell'esempio precedente.
 
 \subsection{Equazioni non lineari in $\mathbb{R}^m$}
 Vediamo quindi di considerare sempre equazioni non lineari, ma in più variabili (in particolare $m$).
@@ -628,7 +660,7 @@ Dove notiamo che si stampano alcune informazioni intermedie sui punti attraversa
 		\begin{center}
 			\includegraphics[scale=1]{../figures/nonlin_ex.png}
 		\end{center}
-		da dove si nota chiaramente che in un numero limitato di passaggi ci si avvicina abbastanza ad $\alpha$;
+		da dove si nota chiaramente che in un numero limitato di passaggi ci si avvicina abbastanza velocmente ad $\alpha$;
 		\newpage
 	\item Cercare di fare la stessa cosa ad esempio dal punto $(4, -1)$ non dà risultati simili, in quanto notiamo dal grafico:
 		\begin{center}
@@ -669,7 +701,7 @@ Per quanto riguarda la convergenza si ha il seguente risultato:
 	ovvero la convergenza è almeno quadratica (quindi superlineare).
 \end{theorem}
 
-\subsubsection{Esempio: metodo di Newton-Raphson}
+\subsubsection{Esempio: convergenza del metodo di Newton-Raphson}
 Vediamo quindi come valutare la convergenza del metodo di Newton-Raphson per il sistema:
 $$
 f(x_1, x_2) =
@@ -741,28 +773,71 @@ Che nei due punti $\alpha$ e $\beta$ risulta:
 		da cui $\det \neq 0$, e la convergenza è superlineare;
 \end{itemize}
 
+\subsubsection{Esempio: convergenza del metodo di Newton-Raphson con MATLAB}
+Vediamo di confermare quanto abbiamo detto sopra sfruttando uno strumento di calcolo.
+Potrebbe venirci in mente di "colorare" su un grafico le regioni che convergono nei punti $\alpha$ e $\beta$, e di valutarne la velocità di convergenza.
+
+\newpage
+
+Iniziamo con un implementazione del metodo di Newton-Raphson che sfrutta il risolutore di MATLAB per essere il più veloce possibile:
+\begin{lstlisting}[language=MATLAB, style=codestyle]	
+function [x0, i] = q_nraph(x0)
+		for i = 1:100
+				f0 = f_handle(x0);
+				j0 = j_handle(x0);
+
+				% solve j0 y = f0
+				y0 = j0 \ f0;
+				x1 = x0 - y0;
+
+				if norm(x1 - x0) < 0.01
+						break;
+				end
+
+				x0 = x1;
+		end
+end
+\end{lstlisting}
+e usiamo quindi le funzioni per la colorazione di grafici che MATLAB offre:
+\lstinputlisting{../code/matlab/raphson_ex.m}
+
+\newpage
+
+L'esecuzione di questo script ci fornisce in pochi secondi il seguente grafico:
+\begin{center}
+	\includegraphics[scale=0.4]{../figures/raphson_conv.png}
+\end{center}
+
+Da dove si nota che la regione di convergenza in $\beta$ ha numeri di iterazione in media molto più piccoli rispetto alla regione di convergenza di $\alpha$.
+
+Questo corrisponde con quanto avevamo trovato in maniera analitica, cioè che:
+\begin{itemize}
+	\item[$\alpha$]: $\det = 0$, e la convergenza non è superlineare;
+	\item[$\beta$]: $\det \neq 0$, e la convergenza è superlineare;
+\end{itemize}
+
 \subsubsection{Varianti del metodo di Newton-Raphson}
 Abbiamo che ad ogni passo del metodo di Newton-Raphson dobbiamo:
 \begin{enumerate}
-	\item Valutare $J_f(x^n)$; ovvero $m^2$ funzioni non lineari;
-	\item Risolvere $J_f(x^n) y = f(x^n)$, sistema lineare $m \times m$ (complessità $O(m^3))$.
+	\item Valutare $J_f(x^{(n)})$; ovvero $m^2$ funzioni non lineari;
+	\item Risolvere $J_f(x^{(n)}) y = f(x^{(n)})$, sistema lineare $m \times m$ (complessità $O(m^3))$.
 \end{enumerate}
 
 Quando $m$ è particolarmente grande siamo disposti a fare qualcosa di più economico al prezzo di perdere l'ordine di convergenza molto favorevole di Newton-Rhapson.
 
 \begin{enumerate}
 	\item La prima strategia è quella di non aggiornare mai il Jacobiano (\textbf{Newton semplificato}).
-		Il Jacobiano viene quindi calcolato solo in $x^0$ punto iniziale, e poi si usa sempre lo stesso nelle iterazioni successive, cioè l'aggiornamento diventa:
+		Il Jacobiano viene quindi calcolato solo in $x^{(0)}$ punto iniziale, e poi si usa sempre lo stesso nelle iterazioni successive, cioè l'aggiornamento diventa:
 		$$
-			x^{n + 1} = x^n - J_f(x^0)^{-1} f(x^n)
+		x^{(n + 1)} = x^{(n)} - J_f(x^{(0)})^{-1} f(x^{(n)})
 		$$
 		
 		Per la risoluzione del sistema, si può quindi sfruttare la fattorizzazione $LU$ del Jacobiano appena nominato, e quindi svolgere complessivamente due operazioni $O(m^2)$.
 
 	\item La seconda strategia viene detta \textbf{metodo di Jacobi nonlineare}.
-		Ad ogni passo si sostituisce $J_f(x^n)$ con la matrice diagonale:
+		Ad ogni passo si sostituisce $J_f(x^{(n)})$ con la matrice diagonale:
 		$$
-		\mathrm{diag} \left( \frac{\partial f}{\partial x_1} (x^n), ..., \frac{\partial f}{\partial x_m} (x^n) \right)
+		\mathrm{diag} \left( \frac{\partial f}{\partial x_1} (x^{(n)}), ..., \frac{\partial f}{\partial x_m} (x^{(n)}) \right)
 		$$
 		così che:
 		\begin{enumerate}
@@ -772,18 +847,18 @@ Quando $m$ è particolarmente grande siamo disposti a fare qualcosa di più econ
 
 		L'aggiornamento diventa quindi qualcosa del tipo:
 		$$
-		x_i^{n + 1} = x_i^n - \frac{f_i(x^n)}{\frac{\partial f}{\partial x_i} (x_1^n, ..., x_m^n)}
+		x_i^{(n + 1)} = x_i^{(n)} - \frac{f_i(x^{(n)})}{\frac{\partial f}{\partial x_i} (x_1^{(n)}, ..., x_m^{(n)})}
 		$$
 
 	\item La terza strategia viene detta \textbf{metodo di Gauss-Seidel nonlineare}.
 
 		In questo caso l'aggiornamento è sostanzialmente analogo al metodo di Jacobi, con la differenza:
 		$$
-		x_i^{n + 1} = x_i^n - \frac{f_i(x_1^{n + 1}, ..., x_i^{n}, ... x_m^n)}{\frac{\partial f}{\partial x_i} (x_1^n, ..., x_m^n)}
+		x_i^{(n + 1)} = x_i^{(n)} - \frac{f_i(x_1^{(n + 1)}, ..., x_{i - 1}^{(n + 1)}, x_i^{(n)}, ... x_m^{(n)})}{\frac{\partial f}{\partial x_i} (x_1^{(n)}, ..., x_m^{(n)})}
 		$$
-		dove le entrate $x^{n + 1}$ vengono calcolate una per volta attraverso le stesse considerazioni fatte per il metodo di Gauss-Seidel lineare.
+		dove le entrate $x^{(n + 1)}$ vengono calcolate una per volta attraverso le stesse considerazioni fatte per il metodo di Gauss-Seidel lineare.
 \end{enumerate}
 
-Altre varianti sono date dai metodi \textbf{quasi-Newton}, dove si sostituisce $J_f(x)$ con qualcosa con cui è più semplice (meno costoso) risolvere sistemi lineari e che richiedono meno valutazioni di funzioni non lineari.
+Altre varianti sono date dai cosiddetti metodi \textbf{quasi-Newton}, dove si sostituisce $J_f(x)$ con qualcosa con cui è più semplice (meno costoso) risolvere sistemi lineari e che richiedono meno valutazioni di funzioni non lineari.
 
 \end{document}

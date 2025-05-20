@@ -7,14 +7,16 @@ function x0 = newton_method(f, x0, k, tol)
         k = 100;
     end
 
-    % differentiate
+    % differentiat
+   
+    % e
     syms x;
     diff_f = str2func(['@(x)', char(diff(f(x)))]);
 
     for i = 1:k
         % print info
         fprintf("\nIteration %d\n", i);
-        fprintf("\tx: %d", x0);
+        fprintf("\tx: %.4f\n", x0);
 
         % update
         x_old = x0;

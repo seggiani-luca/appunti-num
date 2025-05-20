@@ -11,8 +11,8 @@ function x0 = nonlin_r2_ex(x0)
         x1(1) = phi1(x0(1), x0(2));
         x1(2) = phi2(x0(1), x0(2));
         
-        fprintf("\nx0: (%d, %d)\n", x0(1), x0(2));
-        fprintf("x1: (%d, %d)\n", x1(1), x1(2));
+        fprintf("\nx0: (%.4f, %.4f)\n", x0(1), x0(2));
+        fprintf("x1: (%.4f, %.4f)\n", x1(1), x1(2));
 
         plot([x0(1), x1(1)], [x0(2), x1(2)], 'r-');
         x0 = x1;
