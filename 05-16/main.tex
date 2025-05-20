@@ -589,6 +589,54 @@ $$
 $$
 per cui il raggio spettrale sarà $\frac{\alpha_1}{2} < 1$ (dal fatto che $\alpha_1 < 1$), e quindi il metodo convergente.
 
+\subsubsection{Esempio: convergenza multivariabile con MATLAB}
+Facciamo una trattazione meno analitica e più numerica della convergenza nello scorso esempio.
+
+Avevamo individuato due radici, chiamiamole $\alpha$ (già ampiamente discussa) e $\beta$.
+Queste si calcono esplicitamente prendendo dalla seconda equazione:
+$$
+x_2 + x_1 - 2 = 0 \implies x_2 = 2 - x_1
+$$
+e sostituendo nella prima:
+$$
+x_1 - \frac{1}{4} (x_1^2 + (2 - x_1)^2) = -\frac{x_1^2}{2} + 2 x_1 - 1
+$$
+da cui:
+$$
+\alpha = (2 - \sqrt{2}, \sqrt{2}), \quad \beta = (2 + \sqrt{2}, - \sqrt{2})
+$$
+
+Potremo chiaramente rifare le stesse considerazioni di prima con i valori effettivi di $\alpha$, trovando gli stessi risultati.
+Ci basti sapere che il punto $\alpha$ fa (come avevamo visto) da attrattore, mentre il metodo non converge in $\beta$, scelto l'aggiornamento:
+$$
+\phi(x) =
+\begin{pmatrix}
+	\frac{1}{4} (x_1^2 + x_2^2) \\
+	2 - x_1
+\end{pmatrix}
+$$
+
+Vediamo di implementare in MATLAB un risolutore che applichi nella pratica tale funzione.
+Questo si tradurrà nel dire:
+\lstset{style=codestyle, language=MATLAB}
+\lstinputlisting{../code/matlab/nonlin_r2_ex.m}
+
+Dove notiamo che si stampano alcune informazioni intermedie sui punti attraversati, e si traccia il percorso seguito su un grafico.
+
+\begin{itemize}
+	\item Se si sceglie come punto di inizio $(1, 1)$, con l'intenzione di convergere ad $\alpha$, si ha il seguente andamento:
+		\begin{center}
+			\includegraphics[scale=1]{../figures/nonlin_ex.png}
+		\end{center}
+		da dove si nota chiaramente che in un numero limitato di passaggi ci si avvicina abbastanza ad $\alpha$;
+		\newpage
+	\item Cercare di fare la stessa cosa ad esempio dal punto $(4, -1)$ non dà risultati simili, in quanto notiamo dal grafico:
+		\begin{center}
+			\includegraphics[scale=1]{../figures/nonlin_ex2.png}
+		\end{center}
+		che il risultato esplode velocemente all'infinito, e quindi chiaramente il metodo non converge.
+\end{itemize}
+
 \subsection{Metodo di Newton-Raphson}
 Vediamo quindi la versione multivariabile del metodo di Newton-Raphson.
 
@@ -666,8 +714,8 @@ Vorremo quindi valutare il Jacobiano:
 $$
 J_f(x_1, x_2) =
 \begin{pmatrix}
-	\frac{1}{3} - 2 x_1 & -\frac{1}{3} \\
-	-\frac{1}{3} - x_2 & \frac{1}{3} + x_1
+	\frac{1}{3} + 2 x_1 & -\frac{1}{3} \\
+	-\frac{1}{3} + x_2 & \frac{1}{3} + x_1
 \end{pmatrix}
 $$
 
