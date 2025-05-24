@@ -20,5 +20,5 @@ function [z0, e] = min_eigen(A, z0, k, tol)
     end
 
     % eigenvalue
-    e = norm(A * z0);
+    e = z0' * A * z0;
 end

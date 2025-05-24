@@ -307,7 +307,7 @@ $$
 \end{pmatrix}
 \underbrace{
 \begin{pmatrix}
-	(v_j^{(1)}) \\ j \\ v_{j}^{(2)} 
+	(v_j^{(1)}) \\ \gamma \\ v_{j}^{(2)} 
 \end{pmatrix}
 }_{v_j}
 =
@@ -386,20 +386,6 @@ A_{k + 1} = \tilde{Q}_k^H A \tilde{Q}_k
 $$
 da cui immediatamente la similarità con $\tilde{Q}_k$ matrice di traduzinoe.
 
-Potremo quindi scrivere l'implementazione: % reimplementa
-\begin{lstlisting}[language=matlab, style=codestyle]	
-	A1 = A;
-	for k = 1:n
-		Ak = Qk Rk;
-		Ak+1 = R_k Q_k;
-	end
-
-	A_n = triu(A_k) % mantengo solo la parte tiriangolare superiore
-
-	[V, D] = eig(A_k)
-	V = Q_tildek V % insomma correggi V
-\end{lstlisting}
-
 A giustificare questo abbiamo il teorema:
 \begin{theorem}{Validità del metodo QR agli autovalori}
 	Presa $A \in \mathbb{R}^{n \times n}$ e supposto:
@@ -418,6 +404,33 @@ A giustificare questo abbiamo il teorema:
 	dove i blocchi $T_{jj}$ sono $1 \times 1$ per autovalori reali e $2 \times 2$ per autovalori complessi coniugati.
 \end{theorem}
 
+\subsubsection{Implementazione MATLAB del metodo QR per gli autovalori}
+Vediamo quindi l'implementazione MATLAB della versione semplificata del metodo che abbiamo visto.
+Innanzitutto ci dotiamo di una funzione per il calcolo delle autocoppie di matrici triangolari superiori $T$ come abbiamo visto in 23.0.2:
+\begin{lstlisting}[language=MATLAB, style=codestyle]	
+function [V, D] = eigu(T)
+		n = height(T);
+
+		D = diag(diag(T));
+
+		V = zeros(n);
+		
+		for j = 1:n
+				Tu = T(1:j - 1, 1:j - 1) - T(j, j) * eye(j - 1);
+				z = T(1:j - 1, j);
+				Viu = - (Tu \ z);
+				
+				V(1:j - 1, j) = Viu;
+				V(j, j) = 1;
+		end
+end
+\end{lstlisting}
+che includeremo come sottofunzione.
+A questo punto basterà implementare il passo iterativo:
+\lstset{style=codestyle, language=MATLAB}
+\lstinputlisting{../code/matlab/qr_eigen.m}
+
+\subsubsection{Precisazioni sul metodo QR per gli autovalori}
 Vediamo che i termini sotto a cui abbiamo definito l'algoritmo sono estremamente restrittivi (autovalori distinti, ecc...).
 Chiaramente nelle implementazioni reali ci sono, oltre che alle ottimizzazioni, vari accorgimenti che rendono l'algoritmo robusto alle varie casistiche (autovalori ripetuti, ecc...), mantenendo il costo cubico $O(n^3)$.
 
