@@ -401,6 +401,12 @@ Vediamo quindi, da quello che abbiamo detto, come si può implementare una funzi
 \lstset{style=codestyle, language=MATLAB}
 \lstinputlisting{../code/matlab/max_eigen.m}
 
+Notiamo che per ricavare l'autovalore a termine iterazione abbiamo usato il famigerato \textbf{quoziente di Rayleigh}:
+$$
+\lambda = z_0^H A z_0
+$$
+che è sostanzialmente una versione attenta al segno del prendere la norma di $A z_0$.
+
 Il costo è quello di una norma ($O(n)$) e di un prodotto matrice vettore ($O(n^2)$ )ad ogni iterazione, cioè $O(k \cdot n^2)$.
 
 \subsubsection{Commenti sull'ipotesi di convergenza}
@@ -507,7 +513,21 @@ che ha gli stessi autovettori di $A$ e come autovalori ha quantità della forma:
 $$
 \lambda_j' = \frac{1}{\lambda_j - \sigma}
 $$
+
+Questo si dimostra prendendo assumendo $(\lambda, v)$ autocoppia, quindi $Av = \lambda v$, e calcolando $(A - \sigma I) v$:
+$$
+(A - \sigma I) x = A x - \sigma I x = A x - \sigma x = \lambda x - \sigma x = (\lambda - \sigma) x
+$$
+guardando agli estremi, e invertendo, si ottiene:
+$$
+(A - \sigma I) x = (\lambda - \sigma) x \implies (A - \sigma I)^{-1} x = \frac{1}{\lambda - \sigma} x
+$$
+che rende $\left(\frac{1}{\lambda - \sigma}, v\right)$ autocoppia, da cui la tesi. \qed
+
 In questo caso l'autovalore di modulo più grande diventa quello più vicino a $\sigma$, per cui basta applicare il metodo delle potenze.
 
+\subsubsection{Implementazione MATLAB del metodo delle potenze per autovalori intermedi}
+Vediamo quindi l'implementazione MATLAB dell'ultimo algoritmo descritto:
+\lstinputlisting{../code/matlab/close_eigen.m}
 
 \end{document}
