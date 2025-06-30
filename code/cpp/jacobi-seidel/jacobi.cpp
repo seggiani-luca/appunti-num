@@ -37,7 +37,7 @@ double* jacobi(unsigned n, unsigned k, double** A, double* b) {
 	}
 
 	// ripulisci
-	delete v2;
+	delete[] v2;
 	
 	return v1;
 }

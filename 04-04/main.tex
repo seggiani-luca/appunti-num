@@ -673,7 +673,7 @@ Visto che abbiamo scelto $\tilde{v}$ perchè fosse effettivamente \textit{"equid
 
 Le matrici costruite in questo modo vengono anche dette \textbf{Matrici di Householder} associate al vettore $v$.
 
-Possiamo scrivere una funzione MATLAB, che ci torneà utile a breve, per il calcolo della matrice di Householder relativa a un certo vettore:
+Possiamo scrivere una funzione MATLAB, che ci tornerà utile a breve, per il calcolo della matrice di Householder relativa a un certo vettore:
 \lstset{language=MATLAB,style=codestyle}
 \lstinputlisting{../code/matlab/householder.m}
 
@@ -711,19 +711,23 @@ $$
 e così via, introducendo di volta in volta più elementi della diagonale in testa.
 Si potrà quindi definire la matrice $R$ come:
 $$
-R = \underbrace{H_1^H H_2^H ... H_n^H}_Q A
+R = H_n ... H_2 H_1 A
 $$
-dove il prodotto delle unitarie rappresenterà la matrice $Q$.
+dove il prodotto delle inverse (quindi hermitiane) delle matrici unitarie $H_i$ rappresenterà la matrice $Q$:
+$$
+Q = H_1^H H_2^H ... H_n^H = H_1 H_2 ... H_n
+$$
+visto che le matrici di Householder sono hermitiane, dato riportato solo adesso per tenere il lettore sulle spine.
 
 \subsubsection{Ottimizzazioni della fattorizzazione QR}
 Osserviamo che per avere costo $O(mn^2)$ (ed anche costo $O(mn)$ per $Q^H b$) si sfrutta il fatto che $H_j$ è del tipo \textit{identità + rango 1}, cioè:
 $$
-H_j = I - b b^T
+H_j = I - \alpha \beta^T
 $$
-dove gli $a$ e $b$ vengono presi qui a scopo di esempio, risulterebbero dalla forma della matrice di Householder cha abbiamo visto alla 12.2.2.
+dove gli $\alpha$ e $\beta$ vengono presi qui a scopo di esempio, risulterebbero dalla forma della matrice di Householder cha abbiamo visto alla 12.2.2.
 La parte importante è che il prodotto per una matrice generica $B$ assume la forma:
 $$
-H_j \cdot B = B - b \cdot b^T \cdot B
+H_j \cdot B = B - \alpha \cdot \beta^T \cdot B
 $$
 dove l'ultimo termine è il prodotto di una colonna per il prodotto di una riga per $B$.
 Quindi, nel caso $B$ sia un vettore $b$, si hanno solo prodotti scalari di costo $m$, ergo:

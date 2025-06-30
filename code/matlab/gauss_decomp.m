@@ -14,7 +14,7 @@ function [A, b, L, P] = gauss_decomp(A, b)
         h = find(abs(A(i:n, i)) == max_abs, 1);
         h = h + i - 1; % max abs si conta da i in poi
 
-        A([i, h], :) = A([h, i], :); % permuta A
+        clA([i, h], :) = A([h, i], :); % permuta A
         b([i, h]) = b([h, i]); % permuta b
         if i > 1
             L([i, h], 1:(i - 1)) = L([h, i], 1:(i - 1)); % permuta L

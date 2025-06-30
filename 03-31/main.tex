@@ -346,12 +346,12 @@ $$
 da cui:
 $$
 H_{GS} = \begin{pmatrix}
-	-\frac{2}{3} & -\frac{4}{9} & -\frac{4}{9} \\ 
+	0 & -\frac{2}{3} & -\frac{4}{9} \\ 
 	0 & \frac{4}{9} & -\frac{10}{27} \\ 
 	0 & 0 & \frac{4}{9}
 \end{pmatrix}
 $$
-da cui $\lambda_1 = -\frac{2}{3}$ e $\lambda_2 = \frac{4}{9}$ con molteplicità $\mu_2 = 2$, quindi tutti gli autovalori a modulo $< 1$ e la condizione è rispettata.
+da cui $\lambda_1 = 0$ e $\lambda_2 = \frac{4}{9}$ con molteplicità $\mu_2 = 2$, quindi tutti gli autovalori a modulo $< 1$ e la condizione di convergenza è rispettata.
 \end{itemize}
 
 \subsubsection{Criteri di convergenza di matrici di iterazione}
@@ -417,7 +417,8 @@ $$
 \end{itemize}
 La matrice che troviamo è quella dove gli elementi sopra la diagonale hanno modulo $\leq$ ai corrispondenti nella matrice $A$.
 Se $A$ è dominante diagonale forte o dominante diagonale debole, quindi, conserva tale proprietà, e conserva anche l'irriducibilità.
-Quindi, necessariamente, è non singolare (altrimenti anche $A$ sarebbe singolare), e l'ipotesi $|\lambda^*| \geq 1$ è assurda, cioè $|\lambda^*| < 1$.
+Quindi, necessariamente, è non singolare (altrimenti anche $A$ sarebbe singolare).
+Allora, visto che per definizione $H_{GS}$ deve essere singolare (prima colonna nulla), l'ipotesi $|\lambda^*| \geq 1$ è assurda, cioè deve essere $|\lambda^*| < 1$.
 \end{enumerate} \qed
 
 \subsection{Sistemi rettangolari}

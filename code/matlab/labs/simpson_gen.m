@@ -1,0 +1,6 @@
+function i = simpson_gen(f, a, b, L)
+    x = linspace(a, b, L + 1);
+    i = ((b - a) / (6 * L)) * ...
+        (f(x(1)) + 2 * sum(f(x(2:L))) + ...
+        4 * sum(f((x(2:L + 1) + x(1:L)) / 2)) + f(x(L + 1)));
+end

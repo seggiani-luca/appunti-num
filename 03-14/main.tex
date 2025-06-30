@@ -436,11 +436,11 @@ $$
 a_{k1} x_1 + a_{k2} x_2 + .... + a_{kn} x_n = \lambda x_k \ \Leftrightarrow \ \sum_{j = 1}^n a_{kj} x_j = \lambda x_k \ \Leftrightarrow \ \sum_{j \neq k}^{n} a_{kj} x_j = \lambda x_k - a_{kk} x_k = (\lambda - a_{kk}) x_k
 $$
 $$
-\implies |\lambda - a_{kk}| \cdot |x_k| = \Big| \sum_{j \neq k}^n a_{kj}x_j \Big| \leq \sum_{j \neq n}^n |a_{kj}| \cdot |x_j|
+\implies |\lambda - a_{kk}| \cdot |x_k| = \Big| \sum_{j \neq k}^n a_{kj}x_j \Big| \leq \sum_{j \neq k}^n |a_{kj}| \cdot |x_j|
 $$
-Dato $|x_k| > 0$, si divide da entrambi i lati per $|x_k|$:
+Dato $|x_k| > 0$, si dividono da entrambi i lati per $|x_k|$:
 $$
-\implies |\lambda - a_{kk}| \leq \sum_{j \neq n}^n |a_{kj}| \frac{x_j}{x_k} \leq \sum_{j \neq k}^n |a_{kj}| = \rho_k
+\implies |\lambda - a_{kk}| \leq \sum_{j \neq k}^n |a_{kj}| \frac{x_j}{x_k} \leq \sum_{j \neq k}^n |a_{kj}| = \rho_k
 $$
 Quindi:
 $$
@@ -497,7 +497,7 @@ $$
 infatti solitamente il termine a sinistra è ben più grande.
 Osserviamo poi che:
 $$
-\mathcal{F}_I(A^T) = \left\{ z \in \mathbb{C} : |z - a_{ii}| \leq \rho_i \right\}, \quad \rho_i = \sum_{i \neq i}^n |a_{ij}| \geq 0
+\mathcal{F}_i(A^T) = \left\{ z \in \mathbb{C} : |z - a_{ii}| \leq \rho_i \right\}, \quad \rho_i = \sum_{j \neq i}^n |a_{ji}| \geq 0
 $$
 cioè semplicemente si prendono le colonne anziché le righe. 
 

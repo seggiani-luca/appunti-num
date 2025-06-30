@@ -328,9 +328,9 @@ $$
 \Pi A \Pi^T = \begin{pmatrix}
 	A_{11} =
 	\begin{pmatrix}
-		0 &  0 &  0 \\
-		0 &  0 & -1 \\
-		0 & -1 &  0
+		2 &  0 &  0 \\
+		0 &  2 & -1 \\
+		0 & -1 &  2
 	\end{pmatrix} &
 	A_{12} = 
 	\begin{pmatrix}
@@ -341,9 +341,9 @@ $$
 	0 &
 	A_{21} = 
 	\begin{pmatrix}
-		0 &  1 &  0 \\
-		0 &  0 &  0 \\
-		1 &  0 &  0
+		1 &  1 &  0 \\
+		0 & -1 &  0 \\
+		1 &  0 &  1
 	\end{pmatrix}
 \end{pmatrix}
 $$
@@ -542,7 +542,7 @@ H_1 = \begin{pmatrix}
 	-l_{n1} & ... & ... & 1
 \end{pmatrix}
 $$
-con la diagonale a $1$ e i moltiplicatori sulla prima colonna, così che $A H_1$ risulti esattamente quello che volevamo per Gauss, cioè la combinazione lineare di ogni riga $j$ con l'prima riga moltiplicata per il moltiplicatore $l_{j1}$ (con $j > 2$).
+con la diagonale a $1$ e i moltiplicatori sulla prima colonna, così che $H_1 A$ risulti esattamente quello che volevamo per Gauss, cioè la combinazione lineare di ogni riga $j$ con l'prima riga moltiplicata per il moltiplicatore $l_{j1}$ (con $j > 2$).
 
 Possiamo generalizzare questo processo a una serie di matrici $H_i$, per ogni elemento sulla diagonale, con la diagonale a $1$ e i moltiplicatori corrispondenti a $i$ sulla $i$-esima colonna:
 $$

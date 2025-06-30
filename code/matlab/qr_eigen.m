@@ -1,4 +1,4 @@
-function [V, D] = qr_eigen(A, k)
+ function [V, D] = qr_eigen(A, k)
     function [V, D] = eigu(T)
         n = height(T);
 

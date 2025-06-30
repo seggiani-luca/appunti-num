@@ -12,6 +12,9 @@ function [z0, e] = max_eigen(A, z0, k, tol)
         z1 = A * z0;
         z1 = z1 / norm(z1);
     
+        fprintf("\nStep %d:\n", i);
+        disp(z1);
+
         if norm(z1 - z0) < tol
             break;
         end

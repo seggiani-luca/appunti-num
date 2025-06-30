@@ -281,9 +281,9 @@ e quindi:
 \end{equation}
 Possiamo convincerci che l'approssimazione è valida sostituendo nella formula per $x + \delta x$ e trovando:
 $$
-x + \delta x = (A^{-1} - A^{-1} \delta A A^{-1}) (b + \delta b) = A^{-1} b + A^{-1} \delta b - A^{-1} \delta A A^{-1} b - A^{-1} \delta A A^{-1} \delta b
+x + \delta x = (A^{-1} - A^{-1} \del(A + δA)−1 = (I + A−1 δA)−1 A−1ta A A^{-1}) (b + \delta b) = A^{-1} b + A^{-1} \delta b - A^{-1} \delta A A^{-1} b - A^{-1} \delta A A^{-1} \delta b
 $$
-$x = A^{-1}$ dalle ipotesi, mentre il termine $A^{-1} \delta A A^{-1} \delta b$ contiene il prodotto di due errori, ed è trascurabile, quindi:
+$x = A^{-1} b$ dalle ipotesi, mentre il termine $A^{-1} \delta A A^{-1} \delta b$ contiene il prodotto di due errori, ed è trascurabile, quindi:
 $$
 \delta x \approx A^{-1} \delta b - A^{-1} \delta A A^{-1} b = A^{-1} \delta b - A^{-1} \delta A x = A^{-1} \left( \delta b - \delta A x \right)
 $$
@@ -297,11 +297,12 @@ $$
 per introdurre il denominatore che vediamo nell'enunciato del teorema.
 Passando alle norme, si avrà:
 $$
-|I - A^{-1} \delta A| |A^{-1}| = \frac{|A^{-1}|}{1 + |A^{-1} \delta A|}
+|I - A^{-1} \delta A| |A^{-1}| \leq \frac{|A^{-1}|}{1 - |A^{-1} \delta A|}
 $$
+sempre dalla serie di Nemeann.w
 Prendendo questa come la norma dell'inversa per il passaggio alle norme della (1), si ha:
 $$
-\frac{|\delta x|}{|x|} \leq \frac{|A^{-1}|}{1 + |A^{-1} \delta A|} \left( \frac{|\delta b|}{|b|} |A| + |\delta A| \frac{|A|}{|A|} \right) \leq \frac{ |A^{-1}| |A| }{ 1 + |A^{-1}| |\delta A| } \left( \frac{|\delta b|}{|b|} + \frac{|\delta A|}{|A|} \right)
+\frac{|\delta x|}{|x|} \leq \frac{|A^{-1}|}{1 - |A^{-1} \delta A|} \left( \frac{|\delta b|}{|b|} |A| + |\delta A| \frac{|A|}{|A|} \right) \leq \frac{ |A^{-1}| |A| }{ 1 - |A^{-1}| |\delta A| } \left( \frac{|\delta b|}{|b|} + \frac{|\delta A|}{|A|} \right)
 $$
 dove l'$|A^{-1}| |\delta A|$ al denominatore si può scrivere come $\mu(A) \frac{|\delta A|}{|A|}$, in quanto:
 $$
